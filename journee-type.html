@@ -1,0 +1,1769 @@
+<!DOCTYPE html><!-- This site was created in Webflow. https://webflow.com --><!-- Last Published: Wed Apr 01 2026 14:41:49 GMT+0000 (Coordinated Universal Time) --><html data-wf-domain="mes-premier-pas.webflow.io" data-wf-page="69c7a0e2a103010bf5743697" data-wf-site="6976e155d54ea0f654b007b1"><head><meta charset="utf-8"/><link href="https://cdn.prod.website-files.com" rel="preconnect" crossorigin="anonymous"/><title>Journée type</title><meta content="Journée type" property="og:title"/><meta content="Journée type" name="twitter:title"/><meta content="width=device-width, initial-scale=1" name="viewport"/><meta content="Webflow" name="generator"/><link href="assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/css/mes-premier-pas.webflow.shared.1a07ee41e.css" rel="stylesheet" type="text/css" integrity="sha384-GgfuQeKiV/E7KSRiFX/RuX1zmlzzYRLuffmUjTlEynqZaBjgxcRQ6bSj39xZwv4e" crossorigin="anonymous"/><script type="text/javascript">!function(o,c){var n=c.documentElement,t=" w-mod-";n.className+=t+"js",("ontouchstart"in o||o.DocumentTouch&&c instanceof DocumentTouch)&&(n.className+=t+"touch")}(window,document);</script><link href="assets/cdn.prod.website-files.com/img/favicon.ico" rel="shortcut icon" type="image/x-icon"/><link href="assets/cdn.prod.website-files.com/img/webclip.png" rel="apple-touch-icon"/><style>
+/* NAVBAR FIXED */
+.navbar-2 {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 10vh;
+  z-index: 1000;
+  opacity: 0;
+  transform: translateY(-100%);
+}
+.navbar-2.loaded {
+  opacity: 1; transform: translateY(0);
+  transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+}
+.navbar-2.loaded.hidden {
+  transform: translateY(-100%);
+}
+
+/* TOGGLE ARROW */
+.navbar-toggle {
+  position: absolute; left: 20px; bottom: -24px;
+  width: 48px; height: 24px;
+  background: rgba(255,255,255,0.95);
+  border: none; border-radius: 0 0 12px 12px;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  z-index: 9999;
+}
+.navbar-toggle svg {
+  width: 16px; height: 16px; stroke: #D9DD7E; stroke-width: 2.5;
+  transition: transform 0.3s ease-out;
+}
+.navbar-toggle.flipped svg { transform: rotate(180deg); }
+
+/* Fix taille liens w--current identique aux autres */
+.navbar-gauche .link.w--current {
+  font-size: inherit;
+}
+
+/* Fix: empêcher le texte des liens de déborder en plein écran */
+.navbar-gauche .link {
+  white-space: nowrap;
+  font-size: clamp(12px, 1.1vw, 16px);
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+}
+
+/* Animation roll hover sur les liens */
+.navbar-gauche .link .link-text {
+  display: inline-block;
+  position: relative;
+  transition: transform 0.3s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.navbar-gauche .link .link-text::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 100%;
+  color: #D9DD7E;
+}
+
+.navbar-gauche .link:hover .link-text {
+  transform: translateY(-100%);
+}
+
+/* DROPDOWN PANEL */
+.custom-dropdown-panel {
+  position: fixed; z-index: 99999;
+  top: 10vh !important;
+  background: rgba(0, 0, 0, 0.27);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border-radius: 0 0 12px 12px;
+  padding: 10px 0; min-width: 200px;
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transform: translateY(-8px);
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+}
+.custom-dropdown-panel.open {
+  opacity: 1; visibility: visible; pointer-events: all; transform: translateY(0);
+}
+.custom-dropdown-panel a {
+  display: block; padding: 10px 24px;
+  color: rgba(255,255,255,0.85); text-decoration: none;
+  font-size: 14px; white-space: nowrap;
+  transition: color 0.2s ease;
+}
+.custom-dropdown-panel a:hover { color: #D9DD7E; }
+
+/* Flèche dropdown */
+.dd-arrow {
+  font-size: 0.7em;
+  opacity: 0.7;
+  margin-left: 2px;
+  display: inline;
+}
+
+/* BURGER */
+.burger-btn {
+  display: none; position: fixed; top: 20px; right: 20px;
+  width: 40px; height: 40px; background: rgba(255,255,255,0.95);
+  border: none; border-radius: 50%; cursor: pointer; z-index: 10001; padding: 0;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+.burger-btn span {
+  position: absolute; left: 50%; transform: translateX(-50%);
+  width: 18px; height: 2px; background: #D9DD7E; border-radius: 2px;
+  transition: all 0.3s ease;
+}
+.burger-btn span:nth-child(1) { top: 13px; }
+.burger-btn span:nth-child(2) { top: 19px; }
+.burger-btn span:nth-child(3) { top: 25px; }
+.burger-btn.active span:nth-child(1) { top: 19px; transform: translateX(-50%) rotate(45deg); }
+.burger-btn.active span:nth-child(2) { opacity: 0; }
+.burger-btn.active span:nth-child(3) { top: 19px; transform: translateX(-50%) rotate(-45deg); }
+
+/* MOBILE MENU */
+.mobile-menu {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100dvh;
+  background: rgba(255,255,255,0.98); backdrop-filter: blur(20px);
+  z-index: 10000; display: flex; flex-direction: column;
+  justify-content: center; align-items: center; padding: 2rem;
+  clip-path: circle(0% at calc(100% - 40px) 40px);
+  transition: clip-path 0.6s cubic-bezier(0.77,0,0.175,1);
+  pointer-events: none;
+}
+.mobile-menu.open { clip-path: circle(150% at calc(100% - 40px) 40px); pointer-events: all; }
+.mobile-menu .mobile-logo {
+  position: absolute; top: 30px; left: 50%; transform: translateX(-50%);
+  height: 70px; opacity: 0; transition: opacity 0.3s ease 0.2s;
+}
+.mobile-menu.open .mobile-logo { opacity: 1; }
+.mobile-menu .mobile-link {
+  font-size: 1.8rem; font-weight: 500; color: #333; text-decoration: none;
+  margin: 0.8rem 0; opacity: 0; transform: translateY(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease, color 0.3s ease;
+}
+.mobile-menu.open .mobile-link { opacity: 1; transform: translateY(0); }
+.mobile-menu.open .mobile-link:nth-child(2) { transition-delay: 0.1s; }
+.mobile-menu.open .mobile-link:nth-child(3) { transition-delay: 0.15s; }
+.mobile-menu.open .mobile-link:nth-child(4) { transition-delay: 0.2s; }
+.mobile-menu.open .mobile-link:nth-child(5) { transition-delay: 0.25s; }
+.mobile-menu.open .mobile-link:nth-child(6) { transition-delay: 0.3s; }
+.mobile-menu.open .mobile-link:nth-child(7) { transition-delay: 0.35s; }
+.mobile-menu.open .mobile-link:nth-child(8) { transition-delay: 0.4s; }
+.mobile-menu.open .mobile-link:nth-child(9) { transition-delay: 0.45s; }
+.mobile-menu .mobile-link:hover { color: #D9DD7E; }
+
+/* Mobile dropdown "Nos crèches" */
+.mobile-dd-toggle {
+  font-size: 1.8rem; font-weight: 500; color: #333;
+  text-decoration: none; margin: 0.8rem 0; cursor: pointer;
+  opacity: 0; transform: translateY(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease, color 0.3s ease;
+  background: none; border: none; font-family: inherit;
+}
+.mobile-menu.open .mobile-dd-toggle { opacity: 1; transform: translateY(0); }
+.mobile-dd-toggle:hover { color: #D9DD7E; }
+.mobile-dd-toggle .mobile-dd-arrow {
+  display: inline-block; font-size: 0.6em; margin-left: 6px;
+  transition: transform 0.3s ease;
+}
+.mobile-dd-toggle.active .mobile-dd-arrow { transform: rotate(180deg); }
+
+.mobile-dd-sub {
+  display: flex; flex-direction: column; align-items: center;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.3s ease;
+  opacity: 0;
+}
+.mobile-dd-sub.open {
+  max-height: 300px;
+  opacity: 1;
+}
+
+.mobile-dd-sub a {
+  font-size: 1.3rem; font-weight: 400; color: #666;
+  text-decoration: none; margin: 0.4rem 0;
+  transform: translateY(-10px);
+  transition: color 0.3s ease, transform 0.3s ease, opacity 0.3s ease;
+  opacity: 0;
+}
+.mobile-dd-sub.open a {
+  transform: translateY(0);
+  opacity: 1;
+}
+.mobile-dd-sub.open a:nth-child(1) { transition-delay: 0.05s; }
+.mobile-dd-sub.open a:nth-child(2) { transition-delay: 0.1s; }
+.mobile-dd-sub.open a:nth-child(3) { transition-delay: 0.15s; }
+.mobile-dd-sub.open a:nth-child(4) { transition-delay: 0.2s; }
+.mobile-dd-sub a:hover { color: #D9DD7E; }
+.mobile-menu .mobile-cta {
+  margin-top: 2rem; padding: 1rem 2.5rem; background: #D9DD7E;
+  color: #333; text-decoration: none; border-radius: 50px;
+  font-size: 1.1rem; font-weight: 500; opacity: 0;
+  transition: opacity 0.3s ease 0.45s;
+}
+.mobile-menu.open .mobile-cta { opacity: 1; }
+.mobile-menu .mobile-phone {
+  position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+  font-size: 1rem; color: #333; text-decoration: none; opacity: 0;
+  transition: opacity 0.3s ease 0.5s, color 0.3s ease;
+}
+.mobile-menu.open .mobile-phone { opacity: 1; }
+.mobile-menu .mobile-phone:hover { color: #D9DD7E; }
+
+@media screen and (max-width: 991px) {
+  .navbar-2 { display: none !important; }
+  .custom-dropdown-panel { display: none !important; }
+  .burger-btn { display: flex; align-items: center; justify-content: center; }
+}
+@media screen and (max-width: 767px) {
+  .mobile-menu .mobile-link { font-size: 1.5rem; }
+  .mobile-dd-toggle { font-size: 1.5rem; }
+  .mobile-dd-sub a { font-size: 1.1rem; }
+  .mobile-menu .mobile-logo { height: 60px; }
+}
+@media screen and (max-width: 479px) {
+  .mobile-menu .mobile-link { font-size: 1.3rem; }
+  .mobile-dd-toggle { font-size: 1.3rem; }
+  .mobile-dd-sub a { font-size: 1rem; }
+  .mobile-menu .mobile-logo { height: 50px; }
+}
+</style>
+<script src="assets/cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script><!-- EMBED RESPONSIVE JOURNÉE TYPE V6 -->
+<!-- PLACEMENT : Embed dans la page Journée type, n'importe où -->
+
+<style>
+@media (max-width: 767px) {
+
+  /* ============================================
+     HERO SECTION
+     On ne change PAS le display (Webflow = block)
+     On ajuste UNIQUEMENT tailles et positions
+     ============================================ */
+  
+  /* Masquer 2e image et 2e vector */
+  .hero-section.journee-type .image-20,
+  .hero-section.journee-type .vector._02 {
+    display: none !important;
+  }
+
+  /* Hero : hauteur auto */
+  .hero-section.journee-type {
+    height: auto !important;
+    min-height: 80vh !important;
+    overflow: hidden !important;
+  }
+
+  /* Container images : centré ~33% comme About, position relative gardée */
+  .hero-section.journee-type .div-image-heros {
+    width: 38vw !important;
+    max-width: 190px !important;
+    left: 30% !important;
+    top: 18vh !important;
+  }
+
+  /* Image : pleine largeur du container */
+  .hero-section.journee-type .image-19 {
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  /* Vector : bas-droite de l'image, devant, gros comme cercle rose */
+  .hero-section.journee-type .vector:not(._02) {
+    position: absolute !important;
+    top: auto !important;
+    bottom: 22% !important;
+    left: auto !important;
+    right: 15% !important;
+    width: 35vw !important;
+    max-width: 160px !important;
+    height: auto !important;
+    z-index: 3 !important;
+  }
+
+  /* Titre : ABSOLUTE pour que bottom marche, collé en bas du hero */
+  .hero-section.journee-type .heading-8 {
+    position: absolute !important;
+    font-size: 12vw !important;
+    line-height: 1 !important;
+    bottom: 10px !important;
+    left: 15px !important;
+    top: auto !important;
+    z-index: 5 !important;
+  }
+
+  /* Horloge */
+  .hero-clock-wrapper {
+    right: 10px !important;
+    bottom: 10px !important;
+  }
+  .hero-clock-wrapper img.clock-img {
+    width: 50px !important;
+  }
+
+  /* ============================================
+     CONTENT SECTION
+     ============================================ */
+
+  .content-section {
+    overflow-x: hidden !important;
+    padding-top: 40px !important;
+  }
+
+  /* Masquer les images — aucun espace résiduel */
+  .content-section .content-type .image-21 {
+    display: none !important;
+    position: absolute !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+
+  /* Chaque bloc : block, compact */
+  .content-section .content-type {
+    display: block !important;
+    padding: 25px 20px !important;
+    margin: 0 !important;
+    min-height: unset !important;
+    height: auto !important;
+  }
+
+  /* Div texte : centré avec marge pour la frise */
+  .content-section .content-type .div-text,
+  .content-section .content-type .div-text.right,
+  .content-section .content-type .div-text.left {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: unset !important;
+    text-align: center !important;
+    padding: 0 50px 0 10px !important;
+    margin: 0 !important;
+    display: block !important;
+    box-sizing: border-box !important;
+    float: none !important;
+  }
+
+  /* Titres */
+  .content-section .heading-10,
+  .content-section .heading-10.journee-type,
+  .content-section .heading-10.journee-type.right,
+  .content-section .heading-10.journee-type.left {
+    text-align: center !important;
+    width: 100% !important;
+    font-size: 20px !important;
+    line-height: 1.3 !important;
+    margin: 0 0 10px 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Paragraphes */
+  .content-section .paragraph-3,
+  .content-section .paragraph-3.journ-e-type,
+  .content-section .paragraph-3.journ-e-type.right {
+    text-align: center !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 14px !important;
+    line-height: 1.65 !important;
+  }
+
+  /* ============================================
+     FRISE
+     ============================================ */
+  .frise-timeline {
+    right: 5px !important;
+    width: 40px !important;
+  }
+
+  .frise-dot {
+    width: 34px !important;
+    height: 34px !important;
+    font-size: 9px !important;
+    border-width: 2px !important;
+  }
+
+  .frise-line-bg,
+  .frise-segment,
+  .frise-segment-initial {
+    width: 4px !important;
+  }
+
+  .frise-end-image {
+    width: 50px !important;
+  }
+
+  /* ============================================
+     RETOUR PARENTS
+     ============================================ */
+  .retour-parents-block {
+    padding: 25px 20px !important;
+  }
+
+  .retour-parents-card {
+    flex-direction: column !important;
+    text-align: center !important;
+    padding: 18px !important;
+    gap: 12px !important;
+    margin-right: 40px !important;
+  }
+
+  .retour-parents-card h3 {
+    font-size: 1rem !important;
+  }
+
+  .retour-parents-card img {
+    width: 90px !important;
+  }
+}
+
+/* ============================================
+   TRÈS PETIT ÉCRAN
+   ============================================ */
+@media (max-width: 479px) {
+
+  .hero-section.journee-type {
+    min-height: 60vh !important;
+  }
+
+  .hero-section.journee-type .div-image-heros {
+    width: 42vw !important;
+    max-width: 170px !important;
+    top: 14vh !important;
+    left: 28% !important;
+  }
+
+  .hero-section.journee-type .vector:not(._02) {
+    width: 30vw !important;
+    max-width: 120px !important;
+    bottom: 25% !important;
+    right: 12% !important;
+  }
+
+  .hero-section.journee-type .heading-8 {
+    font-size: 10vw !important;
+  }
+
+  .content-section {
+    padding-top: 25px !important;
+  }
+
+  .content-section .content-type {
+    padding: 18px 12px !important;
+  }
+
+  .content-section .content-type .div-text,
+  .content-section .content-type .div-text.right,
+  .content-section .content-type .div-text.left {
+    padding: 0 42px 0 5px !important;
+  }
+
+  .content-section .heading-10,
+  .content-section .heading-10.journee-type,
+  .content-section .heading-10.journee-type.right,
+  .content-section .heading-10.journee-type.left {
+    font-size: 18px !important;
+  }
+
+  .content-section .paragraph-3,
+  .content-section .paragraph-3.journ-e-type,
+  .content-section .paragraph-3.journ-e-type.right {
+    font-size: 13px !important;
+  }
+
+  .frise-timeline {
+    right: 2px !important;
+    width: 34px !important;
+  }
+
+  .frise-dot {
+    width: 28px !important;
+    height: 28px !important;
+    font-size: 7.5px !important;
+  }
+
+  .frise-end-image {
+    width: 38px !important;
+  }
+
+  .hero-clock-wrapper {
+    right: 5px !important;
+  }
+  .hero-clock-wrapper img.clock-img {
+    width: 42px !important;
+  }
+
+  .retour-parents-card {
+    margin-right: 30px !important;
+  }
+}
+</style><style>.w-webflow-badge{display:none!important}</style>
+  <link rel="stylesheet" href="mpp/overrides.css">
+</head><body><div class="page-wrapper"><div data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navbar-2 w-nav"><div class="container w-container"><div class="navbar-gauche"><img src="assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/697999635820c3472029c0ec_logo.png" loading="lazy" sizes="100vw" srcset="assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/697999635820c3472029c0ec_logo-p-500.png 500w, assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/697999635820c3472029c0ec_logo-p-800.png 800w, assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/697999635820c3472029c0ec_logo-p-1080.png 1080w, assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/697999635820c3472029c0ec_logo.png 1536w" alt="" class="image-4"/><a href="https://mes-premier-pas.webflow.io//home" data-text="Nos valeurs" class="link">Acceuil</a><a href="/" data-text="Nos valeurs" class="link">Nos crèches</a><a href="/about" data-text="Nos valeurs" class="link">Nos valeurs</a><a href="/journee-type" data-text="Journée type" aria-current="page" class="link w--current">Journée type</a><a href="#" data-text="Recrutement" class="link">Recrutement</a></div><div class="navbar-droite"><div class="text-block"><a href="tel:+33450839994" class="link-2">+33 4 50 83 99 94</a></div><a href="https://www.labulledespetitspas.com/_files/ugd/2ab568_b72a1b0fc9e649818590a7ef41905c2d.pdf" class="button type1 pre-inscription w-button">Pré-inscription</a></div></div></div><section class="hero-section journee-type"><h1 class="heading-8">Journée type</h1><div class="div-image-heros"><img src="assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/69c7a36d04835e8bfd080507_Va%20ballade.JPG" loading="lazy" alt="" class="image-19"/><img src="assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/69c7a36d0de990a829194bdd_Sieste%20%C3%A0%20l_ext%C3%A9rieur.png" loading="lazy" alt="" class="image-20"/></div><img src="assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/69c7a3739c9d059852575059_Shape-Flower-Nature-1--Streamline-Organic.svg" loading="lazy" alt="" class="vector"/><img src="assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/69c7a373682df958f1ff43f4_Shape-Crown--Streamline-Organic.svg" loading="lazy" alt="" class="vector _02"/></section><section class="content-section"><div class="content-type"><div class="div-text left"><h3 class="heading-10 journee-type left"><strong>L’accueil et l’arrivée des enfants</strong></h3><p class="paragraph-3 journ-e-type"><strong>L&#x27;accueil est un moment de transition essentiel qui fait le pont entre la maison et la structure.<br/><br/>‍</strong>Dès l&#x27;ouverture, nous accueillons chaque famille de manière individualisée. Ce temps d&#x27;échange permet de transmettre les informations nécessaires au bien-être de l&#x27;enfant, tout en respectant son rythme de séparation. C’est un moment privilégié où l’enfant prend ses marques sereinement, se sentant attendu et reconnu au sein du groupe.Les temps de jeux libres<br/><br/>‍<strong>Le jeu libre est le moteur principal du développement et de l&#x27;autonomie de l&#x27;enfant.<br/><br/>‍</strong>Tout au long de la matinée, des espaces aménagés (coin dînette, motricité fine, lecture, construction) sont laissés à la libre disposition des enfants. Sous le regard attentif et sécurisant des professionnels, l&#x27;enfant explore, expérimente et interagit avec ses pairs à son propre rythme.</p></div><img src="assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/69cd21ea70198b12afed6642_Arriv%C3%A9e%20enfant.svg" loading="lazy" alt="" class="image-21"/></div><div class="content-type"><img src="assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/69bec94b1e6800d62f4628fe_image%209.svg" loading="lazy" alt="" class="image-21"/><div class="div-text left"><h3 class="heading-10 journee-type right"><strong>Le temps de rassemblement</strong></h3><p class="paragraph-3 journ-e-type right">Les temps de rassemblements sont des repères et des rituels qui créent chez l&#x27;enfant un sentiment de sécurité.<br/><br/>Vers 09h00, un temps de rassemblement est proposé et les enfants sont libres de s&#x27;asseoir ou non. Des chansons et des comptines sont proposées pour saluer chaque enfant et professionnel par son prénom.<br/><br/>Nous avons également des temps rassemblement avant le repas pour apaiser l&#x27;excitation du matin .</p></div></div><div class="content-type"><div class="div-text left"><h3 class="heading-10 journee-type left"><strong>activités</strong></h3><p class="paragraph-3 journ-e-type">Ce temps est dédié à l’éveil et à la découverte, sans jamais être une obligation pour l’enfant.Vers 09h30, après le temps de rassemblement, des ateliers thématiques sont installés par les professionnels : manipulation (semoule, eau, pâte à modeler), peinture, parcours moteur ou encore éveil sensoriel.<br/><br/>Le libre choix : L&#x27;enfant est invité à participer selon ses envies et ses besoins du moment. S&#x27;il préfère poursuivre ses expérimentations de façon autonome, son choix est respecté.<br/><br/>Le plaisir de faire : Nous privilégions le processus et l&#x27;exploration plutôt que le résultat final. L&#x27;objectif est de permettre à l&#x27;enfant de développer sa motricité et sa curiosité dans un cadre ludique et sans pression.<br/><br/>Ces ateliers se déroulent en petits groupes pour garantir une ambiance calme et une présence de qualité de la part de l&#x27;adulte, qui accompagne l&#x27;enfant dans ses réussites comme dans ses hésitations.</p></div><img src="assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/69bec94bf83d2b51ab469bbf_image%2014.svg" loading="lazy" alt="" class="image-21"/></div><div class="content-type"><img src="assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/69bec94af263a1e66d5eb31a_image%2010.svg" loading="lazy" alt="" class="image-21"/><div class="div-text left"><h3 class="heading-10 journee-type left"><strong>Le temps repas</strong></h3><p class="paragraph-3 journ-e-type">Pour les bébés,les repas sont pris à la demande en fonction du rythme de chaque enfant.<br/>Les biberons sont donnés dans les bras pour assurer la sécurité affective des enfants.<br/><br/>Les enfants qui débutent la diversification alimentaire sont placés dans un transat ou dans les bras de l&#x27;adulte, en fonction de leurs habitudes à la maison et de leur tonicité musculaire.<br/><br/>Pour les plus grands,des repas collectifs sont proposés. Les repas sont présentés dans desassiettes compartimentées,et tous les aliments sont servis en même temps. De cette manière, l&#x27;enfant est maître de son repas et décide dans quel ordre il veut manger les aliments. Il peut mélanger et ainsi faire de nouvelles expériences gustatives.<br/>Il est autorisé d&#x27;expérimenter mais nous les sensibilisons sur le fait que la nourriture n&#x27;est pas un jeu.</p></div></div><div class="content-type"><div class="div-text right"><h3 class="heading-10 journee-type right"><strong>Soin et moment cocooning</strong></h3><p class="paragraph-3 journ-e-type right">Avant les siestes, un moment calme est proposé afin de préparer les enfants au repos. Pendant ces moments, les soins d&#x27;hygiène sont effectués.<br/><br/>Les soins d&#x27;hygiène ont pour objectif de placer l&#x27;enfant dans un confort physique et psychique. Ils ont lieu dans des prises en charge individuelles afin de respecter l&#x27;intimité de chacun mais aussi de privilégier les échanges avec l&#x27;adulte à ce moment là.<br/><br/>Les changes sont également effectués tous au long de la journée en fonction des besoins, ou par défaut toutes les 3h.</p></div><img src="assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/69bec94be8bb9ae44a57be64_image%2011.svg" loading="lazy" alt="" class="image-21"/></div><div class="content-type"><img src="assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/69bec94ae686617a126497d9_image%2013.svg" loading="lazy" alt="" class="image-21"/><div class="div-text left"><h3 class="heading-10 journee-type left"><strong>La Sieste</strong></h3><p class="paragraph-3 journ-e-type">Les rôles des professionnels au moment de lasiesteest d&#x27;être attentif à chaque enfant, de prendre en compte leurs besoins afin de pouvoir les accompagner à trouver le sommeil seul et sereinement.<br/><br/>Pour les bébés, les siestes ont lieu sur demande, tout au long de la journée en fonction du rythme de l&#x27;enfant mais surtout des signes de fatigue.<br/><br/>Pourles plus grands,les siestes sont davantage encadrées et ont lieu entre 12h00 et 14h00.<br/><br/>Cependant, nous respectons le rythme de l&#x27;enfant : par exemple, si un enfant a besoin de dormir jusqu&#x27;à 15h, nous le laissons dormir.</p></div></div><div class="content-type"><div class="div-text right"><h3 class="heading-10 journee-type right"><strong>La sortie dehors</strong></h3><p class="paragraph-3 journ-e-type right"><strong>Le temps du goûter :</strong> une fois que les enfants se sont réveillés à leur rythme, nous nous retrouvons autour de la table. Comme pour le repas du midi, ce moment est l&#x27;occasion de favoriser l&#x27;autonomie (boire au verre, choisir son fruit) et de privilégier les échanges verbaux dans une atmosphère calme et détendue.<br/><br/>‍<strong>La transition par le jeu :</strong> une fois le goûter terminé, les enfants retournent naturellement vers les <strong>jeux libres</strong>. C&#x27;est un temps de transition douce où l&#x27;enfant retrouve ses repères dans l&#x27;espace de vie.</p></div><img src="assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/69cd21ebde32c85603dfae34_Gout%C3%A9.svg" loading="lazy" alt="" class="image-21"/></div><div class="content-type"><img src="assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/69bec94ac744e5290c3f341a_image%2012.svg" loading="lazy" alt="" class="image-21"/><div class="div-text left"><h3 class="heading-10 journee-type left"><strong>Le départ des enfants</strong></h3><p class="paragraph-3 journ-e-type">Nous accompagnons l&#x27;enfant dans la fin de son activité pour préparer son retour en famille. Ce moment est l&#x27;occasion d&#x27;un <strong>échange de qualité</strong> entre les professionnels et les parents :<br/><br/>‍<strong>Les transmissions :</strong> Nous partageons avec vous les moments forts de la journée de votre enfant (activités appréciées, progrès, interactions sociales) ainsi que les informations physiologiques (sommeil, repas).<br/><br/>‍<strong>La valorisation :</strong> C&#x27;est un temps où l&#x27;on valorise les expériences vécues par l&#x27;enfant, lui permettant de faire le lien entre ses deux lieux de vie.</p></div></div><div class="w-embed w-script"><!-- EMBED FRISE HORAIRE ANIMÉE V3 - HORAIRES CORRIGÉS -->
+<!-- PLACEMENT : Dans Webflow, Embed DANS .content-section, en PREMIER enfant (avant les .content-type) -->
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700&display=swap');
+
+/* ============================================
+   HORLOGE AU-DESSUS DE LA FRISE
+   ============================================ */
+.hero-clock-wrapper {
+  position: absolute;
+  bottom: 0;
+  right: 53px;
+  transform: translateY(50%);
+  z-index: 10;
+  opacity: 0;
+  animation: clockFadeIn 1s ease-out 0.5s forwards;
+}
+
+.hero-clock-wrapper img.clock-img {
+  width: 140px;
+  height: auto;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.1));
+}
+
+@keyframes clockFadeIn {
+  from { opacity: 0; transform: translateY(50%) scale(0.5) rotate(-10deg); }
+  to { opacity: 1; transform: translateY(50%) scale(1) rotate(0deg); }
+}
+
+/* ============================================
+   FRISE VERTICALE
+   ============================================ */
+.frise-timeline {
+  position: absolute;
+  right: 80px;
+  top: 0;
+  bottom: 0;
+  width: 80px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Ligne de fond grise */
+.frise-line-bg {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 0;
+  bottom: 0;
+  width: 5px;
+  background: rgba(200, 200, 200, 0.25);
+  border-radius: 3px;
+}
+
+/* Segment coloré entre dots */
+.frise-segment {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.frise-segment-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 0%;
+  border-radius: 3px;
+}
+
+/* Segment initial : du haut de la section jusqu'au premier dot */
+.frise-segment-initial {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px;
+  border-radius: 3px;
+  overflow: hidden;
+  top: 0;
+}
+
+.frise-segment-initial-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 0%;
+  background: #e8a248;
+  border-radius: 3px;
+}
+
+/* Dot */
+.frise-dot {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Raleway', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #999;
+  background: white;
+  border: 3px solid rgba(200, 200, 200, 0.35);
+  z-index: 4;
+  transition: box-shadow 0.5s ease;
+}
+
+.frise-dot.activated {
+  box-shadow: 0 0 18px rgba(0,0,0,0.08);
+}
+
+/* Image de fin */
+.frise-end-image {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 110px;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  z-index: 4;
+}
+
+.frise-end-image.visible {
+  opacity: 1;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 991px) {
+  .frise-timeline { right: 30px; width: 60px; }
+  .frise-dot { width: 46px; height: 46px; font-size: 11px; }
+  .hero-clock-wrapper { right: 5px; }
+  .hero-clock-wrapper img.clock-img { width: 110px; }
+  .frise-end-image { width: 85px; }
+}
+
+@media (max-width: 767px) {
+  .frise-timeline { right: 10px; width: 50px; }
+  .frise-dot { width: 40px; height: 40px; font-size: 10px; border-width: 2px; }
+  .hero-clock-wrapper { right: -10px; }
+  .hero-clock-wrapper img.clock-img { width: 80px; }
+  .frise-end-image { width: 65px; }
+}
+
+@media (max-width: 479px) {
+  .frise-timeline { right: 5px; width: 42px; }
+  .frise-dot { width: 34px; height: 34px; font-size: 9px; }
+  .hero-clock-wrapper { right: -10px; }
+  .hero-clock-wrapper img.clock-img { width: 65px; }
+  .frise-end-image { width: 50px; }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+  /* ============================================
+     1. HORLOGE DANS LE HERO
+     ============================================ */
+  var heroSection = document.querySelector('.hero-section.journee-type');
+  if (heroSection) {
+    var heroCS = getComputedStyle(heroSection);
+    if (heroCS.position === 'static') heroSection.style.position = 'relative';
+    heroSection.style.overflow = 'visible';
+    heroSection.style.zIndex = '3';
+
+    var clockEl = document.createElement('div');
+    clockEl.className = 'hero-clock-wrapper';
+    clockEl.innerHTML = '<img class="clock-img" src="assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/69c7a373e7e9f1233344c493_Rectangle.svg" alt="Horloge">';
+    heroSection.appendChild(clockEl);
+  }
+
+  /* ============================================
+     2. CONSTRUIRE LA FRISE
+     ============================================ */
+  var contentSection = document.querySelector('.content-section');
+  if (!contentSection) return;
+
+  var csPos = getComputedStyle(contentSection).position;
+  if (csPos === 'static') contentSection.style.position = 'relative';
+
+  var allSections = contentSection.querySelectorAll('.content-type');
+
+  /*
+    Frise config - HORAIRES EXACTS DE LA PHOTO :
+
+    Photo :
+      7h15 – 9h    Arrivée des enfants, jeux libres   (section 0)
+      9h – 9h30    Temps de rassemblement              (section 1)
+      9h30 – 11h   Activités                           (section 2)
+      11h – 12h    Repas                                (section 3)
+      12h – 13h    Soins                                (section 4)
+      13h – 15h    Sieste                               (section 5)
+      15h – 16h    Goûter, jeux libres                  (section 6)
+      16h – 18h15  Départ des enfants                   (section 7)
+
+    Dots uniques sur la frise : 7h15, 9h, 9h30, 11h, 12h, 13h, 15h, 16h, 18h15
+    Chaque section a 1 dot en début et 1 en fin.
+    Les dots partagés entre sections adjacentes sont dédupliqués.
+
+    Couleurs (identiques à l'original) :
+      #e8a248 orange  → Arrivée, Rassemblement, Activités
+      #8985d5 violet  → Repas
+      #c14c7c rose    → Soins
+      #8195c2 bleu    → Sieste
+      #d9dd7e vert    → Goûter / Sortie dehors
+      #e8a248 orange  → Départ des enfants
+  */
+  var friseConfig = [
+    { section: 0, dots: [{ time: '7h15', color: '#e8a248', posRatio: 0.20 }, { time: '9h',    color: '#e8a248', posRatio: 0.80 }] },
+    { section: 1, dots: [{ time: '9h',   color: '#e8a248', posRatio: 0.25 }, { time: '9h30',  color: '#e8a248', posRatio: 0.75 }] },
+    { section: 2, dots: [{ time: '9h30', color: '#e8a248', posRatio: 0.15 }, { time: '11h',   color: '#e8a248', posRatio: 0.85 }] },
+    { section: 3, dots: [{ time: '11h',  color: '#8985d5', posRatio: 0.22 }, { time: '12h',   color: '#8985d5', posRatio: 0.78 }] },
+    { section: 4, dots: [{ time: '12h',  color: '#c14c7c', posRatio: 0.22 }, { time: '13h',   color: '#c14c7c', posRatio: 0.78 }] },
+    { section: 5, dots: [{ time: '13h',  color: '#8195c2', posRatio: 0.22 }, { time: '15h',   color: '#8195c2', posRatio: 0.78 }] },
+    { section: 6, dots: [{ time: '15h',  color: '#d9dd7e', posRatio: 0.22 }, { time: '16h',   color: '#d9dd7e', posRatio: 0.78 }] },
+    { section: 7, dots: [{ time: '16h',  color: '#e8a248', posRatio: 0.22 }, { time: '18h15', color: '#e8a248', posRatio: 0.78 }] }
+  ];
+
+  // Container frise
+  var friseEl = document.createElement('div');
+  friseEl.className = 'frise-timeline';
+  contentSection.appendChild(friseEl);
+
+  // Ligne de fond
+  var lineBg = document.createElement('div');
+  lineBg.className = 'frise-line-bg';
+  friseEl.appendChild(lineBg);
+
+  var dotRadius = 27;
+  var allDots = [];
+  var initialSegFill = null;
+
+  function buildFrise() {
+    friseEl.querySelectorAll('.frise-dot, .frise-segment, .frise-segment-initial, .frise-end-image').forEach(function(el) {
+      el.remove();
+    });
+    allDots = [];
+
+    // Calculer les dots
+    friseConfig.forEach(function(cfg) {
+      var sec = allSections[cfg.section];
+      if (!sec) return;
+      var secTop = sec.offsetTop;
+      var secH = sec.offsetHeight;
+
+      cfg.dots.forEach(function(d) {
+        var yPos = secTop + secH * d.posRatio;
+        allDots.push({ time: d.time, color: d.color, y: yPos });
+      });
+    });
+
+    allDots.sort(function(a, b) { return a.y - b.y; });
+
+    // Dédupliquer (garder le premier de chaque horaire)
+    var seen = {};
+    allDots = allDots.filter(function(d) {
+      if (seen[d.time]) return false;
+      seen[d.time] = true;
+      return true;
+    });
+
+    // Segment initial : du haut (0) jusqu'au premier dot
+    if (allDots.length > 0) {
+      var initSeg = document.createElement('div');
+      initSeg.className = 'frise-segment-initial';
+      initSeg.style.height = (allDots[0].y - dotRadius) + 'px';
+
+      var initFill = document.createElement('div');
+      initFill.className = 'frise-segment-initial-fill';
+      initSeg.appendChild(initFill);
+      friseEl.appendChild(initSeg);
+      initialSegFill = initFill;
+    }
+
+    // Segments entre dots
+    for (var s = 0; s < allDots.length - 1; s++) {
+      var segTop = allDots[s].y + dotRadius;
+      var segBottom = allDots[s + 1].y - dotRadius;
+      var segHeight = segBottom - segTop;
+      if (segHeight <= 0) continue;
+
+      var segEl = document.createElement('div');
+      segEl.className = 'frise-segment';
+      segEl.style.top = segTop + 'px';
+      segEl.style.height = segHeight + 'px';
+
+      var fillEl = document.createElement('div');
+      fillEl.className = 'frise-segment-fill';
+
+      var colorTop = allDots[s].color;
+      var colorBottom = allDots[s + 1].color;
+
+      if (colorTop === colorBottom) {
+        fillEl.style.background = colorTop;
+      } else {
+        fillEl.style.background = 'linear-gradient(to bottom, ' + colorTop + ' 40%, ' + colorBottom + ' 60%)';
+      }
+
+      segEl.appendChild(fillEl);
+      friseEl.appendChild(segEl);
+
+      allDots[s]._segFill = fillEl;
+    }
+
+    // Dots
+    allDots.forEach(function(d) {
+      var dotEl = document.createElement('div');
+      dotEl.className = 'frise-dot';
+      dotEl.textContent = d.time;
+      dotEl.style.top = d.y + 'px';
+      d._el = dotEl;
+      friseEl.appendChild(dotEl);
+    });
+
+    // Image de fin
+    var lastDot = allDots[allDots.length - 1];
+    if (lastDot) {
+      var endImg = document.createElement('img');
+      endImg.className = 'frise-end-image';
+      endImg.src = 'assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/69c7abcb4c6e80254721ebab_fin-frise.svg';
+      endImg.alt = 'Fin de la journée';
+      endImg.style.top = (lastDot.y + dotRadius + 15) + 'px';
+      friseEl.appendChild(endImg);
+    }
+  }
+
+  buildFrise();
+
+  /* ============================================
+     3. SCROLL ANIMATION
+     ============================================ */
+  function hexToRGBA(hex, a) {
+    var r = parseInt(hex.slice(1,3), 16);
+    var g = parseInt(hex.slice(3,5), 16);
+    var b = parseInt(hex.slice(5,7), 16);
+    return 'rgba(' + r + ',' + g + ',' + b + ',' + a + ')';
+  }
+
+  function handleScroll() {
+    var sectionAbsTop = contentSection.offsetTop;
+    var scrollCenter = window.scrollY + window.innerHeight * 0.55;
+
+    // Segment initial (orange du haut)
+    if (initialSegFill && allDots.length > 0) {
+      var firstDotAbsY = sectionAbsTop + allDots[0].y;
+      var initStart = sectionAbsTop;
+      var initEnd = firstDotAbsY - window.innerHeight * 0.2;
+
+      var initProgress = 0;
+      if (scrollCenter >= initEnd) {
+        initProgress = 1;
+      } else if (scrollCenter > initStart) {
+        initProgress = (scrollCenter - initStart) / (initEnd - initStart);
+      }
+      initialSegFill.style.height = (initProgress * 100) + '%';
+    }
+
+    // Dots et segments
+    allDots.forEach(function(dot, i) {
+      var dotAbsY = sectionAbsTop + dot.y;
+
+      var activateStart = dotAbsY - window.innerHeight * 0.5;
+      var activateEnd = dotAbsY - window.innerHeight * 0.15;
+
+      var progress = 0;
+      if (scrollCenter >= activateEnd) {
+        progress = 1;
+      } else if (scrollCenter > activateStart) {
+        progress = (scrollCenter - activateStart) / (activateEnd - activateStart);
+      }
+
+      var el = dot._el;
+      if (progress >= 1) {
+        el.style.background = dot.color;
+        el.style.borderColor = dot.color;
+        el.style.color = 'white';
+        el.classList.add('activated');
+      } else if (progress > 0) {
+        el.style.background = hexToRGBA(dot.color, progress);
+        el.style.borderColor = hexToRGBA(dot.color, 0.3 + progress * 0.7);
+        el.style.color = progress > 0.5 ? 'rgba(255,255,255,' + Math.min(1, (progress - 0.5) * 2) + ')' : '#999';
+        el.classList.remove('activated');
+      } else {
+        el.style.background = 'white';
+        el.style.borderColor = 'rgba(200,200,200,0.35)';
+        el.style.color = '#999';
+        el.classList.remove('activated');
+      }
+
+      // Segment remplissage
+      if (dot._segFill && i + 1 < allDots.length) {
+        var nextDotAbsY = sectionAbsTop + allDots[i + 1].y;
+        var segStart = dotAbsY - window.innerHeight * 0.1;
+        var segEnd = nextDotAbsY - window.innerHeight * 0.2;
+
+        var segProgress = 0;
+        if (scrollCenter >= segEnd) {
+          segProgress = 1;
+        } else if (scrollCenter > segStart) {
+          segProgress = (scrollCenter - segStart) / (segEnd - segStart);
+        }
+        dot._segFill.style.height = (segProgress * 100) + '%';
+      }
+    });
+
+    // Image de fin
+    var endImgEl = friseEl.querySelector('.frise-end-image');
+    if (endImgEl && allDots.length > 0) {
+      var lastDotAbsY = sectionAbsTop + allDots[allDots.length - 1].y;
+      if (scrollCenter >= lastDotAbsY) {
+        endImgEl.classList.add('visible');
+      } else {
+        endImgEl.classList.remove('visible');
+      }
+    }
+  }
+
+  var rafPending = false;
+  window.addEventListener('scroll', function() {
+    if (!rafPending) {
+      requestAnimationFrame(function() {
+        handleScroll();
+        rafPending = false;
+      });
+      rafPending = true;
+    }
+  }, { passive: true });
+
+  var resizeTimer;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function() {
+      buildFrise();
+      handleScroll();
+    }, 250);
+  });
+
+  setTimeout(handleScroll, 100);
+
+});
+</script></div></section><section class="footer-section"><div class="footer-section-wrapper"><div class="code-embed-2 w-embed w-script"><!-- EMBED FOOTER PHYSICS - Coller dans un Embed Webflow à l'intérieur de ta section footer -->
+
+<style>
+.footer-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.photo-deco {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+[class*="Image-bg-footer-"] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  will-change: transform;
+  transform-origin: center center;
+  pointer-events: auto;
+  user-select: none;
+  -webkit-user-drag: none;
+  opacity: 0.3;
+}
+
+/* Desktop */
+.Image-bg-footer-01 { width: 160px; height: 160px; }
+.Image-bg-footer-02 { width: 140px; height: 140px; }
+.Image-bg-footer-03 { width: 180px; height: 180px; }
+.Image-bg-footer-04 { width: 150px; height: 150px; }
+.Image-bg-footer-05 { width: 170px; height: 170px; }
+.Image-bg-footer-06 { width: 155px; height: 155px; }
+.Image-bg-footer-07 { width: 165px; height: 165px; }
+.Image-bg-footer-08 { width: 160px; height: 160px; }
+.Image-bg-footer-09 { width: 150px; height: 150px; }
+.Image-bg-footer-10 { width: 180px; height: 180px; }
+
+/* Tablette */
+@media (max-width: 991px) {
+  .Image-bg-footer-01 { width: 120px; height: 120px; }
+  .Image-bg-footer-02 { width: 105px; height: 105px; }
+  .Image-bg-footer-03 { width: 135px; height: 135px; }
+  .Image-bg-footer-04 { width: 112px; height: 112px; }
+  .Image-bg-footer-05 { width: 127px; height: 127px; }
+  .Image-bg-footer-06 { width: 116px; height: 116px; }
+  .Image-bg-footer-07 { width: 124px; height: 124px; }
+  .Image-bg-footer-08 { width: 120px; height: 120px; }
+  .Image-bg-footer-09 { width: 112px; height: 112px; }
+  .Image-bg-footer-10 { width: 135px; height: 135px; }
+}
+
+/* Mobile paysage */
+@media (max-width: 767px) {
+  .Image-bg-footer-01 { width: 95px; height: 95px; }
+  .Image-bg-footer-02 { width: 85px; height: 85px; }
+  .Image-bg-footer-03 { width: 105px; height: 105px; }
+  .Image-bg-footer-04 { width: 90px; height: 90px; }
+  .Image-bg-footer-05 { width: 100px; height: 100px; }
+  .Image-bg-footer-06 { width: 92px; height: 92px; }
+  .Image-bg-footer-07 { width: 98px; height: 98px; }
+  .Image-bg-footer-08 { width: 95px; height: 95px; }
+  .Image-bg-footer-09 { width: 90px; height: 90px; }
+  .Image-bg-footer-10 { width: 105px; height: 105px; }
+}
+
+/* Mobile portrait */
+@media (max-width: 479px) {
+  .Image-bg-footer-01 { width: 70px; height: 70px; }
+  .Image-bg-footer-02 { width: 60px; height: 60px; }
+  .Image-bg-footer-03 { width: 80px; height: 80px; }
+  .Image-bg-footer-04 { width: 65px; height: 65px; }
+  .Image-bg-footer-05 { width: 75px; height: 75px; }
+  .Image-bg-footer-06 { width: 68px; height: 68px; }
+  .Image-bg-footer-07 { width: 72px; height: 72px; }
+  .Image-bg-footer-08 { width: 70px; height: 70px; }
+  .Image-bg-footer-09 { width: 65px; height: 65px; }
+  .Image-bg-footer-10 { width: 80px; height: 80px; }
+}
+</style>
+
+<div class="photo-deco">
+  <img class="Image-bg-footer-01" src="assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/69c1557141536e17ad05b025_sticker_19.svg" alt="">
+  <img class="Image-bg-footer-02" src="assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/69c155716cfbb1692619c696_sticker_08.svg" alt="">
+  <img class="Image-bg-footer-03" src="assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/69c155718348a1b5b04fe647_sticker_18.svg" alt="">
+  <img class="Image-bg-footer-04" src="assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/69c15571e761ada20645438e_sticker_09.svg" alt="">
+  <img class="Image-bg-footer-05" src="assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/69c155719fab445a3b6a2e2c_sticker_05.svg" alt="">
+  <img class="Image-bg-footer-06" src="assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/69c155715d9c95716b8137de_sticker_02.svg" alt="">
+  <img class="Image-bg-footer-07" src="assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/69c155722ab4431e573bfe32_sticker_17.svg" alt="">
+</div>
+
+<script src="assets/cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+<script>
+(function() {
+  const container = document.querySelector('.footer-section');
+  if (!container) return;
+
+  let animationStarted = false;
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !animationStarted) {
+        animationStarted = true;
+        startPhysics();
+        observer.disconnect();
+      }
+    });
+  }, { threshold: 0.2 });
+
+  observer.observe(container);
+
+  function startPhysics() {
+    if (typeof Matter === 'undefined') return;
+
+    const { Engine, Bodies, Composite, Body } = Matter;
+    
+    let W = container.offsetWidth;
+    let H = container.offsetHeight;
+
+    const engine = Engine.create();
+    engine.world.gravity.y = 0;
+    engine.world.gravity.x = 0;
+
+    const wallThickness = 100;
+    let walls = [
+      Bodies.rectangle(W/2, H + wallThickness/2, W + 200, wallThickness, { isStatic: true }),
+      Bodies.rectangle(W/2, -wallThickness/2, W + 200, wallThickness, { isStatic: true }),
+      Bodies.rectangle(-wallThickness/2, H/2, wallThickness, H + 200, { isStatic: true }),
+      Bodies.rectangle(W + wallThickness/2, H/2, wallThickness, H + 200, { isStatic: true })
+    ];
+    Composite.add(engine.world, walls);
+
+    const stickers = document.querySelectorAll('[class*="Image-bg-footer-"]');
+    const bodies = [];
+
+    stickers.forEach((img, index) => {
+      const size = Math.max(img.offsetWidth, img.offsetHeight) || 160;
+      const radius = size / 2;
+      
+      const x = 100 + Math.random() * (W - 200);
+      const y = 100 + Math.random() * (H - 200);
+
+      const body = Bodies.circle(x, y, radius, {
+        restitution: 0.5,
+        friction: 0.01,
+        frictionAir: 0.015,
+        density: 0.0003
+      });
+
+      Body.setAngularVelocity(body, (Math.random() - 0.5) * 0.02);
+      Body.setVelocity(body, { 
+        x: (Math.random() - 0.5) * 1, 
+        y: (Math.random() - 0.5) * 1 
+      });
+
+      bodies.push({ body, element: img, radius });
+      Composite.add(engine.world, body);
+    });
+
+    let mousePos = { x: W/2, y: H/2 };
+    let lastMousePos = { x: W/2, y: H/2 };
+    let mouseVelocity = { x: 0, y: 0 };
+    
+    function updateMouseVelocity(newX, newY) {
+      mouseVelocity.x = (newX - lastMousePos.x) * 0.3;
+      mouseVelocity.y = (newY - lastMousePos.y) * 0.3;
+      lastMousePos.x = mousePos.x;
+      lastMousePos.y = mousePos.y;
+      mousePos.x = newX;
+      mousePos.y = newY;
+    }
+
+    function applyWaterCurrent() {
+      const currentStrength = Math.sqrt(mouseVelocity.x ** 2 + mouseVelocity.y ** 2);
+      
+      if (currentStrength > 0.5) {
+        bodies.forEach(({ body }) => {
+          const dx = body.position.x - mousePos.x;
+          const dy = body.position.y - mousePos.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          
+          const influenceRadius = 300;
+          
+          if (dist < influenceRadius) {
+            const influence = (1 - dist / influenceRadius) * 0.0004;
+            
+            Body.applyForce(body, body.position, {
+              x: mouseVelocity.x * influence,
+              y: mouseVelocity.y * influence
+            });
+            
+            Body.setAngularVelocity(body, body.angularVelocity + mouseVelocity.x * 0.0001);
+          }
+        });
+      }
+      
+      mouseVelocity.x *= 0.95;
+      mouseVelocity.y *= 0.95;
+    }
+
+    container.addEventListener('mousemove', (e) => {
+      const rect = container.getBoundingClientRect();
+      updateMouseVelocity(e.clientX - rect.left, e.clientY - rect.top);
+    });
+
+    container.addEventListener('touchmove', (e) => {
+      const rect = container.getBoundingClientRect();
+      const touch = e.touches[0];
+      updateMouseVelocity(touch.clientX - rect.left, touch.clientY - rect.top);
+    });
+
+    function addFloatEffect() {
+      bodies.forEach(({ body }, index) => {
+        const time = Date.now() * 0.001;
+        const offsetX = Math.sin(time * 0.5 + index * 1.5) * 0.00002;
+        const offsetY = Math.cos(time * 0.4 + index * 1.2) * 0.00002;
+        
+        Body.applyForce(body, body.position, {
+          x: offsetX,
+          y: offsetY
+        });
+        
+        const rotationForce = Math.sin(time * 0.3 + index) * 0.0001;
+        Body.setAngularVelocity(body, body.angularVelocity * 0.99 + rotationForce);
+      });
+    }
+
+    function update() {
+      Engine.update(engine, 1000/60);
+      applyWaterCurrent();
+      addFloatEffect();
+      
+      bodies.forEach(({ body, element, radius }) => {
+        const x = body.position.x - radius;
+        const y = body.position.y - radius;
+        const angle = body.angle * (180 / Math.PI);
+        element.style.transform = `translate(${x}px, ${y}px) rotate(${angle}deg)`;
+      });
+      
+      requestAnimationFrame(update);
+    }
+    
+    update();
+
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        const oldW = W, oldH = H;
+        W = container.offsetWidth;
+        H = container.offsetHeight;
+        
+        walls.forEach(wall => Composite.remove(engine.world, wall));
+        walls = [
+          Bodies.rectangle(W/2, H + wallThickness/2, W + 200, wallThickness, { isStatic: true }),
+          Bodies.rectangle(W/2, -wallThickness/2, W + 200, wallThickness, { isStatic: true }),
+          Bodies.rectangle(-wallThickness/2, H/2, wallThickness, H + 200, { isStatic: true }),
+          Bodies.rectangle(W + wallThickness/2, H/2, wallThickness, H + 200, { isStatic: true })
+        ];
+        Composite.add(engine.world, walls);
+        
+        // Mettre à jour les rayons des corps physiques selon la nouvelle taille CSS
+        bodies.forEach(({ body, element }) => {
+          const newSize = Math.max(element.offsetWidth, element.offsetHeight);
+          const newRadius = newSize / 2;
+          const scale = newRadius / body.circleRadius;
+          
+          Body.scale(body, scale, scale);
+          
+          Body.setPosition(body, {
+            x: Math.min(Math.max(body.position.x * (W/oldW), newRadius + 10), W - newRadius - 10),
+            y: Math.min(Math.max(body.position.y * (H/oldH), newRadius + 10), H - newRadius - 10)
+          });
+        });
+      }, 100);
+    });
+  }
+})();
+</script></div><div class="content-footer"><div class="infos-reseaux"><h3 class="heading-5">Rejoignez-nous !</h3><div class="div-res"><a href="https://www.instagram.com/mes_premierspas/" target="_blank" class="reseaux insta w-inline-block"><img loading="lazy" src="assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/69bae785cae20954f649a8f2_instagram-svgrepo-com.svg" alt=""/></a><a href="https://www.facebook.com/mes.premierpas.52/about?locale=fr_FR" target="_blank" class="reseaux w-inline-block"><img loading="lazy" src="assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/69bae785e7300c3a5e573b81_facebook-svgrepo-com%20(1).svg" alt="" class="image-14"/></a></div></div><div class="separateur"></div><div class="contact"><h3 class="heading-6">Contact</h3><div class="rich-text-block w-richtext"><blockquote class="block-quote"><a href="https://www.mespremierspas.net/" class="link-3">info.mespremierspas@gmail.com</a></blockquote><blockquote class="paragraph">Vers : 04 50 16 19 29</blockquote><blockquote class="paragraph-2">Valleiry (siège social) : 04 50 83 99 94</blockquote><p>‍</p></div></div></div><div class="informations-complementaire"><div class="ff-footer">310 Rue du Riondet, 74520 Valleiry, France</div><div class="ff-footer">© Mes premier pas 2026</div><div class="ff-footer">Site Designé par Brian Robert</div></div></div></section></div><script src="assets/d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=6976e155d54ea0f654b007b1" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script><script src="assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/js/webflow.schunk.393b714c35c62e6b.js" type="text/javascript" integrity="sha384-x0A60RRiTmePcmSrFkzEzmqkxHSAlHdtvbT8T774orJNsVh3uSj81FqWtuSgybAO" crossorigin="anonymous"></script><script src="assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/js/webflow.c9f80112.8f14fdb118ccbbf5.js" type="text/javascript" integrity="sha384-WlIJLyenOi6xnQwHim5ODi/TZfOy3WL21LP6qlYJhmSi/lzWVVvGH+0HTc8Bd+b2" crossorigin="anonymous"></script><script>
+document.addEventListener('DOMContentLoaded', function() {
+
+  var navbar = document.querySelector('.navbar-2');
+  if (!navbar) return;
+
+  // ================================
+  // CRÈCHES - URLs
+  // ================================
+  var creches = [
+    { text: 'Vers 1 Océan',        href: '/nos-creche-vers-ocean' },
+    { text: 'Vers Forêt',          href: '/nos-creche-vers-foret' },
+    { text: 'Valleiry Montagne',   href: '/nos-creche-valleiry-montagne' },
+    { text: 'Saint-Julien Savane', href: '/nos-creche-saint-julien-savane' }
+  ];
+
+  // ================================
+  // 1. LOGO → <a href="/">
+  // ================================
+  var logoImg = navbar.querySelector('.image-4');
+  if (logoImg && !logoImg.closest('a')) {
+    var logoLink = document.createElement('a');
+    logoLink.href = '/';
+    logoImg.parentElement.insertBefore(logoLink, logoImg);
+    logoLink.appendChild(logoImg);
+  }
+
+  // ================================
+  // 2. SAUVEGARDER les href originaux
+  //    AVANT toute manipulation
+  // ================================
+  var allLinks = navbar.querySelectorAll('.navbar-gauche .link');
+  var linkData = [];
+
+  allLinks.forEach(function(link) {
+    linkData.push({
+      el: link,
+      text: link.textContent.trim(),
+      href: link.getAttribute('href') || '#'
+    });
+  });
+
+  // ================================
+  // 3. TROUVER le lien "Nos crèches"
+  //    et y attacher le dropdown
+  // ================================
+  var ddLink = null;
+  var panelEl = null;
+
+  linkData.forEach(function(data) {
+    if (data.text.toLowerCase().indexOf('nos crèche') === 0 ||
+        data.text.toLowerCase().indexOf('nos creche') === 0) {
+      ddLink = data.el;
+    }
+  });
+
+  if (ddLink) {
+    // Empêcher la navigation UNIQUEMENT sur ce lien
+    ddLink.setAttribute('href', '#');
+    ddLink.classList.remove('w--current');
+
+    // Créer le panel
+    panelEl = document.createElement('div');
+    panelEl.className = 'custom-dropdown-panel';
+
+    creches.forEach(function(c) {
+      var a = document.createElement('a');
+      a.href = c.href;
+      a.textContent = c.text;
+      panelEl.appendChild(a);
+    });
+
+    document.body.appendChild(panelEl);
+
+    // Positionner centré sous le lien
+    function positionPanel() {
+      var linkRect = ddLink.getBoundingClientRect();
+      var panelWidth = panelEl.offsetWidth || 200;
+      var centerX = linkRect.left + (linkRect.width / 2) - (panelWidth / 2);
+      if (centerX < 0) centerX = 0;
+      panelEl.style.left = centerX + 'px';
+    }
+
+    // Toggle au clic
+    ddLink.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      positionPanel();
+      panelEl.classList.toggle('open');
+    });
+
+    // Fermer en cliquant ailleurs
+    document.addEventListener('click', function(e) {
+      if (!ddLink.contains(e.target) && !panelEl.contains(e.target)) {
+        panelEl.classList.remove('open');
+      }
+    });
+
+    // Fermer avec Escape
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') panelEl.classList.remove('open');
+    });
+
+    // Repositionner au resize
+    window.addEventListener('resize', function() {
+      if (panelEl.classList.contains('open')) positionPanel();
+    });
+  }
+
+  // ================================
+  // 4. ANIMATION ROLL sur les liens
+  //    SANS casser les href
+  // ================================
+  linkData.forEach(function(data) {
+    var link = data.el;
+    var text = data.text;
+
+    // Si c'est le dropdown, traiter séparément (texte + flèche)
+    if (link === ddLink) {
+      // Vider le contenu
+      link.innerHTML = '';
+      // Span pour le texte avec animation roll
+      var span = document.createElement('span');
+      span.className = 'link-text';
+      span.setAttribute('data-text', text);
+      span.textContent = text;
+      link.appendChild(span);
+      // Ajouter la flèche
+      var arrow = document.createElement('span');
+      arrow.className = 'dd-arrow';
+      arrow.textContent = ' ▾';
+      link.appendChild(arrow);
+    } else {
+      // Lien normal : animation roll
+      link.innerHTML = '';
+      var span = document.createElement('span');
+      span.className = 'link-text';
+      span.setAttribute('data-text', text);
+      span.textContent = text;
+      link.appendChild(span);
+    }
+  });
+
+  // ================================
+  // 5. RESTAURER les href originaux
+  //    (sauf le dropdown qui est déjà à #)
+  // ================================
+  linkData.forEach(function(data) {
+    if (data.el !== ddLink) {
+      data.el.setAttribute('href', data.href);
+    }
+  });
+
+  // ================================
+  // 6. FIX ACCUEIL : forcer href="/"
+  // ================================
+  linkData.forEach(function(data) {
+    if (data.text.toLowerCase().indexOf('accueil') >= 0 ||
+        data.text.toLowerCase().indexOf('acceuil') >= 0) {
+      data.el.setAttribute('href', '/');
+      data.el.addEventListener('click', function(e) {
+        // Ne pas bloquer si c'est un ctrl+click ou cmd+click
+        if (e.ctrlKey || e.metaKey) return;
+        e.preventDefault();
+        window.location.href = '/';
+      });
+    }
+  });
+
+  // ================================
+  // 7. TOGGLE NAVBAR
+  // ================================
+  var toggleBtn = document.createElement('button');
+  toggleBtn.className = 'navbar-toggle';
+  toggleBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none"><polyline points="6 15 12 9 18 15"></polyline></svg>';
+  navbar.appendChild(toggleBtn);
+
+  toggleBtn.addEventListener('click', function() {
+    navbar.classList.toggle('hidden');
+    toggleBtn.classList.toggle('flipped');
+    if (panelEl) panelEl.classList.remove('open');
+  });
+
+  var firstScroll = true;
+  window.addEventListener('scroll', function() {
+    if (firstScroll && navbar.classList.contains('loaded') && window.innerWidth > 991) {
+      navbar.classList.add('hidden');
+      toggleBtn.classList.add('flipped');
+      firstScroll = false;
+    }
+  }, { passive: true });
+
+  // ================================
+  // 8. BURGER MOBILE
+  // ================================
+  var logoSrc = navbar.querySelector('.image-4') ? navbar.querySelector('.image-4').src : '';
+  var ctaBtn = navbar.querySelector('.button.pre-inscription');
+  var phoneLink = navbar.querySelector('.link-2');
+
+  var ctaHref = ctaBtn ? ctaBtn.getAttribute('href') : '#';
+  var ctaText = ctaBtn ? ctaBtn.textContent.trim() : 'Pré-inscription';
+  var phoneHref = phoneLink ? phoneLink.getAttribute('href') : 'tel:+33450839994';
+  var phoneText = phoneLink ? phoneLink.textContent.trim() : '+33 4 50 83 99 94';
+
+  var burgerBtn = document.createElement('button');
+  burgerBtn.className = 'burger-btn';
+  burgerBtn.innerHTML = '<span></span><span></span><span></span>';
+  document.body.appendChild(burgerBtn);
+
+  var mobileMenu = document.createElement('div');
+  mobileMenu.className = 'mobile-menu';
+
+  var menuHTML = '<a href="/"><img src="' + logoSrc + '" alt="Logo" class="mobile-logo"></a>';
+
+  // Utiliser linkData pour garder les bons textes et href
+  linkData.forEach(function(data) {
+    var text = data.text.replace(' ▾', '');
+    var href = data.href;
+    if (text.toLowerCase().indexOf('nos crèche') === 0 ||
+        text.toLowerCase().indexOf('nos creche') === 0) {
+      menuHTML += '<button class="mobile-dd-toggle">Nos crèches <span class="mobile-dd-arrow">▾</span></button>';
+      menuHTML += '<div class="mobile-dd-sub">';
+      creches.forEach(function(c) {
+        menuHTML += '<a href="' + c.href + '">' + c.text + '</a>';
+      });
+      menuHTML += '</div>';
+    } else {
+      // Forcer href="/" pour Accueil
+      if (text.toLowerCase().indexOf('accueil') >= 0 ||
+          text.toLowerCase().indexOf('acceuil') >= 0) {
+        href = '/';
+      }
+      menuHTML += '<a href="' + href + '" class="mobile-link">' + text + '</a>';
+    }
+  });
+
+  menuHTML += '<a href="' + ctaHref + '" class="mobile-cta">' + ctaText + '</a>';
+  menuHTML += '<a href="' + phoneHref + '" class="mobile-phone">' + phoneText + '</a>';
+
+  mobileMenu.innerHTML = menuHTML;
+  document.body.appendChild(mobileMenu);
+
+  // Toggle du sous-menu "Nos crèches" mobile
+  var mobileDdBtn = mobileMenu.querySelector('.mobile-dd-toggle');
+  var mobileDdSub = mobileMenu.querySelector('.mobile-dd-sub');
+  if (mobileDdBtn && mobileDdSub) {
+    mobileDdBtn.addEventListener('click', function() {
+      mobileDdBtn.classList.toggle('active');
+      mobileDdSub.classList.toggle('open');
+    });
+  }
+
+  burgerBtn.addEventListener('click', function() {
+    burgerBtn.classList.toggle('active');
+    mobileMenu.classList.toggle('open');
+    document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+  });
+
+  mobileMenu.querySelectorAll('a').forEach(function(link) {
+    link.addEventListener('click', function() {
+      burgerBtn.classList.remove('active');
+      mobileMenu.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  });
+
+});
+
+function showNavbar(delay) {
+  var navbar = document.querySelector('.navbar-2');
+  if (navbar) {
+    setTimeout(function() {
+      document.body.classList.add('has-navbar');
+      navbar.classList.add('loaded');
+    }, delay || 0);
+  }
+}
+</script><!-- EMBED ANIMATIONS JOURNÉE TYPE -->
+<!-- PLACEMENT : Dans Webflow, ajouter un Embed dans la page Journée type, dans le BODY (avant   <script src="mpp/overrides.js"></script>
+</body>) ou en bas de page, APRÈS les sections -->
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+  // ========================================
+  // 1. HERO SECTION — Apparition séquentielle
+  //    Inspiré de la page About
+  // ========================================
+
+  var heroSection = document.querySelector('.hero-section.journee-type');
+
+  if (heroSection) {
+    var heroTitle = heroSection.querySelector('.heading-8');
+    var heroImagesDiv = heroSection.querySelector('.div-image-heros');
+    var img1 = heroSection.querySelector('.image-19');
+    var img2 = heroSection.querySelector('.image-20');
+    var vector1 = heroSection.querySelector('.vector:not(._02)');
+    var vector2 = heroSection.querySelector('.vector._02');
+
+    var allHeroEls = [img1, img2, vector1, vector2, heroTitle].filter(Boolean);
+
+    // Tout invisible au départ
+    allHeroEls.forEach(function(el) {
+      el.style.opacity = '0';
+      el.style.willChange = 'opacity, transform';
+    });
+
+    // Séquence d'apparition (comme About)
+    var heroSequence = [
+      {
+        el: img1,
+        delay: 300,
+        duration: 900
+        // Fade pur, pas de transform (comme les photos About)
+      },
+      {
+        el: vector1,
+        delay: 500,
+        duration: 700,
+        from: 'scale(0.5) rotate(-15deg)',
+        to: 'scale(1) rotate(0deg)'
+      },
+      {
+        el: img2,
+        delay: 700,
+        duration: 900
+        // Fade pur
+      },
+      {
+        el: vector2,
+        delay: 900,
+        duration: 700,
+        from: 'scale(0.5) rotate(15deg)',
+        to: 'scale(1) rotate(0deg)'
+      },
+      {
+        el: heroTitle,
+        delay: 1100,
+        duration: 800,
+        from: 'translateY(20px)',
+        to: 'translateY(0)'
+      }
+    ];
+
+    // Appliquer les transforms initiaux
+    heroSequence.forEach(function(cfg) {
+      if (cfg.el && cfg.from) {
+        cfg.el.style.transform = cfg.from;
+      }
+    });
+
+    // Lancer la séquence
+    setTimeout(function() {
+      heroSequence.forEach(function(cfg) {
+        if (!cfg.el) return;
+        setTimeout(function() {
+          var props = cfg.from
+            ? 'opacity ' + cfg.duration + 'ms cubic-bezier(0.16, 1, 0.3, 1), transform ' + cfg.duration + 'ms cubic-bezier(0.16, 1, 0.3, 1)'
+            : 'opacity ' + cfg.duration + 'ms cubic-bezier(0.16, 1, 0.3, 1)';
+          cfg.el.style.transition = props;
+          cfg.el.style.opacity = '1';
+          if (cfg.to) cfg.el.style.transform = cfg.to;
+        }, cfg.delay);
+      });
+
+      // Afficher la navbar après le hero
+      if (typeof showNavbar === 'function') {
+        setTimeout(function() { showNavbar(500); }, 1400);
+      }
+    }, 150);
+
+    // Nettoyage willChange
+    setTimeout(function() {
+      allHeroEls.forEach(function(el) { el.style.willChange = 'auto'; });
+    }, 2500);
+  }
+
+  // ========================================
+  // 2. CONTENT SECTION — Animation au scroll
+  //    Chaque content-type : image slide + texte slide
+  //    Inspiré des valeurs de la page About
+  // ========================================
+
+  var contentSection = document.querySelector('.content-section');
+  if (!contentSection) return;
+
+  var contentTypes = contentSection.querySelectorAll('.content-type');
+
+  contentTypes.forEach(function(block, index) {
+    var image = block.querySelector('.image-21');
+    var textDiv = block.querySelector('.div-text');
+
+    // Déterminer le layout : image à gauche ou à droite
+    // Les .content-type pairs (0, 2, 4) ont image à gauche, texte à droite
+    // Les .content-type impairs (1, 3) ont texte à gauche, image à droite
+    var isImageLeft = (index % 2 === 0);
+
+    if (image) {
+      image.style.opacity = '0';
+      image.style.transform = isImageLeft ? 'translateX(-40px)' : 'translateX(40px)';
+      image.style.transition = 'opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)';
+    }
+
+    if (textDiv) {
+      textDiv.style.opacity = '0';
+      textDiv.style.transform = isImageLeft ? 'translateX(40px)' : 'translateX(-40px)';
+      textDiv.style.transition = 'opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)';
+    }
+  });
+
+  // Observer au scroll
+  var scrollObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (!entry.isIntersecting) return;
+
+      var block = entry.target;
+      var image = block.querySelector('.image-21');
+      var textDiv = block.querySelector('.div-text');
+
+      if (image) {
+        image.style.opacity = '1';
+        image.style.transform = 'translateX(0)';
+      }
+
+      if (textDiv) {
+        // Léger décalage comme sur About (150ms)
+        setTimeout(function() {
+          textDiv.style.opacity = '1';
+          textDiv.style.transform = 'translateX(0)';
+        }, 150);
+      }
+
+      scrollObserver.unobserve(block);
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+
+  contentTypes.forEach(function(block) {
+    scrollObserver.observe(block);
+  });
+
+  // ========================================
+  // 3. RETOUR PARENTS — Animation fade in
+  // ========================================
+
+  var retourBlock = contentSection.querySelector('.retour-parents-block');
+  if (retourBlock) {
+    var retourCard = retourBlock.querySelector('.retour-parents-card');
+    if (retourCard) {
+      retourCard.style.opacity = '0';
+      retourCard.style.transform = 'translateY(20px)';
+      retourCard.style.transition = 'opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)';
+
+      var retourObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (!entry.isIntersecting) return;
+          retourCard.style.opacity = '1';
+          retourCard.style.transform = 'translateY(0)';
+          retourObserver.unobserve(entry.target);
+        });
+      }, { threshold: 0.2 });
+
+      retourObserver.observe(retourBlock);
+    }
+  }
+
+});
+</script>
+
+<!-- GSAP + ScrollTrigger (même que la page Home) -->
+<script src="assets/cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="assets/cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  gsap.registerPlugin(ScrollTrigger);
+
+  // ========================================
+  // IMAGES PARALLAX + SCALE
+  // Même effet que .image-6 dans qui-somme-nous
+  // ========================================
+
+  var isMobile = window.innerWidth <= 767;
+  var parallaxAmount = isMobile ? -5 : -8;
+  var scaleAmount = isMobile ? 1.03 : 1.05;
+
+  // Toutes les images .image-21 dans les content-type
+  var contentImages = document.querySelectorAll('.content-type .image-21');
+
+  contentImages.forEach(function(img) {
+    // Le parent sert de trigger (le content-type)
+    var parentBlock = img.closest('.content-type');
+    if (!parentBlock) return;
+
+    // Overflow hidden sur le parent pour que le scale ne déborde pas
+    // On cherche le conteneur direct de l'image
+    img.style.willChange = 'transform';
+
+    gsap.to(img, {
+      yPercent: parallaxAmount,
+      scale: scaleAmount,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: parentBlock,
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: 1
+      }
+    });
+  });
+
+  // Images du hero aussi
+  var heroImg1 = document.querySelector('.hero-section.journee-type .image-19');
+  var heroImg2 = document.querySelector('.hero-section.journee-type .image-20');
+  var heroImagesDiv = document.querySelector('.hero-section.journee-type .div-image-heros');
+
+  [heroImg1, heroImg2].forEach(function(img) {
+    if (!img) return;
+    var trigger = heroImagesDiv || img.closest('.hero-section');
+
+    gsap.to(img, {
+      yPercent: isMobile ? -3 : -5,
+      scale: isMobile ? 1.02 : 1.04,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: trigger,
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: 1
+      }
+    });
+  });
+
+});
+</script>
+
+<!-- EMBED PARALLAX HERO IMAGES -->
+<!-- PLACEMENT : Embed en bas de page, APRÈS le chargement de GSAP+ScrollTrigger -->
+<!-- Si GSAP n'est pas déjà chargé sur la page, décommenter les deux lignes ci-dessous -->
+<!-- <script src="assets/cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script> -->
+<!-- <script src="assets/cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script> -->
+<script src="mpp/icones.js"></script></body></html>

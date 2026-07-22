@@ -1,0 +1,70 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   MPP — CTA « Nos différentes crèches »
+   Guide le regard vers la section suivante : flèche animée en boucle douce,
+   CTA vivant au survol, et clic qui fait défiler vers les crèches.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  --cta-bond: 10px;            /* amplitude du va-et-vient de la flèche */
+  --cta-cycle: 2.4s;           /* durée d'un cycle — lent, jamais agité */
+  --cta-ease: cubic-bezier(0.45, 0, 0.55, 1);
+}
+
+/* Le bloc devient un vrai bouton (posé par cta.js) */
+.hero-section.main .div-footer-hero {
+  cursor: pointer;
+  border: 0;
+  background: none;
+  font: inherit;
+  padding: 0;
+}
+.hero-section.main .div-footer-hero:focus-visible {
+  outline: 3px solid var(--mpp-bleu);
+  outline-offset: 6px;
+  border-radius: 12px;
+}
+
+/* ─── Le titre : discrètement vivant ──────────────────────────────────────── */
+.hero-section.main .div-footer-hero .heading {
+  transition: transform 260ms var(--nav-ease, ease), opacity 260ms ease;
+}
+.hero-section.main .div-footer-hero:hover .heading,
+.hero-section.main .div-footer-hero:focus-visible .heading {
+  transform: translateY(-2px);
+}
+
+/* ─── La flèche : boucle douce vers le bas ────────────────────────────────
+   L'image d'origine est en loading=lazy SANS dimensions : elle se rendait en
+   0×0, donc invisible. On lui impose une taille (cta.js la passe en eager). */
+.hero-section.main .div-footer-hero .image-5 {
+  display: block;
+  /* Taille D'ORIGINE du site (.image-5 { max-width: 6rem }) : à 31px la boucle
+     de la flèche devenait illisible, on ne lisait plus la direction. */
+  width: 6rem;
+  max-width: 6rem;
+  height: auto;
+  margin-inline: auto;
+  animation: mpp-cta-bond var(--cta-cycle) var(--cta-ease) infinite;
+  transition: transform 260ms var(--nav-ease, ease);
+  will-change: transform;
+}
+@keyframes mpp-cta-bond {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(var(--cta-bond)); }
+}
+
+/* Au survol : la flèche plonge un peu plus, la boucle s'efface le temps du geste */
+.hero-section.main .div-footer-hero:hover .image-5,
+.hero-section.main .div-footer-hero:focus-visible .image-5 {
+  animation-play-state: paused;
+  transform: translateY(calc(var(--cta-bond) + 4px));
+}
+
+/* ─── Mouvement réduit : aucune boucle, le CTA reste lisible et cliquable ── */
+@media (prefers-reduced-motion: reduce) {
+  .hero-section.main .div-footer-hero .image-5 {
+    animation: none !important;
+    transform: none !important;
+  }
+  .hero-section.main .div-footer-hero .heading { transition: none !important; }
+}

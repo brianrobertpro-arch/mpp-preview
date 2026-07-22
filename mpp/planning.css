@@ -1,0 +1,23 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   MPP — Diagramme « Journée type » (section-4)
+   Le soleil passait derrière le badge MENU (fixe en haut de l'écran). On
+   décale le diagramme vers le bas d'un petit espace pour qu'il se pose SOUS le
+   badge, et on compense la hauteur globale de la section pour que rien ne
+   grandisse inutilement.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Espace entre le bas du badge MENU et le haut du soleil */
+  --planning-sous-badge: 18px;
+  /* Décalage appliqué au diagramme = hauteur du badge + l'espace voulu.
+     --badge-top et --badge-size viennent d'overrides.css (source de vérité). */
+  --planning-decalage: calc(var(--badge-top) + var(--badge-size) + var(--planning-sous-badge));
+}
+
+.section-4 .planning-container {
+  padding-top: var(--planning-decalage);
+  /* La hauteur globale est compensée : le décalage ne doit pas allonger la
+     section d'autant, sinon un vide apparaît sous le diagramme. */
+  margin-bottom: calc(-1 * var(--planning-decalage) * 0.62);
+  box-sizing: border-box;
+}

@@ -1,0 +1,57 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   MPP — CHEMIN D'EMPREINTES
+   Les empreintes du logo « marchent » le long d'un tracé qui traverse la page.
+   Elles apparaissent au passage de la marche et s'effacent lentement derrière.
+
+   ARCHITECTURE : une COUCHE PAR BLOC de page (hero, carrousel, qui-sommes-nous,
+   équipe, valeurs, journée type — footer exclu). Chaque couche vit dans son bloc
+   en z-index:-1 : elle se peint au-dessus du FOND de ce bloc, mais derrière son
+   CONTENU. Une couche globale unique serait masquée par les fonds opaques.
+
+   ⚠ Le contexte d'empilement est créé par `isolation: isolate` (posé en JS), et
+   JAMAIS par position:relative + z-index : ces derniers ré-ancrent les éléments
+   positionnés des sections d'origine et déforment la mise en page (diagramme
+   journée type, cartes équipe).
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Seul élément positionné : sert de repère aux couches (vérifié sans impact
+   sur la mise en page). */
+.page-wrapper { position: relative; }
+
+.mpp-trail-couche {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  z-index: -1;                /* au-dessus du fond du bloc, derrière son contenu */
+  pointer-events: none;       /* ne gêne jamais une interaction */
+  overflow: visible;
+}
+
+/* Une empreinte : masque = la forme du logo, couleur = fond (cycle palette). */
+.mpp-foot {
+  position: absolute;
+  top: 0;
+  left: 0;
+  /* Taille par défaut : une empreinte n'est JAMAIS à width:0 même si le calcul
+     JS tarde — donc jamais invisible pour une raison de timing. */
+  width: 34px;
+  height: 51px;
+  -webkit-mask: url(empreinte.svg) center / contain no-repeat;
+  mask: url(empreinte.svg) center / contain no-repeat;
+  opacity: 0;
+  /* Transition COURTE : elle lisse la quantification entre frames sans découpler
+     l'apparition du scroll. Le pilotage réel se fait image par image en JS. */
+  transition: opacity 90ms linear, transform 90ms linear;
+  will-change: opacity, transform;
+}
+
+/* Tracé guide optionnel (data.trail.showLine) — masqué par défaut. */
+.mpp-trail-ligne { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.mpp-trail-ligne path {
+  fill: none; stroke: rgba(27, 27, 27, 0.13); stroke-width: 2;
+  stroke-linecap: round; stroke-dasharray: 1 10;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mpp-foot { transition: none !important; }
+}

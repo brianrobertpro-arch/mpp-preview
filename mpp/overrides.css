@@ -1,0 +1,340 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   MPP — overrides NAVBAR (modifs Brian). Chargé APRÈS le CSS Webflow.
+   Le reste du site n'est pas touché.
+
+   3 ÉTATS :
+     html[data-nav="closed"] (défaut au chargement) → badge MENU seul, navbar cachée
+     html[data-nav="open"]                          → navbar affichée, badge effacé
+   Transitions : badge fade / navbar slide+fade, simultanées.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Palette DA d'origine */
+  --mpp-bg-1: #e1dccc;   --mpp-cream: #ebe6d4;  --mpp-lime: #d9dd7e;
+  --mpp-vanille: #eeefa2; --mpp-bleu: #8195c2;  --mpp-violet: #8985d5;
+  --mpp-orange: #e8a248;  --mpp-rose: #c14c7c;   --mpp-ink: #1b1b1b;
+  --mpp-text: #4a4a4a;    --mpp-white: #ffffff;
+  /* lime EXACT du logo (échantillonné dans logo.png) */
+  --mpp-logo-lime: #d9f86a;
+  --mpp-logo-halo: #f2fcc0;
+
+  /* ─── Rythme UNIFORME de la nav (Tâche a) ─── */
+  /* AVANT : liens 14/14.08px, tél 14px, CTA 12.8px (3 tailles différentes).
+     APRÈS : une SEULE taille pour tout. 15px dès ~1250px ; en dessous elle descend
+     jusqu'à 13px pour que tout tienne dans la pilule (le logo agrandi coûte +51px). */
+  --nav-text-size: clamp(13px, 1.2vw, 15px);
+  --nav-gap: clamp(0.4rem, 0.95vw, 1.4rem);   /* AVANT : gauche 16px, droite 16px, container 46.4px */
+  --nav-pad-y: 0.55rem;
+  --nav-pad-x: clamp(0.75rem, 1.5vw, 1.6rem);
+  --nav-close-size: 12px;                   /* < --nav-text-size (15px) */
+
+  /* ─── HAUTEUR DE NAV : source de vérité unique ───
+     Les hauteurs de sections de contenu s'y accrocheront (cf. dernier site) :
+     ex. min-height: calc(100svh - var(--nav-height)).
+     N'existait PAS dans le site d'origine — introduite ici. */
+  --nav-top: 24px;                          /* AVANT 1.6vh (~13px) : le logo déborde en haut, il lui faut de l'air */
+  --nav-pill-h: 64px;                       /* hauteur de la pilule — INCHANGÉE */
+  --nav-height: calc(var(--nav-top) + var(--nav-pill-h));
+
+  /* ─── LOGO de la navbar ouverte ───
+     Il déborde de la pilule en haut ET en bas SANS changer sa hauteur :
+     hauteur visuelle 80px, mais hauteur occupée dans le flux figée à 46px
+     via des marges verticales négatives → la pilule reste à --nav-pill-h.
+     Débord = (80 − 64) / 2 = 8px en haut et 8px en bas. */
+  /* 80px sur écran large (débord 8px) ; 72px au plus serré (débord 4px) → il reste
+     de la place pour le CTA à 992 sans jamais écraser le logo. AVANT : 46px. */
+  --nav-logo-h: clamp(72px, 6.25vw, 80px);
+  --nav-logo-flow: 46px;                    /* hauteur dans le flux — INCHANGÉE */
+
+  /* ─── BADGE MENU (plus petit + plus d'air avec le haut, tous breakpoints) ─── */
+  --badge-size: 76px;                       /* AVANT : 96px */
+  --badge-top: 26px;                        /* AVANT : 1.6vh (~13px) */
+  /* Le badge ne doit revenir qu'une fois le menu refermé, sinon il réapparaît
+     par-dessus la navbar/le menu encore ouvert. > --nav-slide (380ms). */
+  --badge-delay: 400ms;
+
+  /* ─── Verre teinté : partagé par la navbar ET la pilule réseaux du hero ─── */
+  --verre-bg: rgba(245, 245, 242, 0.4);
+  --verre-blur: blur(18px) saturate(1.15);
+  --verre-ombre: 0 6px 28px rgba(27, 27, 27, 0.1);
+
+  /* ─── Timings (Tâche d) ─── */
+  --nav-slide: 380ms;
+  --nav-fade: 260ms;
+  --nav-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ═══ NAVBAR — pilule « verre teinté » (Tâche b/c) ═══════════════════════════ */
+.navbar-2 {
+  background: transparent !important;
+  height: auto !important;
+  padding: var(--nav-top) clamp(0.5rem, 1.5vw, 2rem) 0 !important;
+  transition: transform var(--nav-slide) var(--nav-ease),
+              opacity var(--nav-fade) var(--nav-ease) !important;
+  will-change: transform, opacity;
+}
+.navbar-2 .container {
+  width: 100% !important;
+  min-width: 0 !important;                 /* annule le min-width:100vw d'origine */
+  max-width: 1180px !important;
+  /* Webflow la met en inline-flex : sur une boîte inline, margin:auto calcule à 0
+     → elle se colle à gauche sur grand écran. En flex (niveau bloc), auto centre. */
+  display: flex !important;
+  align-items: center !important;   /* le logo est centré sur l'axe médian horizontal */
+  margin: 0 auto !important;
+  box-sizing: border-box;
+  min-height: var(--nav-pill-h) !important;   /* --nav-height fait foi */
+  gap: var(--nav-gap) !important;
+  padding: var(--nav-pad-y) var(--nav-pad-x) !important;
+  border-radius: 999px !important;                        /* coins très arrondis */
+  background: var(--verre-bg) !important;                  /* gris clair translucide */
+  -webkit-backdrop-filter: var(--verre-blur);
+  backdrop-filter: var(--verre-blur);                      /* verre teinté */
+  box-shadow: var(--verre-ombre) !important;               /* pas de bordure blanche */
+  overflow: visible !important;
+}
+/* Le clearfix de .w-container : inoffensif en flex, mais en grid ses pseudo-éléments
+   deviennent des ITEMS et décalent tout d'une cellule (navbar-droite passait à la
+   ligne, pilule à 111px). On les neutralise. */
+.navbar-2 .container::before,
+.navbar-2 .container::after { display: none !important; }
+.navbar-gauche, .navbar-droite {
+  min-width: 0; align-items: center; gap: var(--nav-gap) !important;
+  flex: 0 0 auto;   /* sinon le groupe rétrécit sous son contenu (nowrap) et le CTA en sort */
+}
+
+/* ─── ÉTATS ────────────────────────────────────────────────────────────────── */
+html[data-nav='closed'] .navbar-2 {
+  transform: translateY(-120%) !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+html[data-nav='open'] .navbar-2 {
+  transform: translateY(0) !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+/* ═══ LOGO — bien CENTRÉ dans la navbar, rien ne déborde ════════════════════ */
+.navbar-2 .image-4 {
+  height: var(--nav-logo-h) !important;   /* fixe → ne change jamais de taille */
+  width: auto !important;
+  max-width: none !important;     /* neutralise le reset Webflow img{max-width:100%} */
+  aspect-ratio: 964 / 752;        /* ratio du logo DÉTOURÉ (mpp/logo-trim.png) */
+  /* n'occupe que --nav-logo-flow dans le flux → la pilule ne grandit pas */
+  margin-block: calc((var(--nav-logo-flow) - var(--nav-logo-h)) / 2) !important;
+  top: 0 !important;              /* neutralise le top:4vh d'origine */
+  padding: 0 !important;
+  background: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  display: block !important;
+}
+/* Le logo garde son rôle d'ORIGINE : simple lien vers l'accueil.
+   La fermeture passe par .mpp-nav-close (flèche ↑). */
+.navbar-2 a:has(.image-4) {
+  line-height: 0;
+  flex: 0 0 auto;   /* ne rétrécit JAMAIS : sinon le reset Webflow img{max-width:100%}
+                       plafonne la largeur pendant que la hauteur reste forcée → logo écrasé */
+}
+.navbar-2 a:has(.image-4):focus-visible { outline: 3px solid var(--mpp-bleu); outline-offset: 3px; }
+
+/* ═══ BOUTON FERMER — flèche ↑ + texte, AUCUN fond ══════════════════════════ */
+.mpp-nav-close {
+  background: none !important;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  flex: 0 0 auto;
+  color: var(--mpp-ink);
+  transition: color var(--nav-fade) var(--nav-ease);
+}
+.mpp-nav-close__arrow {
+  width: 17px; height: 17px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform var(--nav-fade) var(--nav-ease);
+}
+.mpp-nav-close__label {
+  font-family: Fuzzybubbles, cursive;       /* police Fuzzy */
+  font-size: var(--nav-close-size);         /* plus petit que la navbar */
+  line-height: 1;
+  white-space: nowrap;
+}
+.mpp-nav-close:hover { color: var(--mpp-white); }
+.mpp-nav-close:hover .mpp-nav-close__arrow { transform: translateY(-3px); }
+.mpp-nav-close:focus-visible { outline: 3px solid var(--mpp-bleu); outline-offset: 3px; border-radius: 6px; }
+
+/* ON ABANDONNE le bouton/flèche qui dépassait : plus rien hors de la pilule. */
+.navbar-toggle { display: none !important; }
+
+/* ═══ TAILLES + ESPACEMENTS UNIFORMES (Tâche a) ═════════════════════════════ */
+.navbar-2 .link,
+.navbar-droite .link-2,
+.navbar-droite .text-block {          /* le tél : c'est un div, pas un .link-2 */
+  font-size: var(--nav-text-size) !important;
+  line-height: 1.5 !important;
+  letter-spacing: 0.01em;
+  padding: 0 0.15rem !important;      /* pas de padding vertical → roll clipé net */
+  margin: 0 !important;
+}
+.navbar-2 .link {
+  color: var(--mpp-ink) !important;   /* encre : lisible sur le verre clair */
+  overflow: hidden !important;
+  display: inline-flex !important;
+  align-items: center;
+}
+/* Roulement des liens (le JS d'origine pose .link-text + data-text) */
+.navbar-2 .link .link-text {
+  display: inline-block !important;
+  position: relative !important;
+  transition: transform 0.34s cubic-bezier(0.77, 0, 0.175, 1) !important;
+  will-change: transform;
+}
+.navbar-2 .link .link-text::after {
+  content: attr(data-text);
+  position: absolute; left: 0; top: 100%; width: 100%;
+  color: var(--mpp-white) !important;   /* survol : blanc (et non bleu) */
+}
+.navbar-2 .link:hover .link-text { transform: translateY(-100%) !important; }
+.navbar-droite .link-2 { color: var(--mpp-ink) !important; }
+.navbar-droite .text-block { white-space: nowrap !important; }   /* tél sur 1 ligne */
+.navbar-2 .link { white-space: nowrap !important; }          /* liens sur 1 ligne */
+.navbar-droite .link-2:hover { color: var(--mpp-white) !important; }
+.navbar-droite .button.type1.pre-inscription {
+  font-size: var(--nav-text-size) !important;
+  white-space: nowrap !important;   /* sinon il passe à 2 lignes et POUSSE la hauteur de pilule */
+  flex: 0 0 auto;
+  padding: 0.5rem 1.15rem !important;
+  border-radius: 999px !important;
+  line-height: 1.2 !important;
+  color: var(--mpp-ink) !important;
+  background: rgba(129, 149, 194, 0.85) !important;
+}
+.dd-arrow { font-size: 0.72em !important; opacity: 0.6 !important; }
+
+/* Panneau dropdown accordé au verre clair */
+.custom-dropdown-panel {
+  /* Sous la navbar, jamais dessus : le panneau démarrait à 9vh (76px) alors que
+     la navbar descend à --nav-height (88px) — il mordait dessus. Il se pose
+     désormais juste en dessous, avec un léger débordement vers le bas. */
+  top: calc(var(--nav-height) + 12px) !important;
+  /* Même verre teinté que la navbar (tokens partagés) */
+  background: var(--verre-bg) !important;
+  -webkit-backdrop-filter: var(--verre-blur);
+  backdrop-filter: var(--verre-blur);
+  box-shadow: var(--verre-ombre) !important;
+  border-radius: 18px !important;
+}
+.custom-dropdown-panel a { color: var(--mpp-ink) !important; font-size: var(--nav-text-size) !important; }
+.custom-dropdown-panel a:hover { color: var(--mpp-white) !important; }
+
+/* ═══ BADGE « MENU » — le LOGO devient bouton ═══════════════════════════════
+   Cercle lime EXACT du logo + les VRAIES empreintes (extraites de logo.png)
+   + « MENU » à la place de « mes premiers pas ». */
+.mpp-menu-badge {
+  position: fixed;
+  top: var(--badge-top);
+  left: 50%;
+  z-index: 1001;
+  width: var(--badge-size); height: var(--badge-size);
+  padding: 0; border: none; cursor: pointer;
+  border-radius: 50%;
+  background: var(--mpp-logo-lime);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 1px;
+  box-shadow: 0 0 0 6px color-mix(in srgb, var(--mpp-logo-halo) 70%, transparent),
+              0 8px 24px rgba(27, 27, 27, 0.18);         /* halo façon logo */
+  transform: translateX(-50%);
+  transition: opacity var(--nav-fade) var(--nav-ease),
+              transform var(--nav-slide) var(--nav-ease);
+  will-change: opacity, transform;
+}
+.mpp-menu-badge__feet {
+  width: 60%; height: auto; display: block; margin-top: 5px;
+  pointer-events: none;
+}
+.mpp-menu-badge__label {
+  font-family: Fuzzybubbles, cursive;
+  font-weight: 700; font-size: 13px; line-height: 1;
+  letter-spacing: 0.08em;
+  color: var(--mpp-ink);
+  margin-bottom: 3px;
+}
+.mpp-menu-badge:hover { transform: translateX(-50%) scale(1.06); }
+.mpp-menu-badge:active { transform: translateX(-50%) scale(0.97); }
+.mpp-menu-badge:focus-visible { outline: 3px solid var(--mpp-bleu); outline-offset: 4px; }
+
+html[data-nav='open'] .mpp-menu-badge {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-50%) scale(0.88);
+  transition-delay: 0ms;            /* il s'efface tout de suite à l'ouverture */
+}
+html[data-nav='closed'] .mpp-menu-badge {
+  opacity: 1; pointer-events: auto;
+  transition-delay: var(--badge-delay);   /* mais il ne revient qu'APRÈS la fermeture */
+}
+
+/* ═══ SEUIL DESKTOP ABAISSÉ À 820px ═════════════════════════════════════════
+   Le Webflow d'origine masque la navbar sous 991px. Une fenêtre à ~950px (cas
+   courant : navigateur non maximisé ou zoom à 150%) basculait donc en version
+   mobile — d'où le rendu différent entre Edge et Chrome à écran identique.
+   On garde la version desktop jusqu'à 820px pour supprimer cet écart. */
+@media screen and (min-width: 821px) and (max-width: 991px) {
+  .navbar-2 { display: block !important; }
+  .burger-btn, .mobile-menu { display: none !important; }
+}
+
+/* ═══ MOBILE ════════════════════════════════════════════════════════════════
+   Le badge remplace le burger d'origine ; il ouvre le menu mobile. */
+@media screen and (max-width: 820px) {
+  .burger-btn { display: none !important; }     /* remplacé par le badge */
+  :root { --badge-size: 70px; --badge-top: 18px; }   /* AVANT 62px : légèrement agrandi */
+  .mpp-menu-badge { z-index: 10000; }                /* au-dessus du menu mobile */
+  .mpp-menu-badge__label { font-size: 11px; }
+  .mpp-menu-badge__feet { margin-top: 3px; }
+  /* Le badge s'efface à l'ouverture, comme sur desktop : c'est la flèche en haut
+     à droite qui referme. (La règle html[data-nav='open'] .mpp-menu-badge du bloc
+     desktop s'applique ici aussi — plus d'exception mobile.) */
+
+  /* Flèche « Fermer » en haut à DROITE. La navbar étant display:none sous 991px,
+     le bouton est déplacé dans <body> par le JS et positionné en fixed. */
+  .mpp-nav-close {
+    position: fixed;
+    top: var(--badge-top);
+    right: 16px;
+    z-index: 10001;
+    transition: opacity var(--nav-fade) var(--nav-ease);
+  }
+  html[data-nav='closed'] .mpp-nav-close { opacity: 0; pointer-events: none; }
+  html[data-nav='open']   .mpp-nav-close { opacity: 1; pointer-events: auto; }
+
+  /* CTA du menu mobile : il avait `padding: 14.4px 0` → AUCUN padding horizontal,
+     le texte touchait les bords de la pilule. */
+  .mobile-menu .mobile-cta {
+    font-size: 18px !important;
+    padding: 0.8rem 1.9rem !important;
+    border-radius: 999px !important;
+    line-height: 1.2 !important;
+    white-space: nowrap !important;
+  }
+  /* cible tactile confortable pour le dropdown « Nos crèches » */
+  .mobile-menu a { padding: 0.9rem 0; display: block; }
+}
+
+/* ═══ prefers-reduced-motion : bascule instantanée ═════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  .navbar-2, .mpp-menu-badge, .mpp-nav-close, .mpp-nav-close__arrow,
+  .navbar-2 .link .link-text { transition: none !important; }
+  html[data-nav] .mpp-menu-badge { transition-delay: 0ms !important; }  /* bascule instantanée */
+  .mpp-menu-badge:hover, .mpp-menu-badge:active { transform: translateX(-50%); }
+  .mpp-nav-close:hover .mpp-nav-close__arrow { transform: none; }
+}
