@@ -1,0 +1,83 @@
+{
+  "_lisezmoi": "Données de la démo MPP. Modifiable sans toucher au code.",
+  "home": {
+    "hero": {
+      "_bg": "Fond du hero. Valeurs : beige | creme | lime | vanille | bleu | violet | orange | rose.",
+      "bg": "bleu",
+      "_text": "Couleur des titres h1. Mêmes valeurs, + ink | blanc. Retirer cette clé = couleur appairée automatiquement au fond (contraste AA garanti).",
+      "text": "orange"
+    },
+    "trail": {
+      "_lisezmoi": "Chemin d'empreintes. Le path est en coordonnées viewBox (x de 0 à 100 = largeur de page ; y de 0 à 466 = hauteur). Redessine la courbe ici sans toucher au code. Le chemin SORT PAR LE BORD GAUCHE de l'écran (x négatif) avant la section équipe pilote (qui commence à y 282) : les pas quittent la page par la gauche, ils n'entrent pas dans la section équipe. Repères : carrousel crèches y136-207, qui-sommes-nous y207-278, équipe y282-353.",
+      "viewBox": "0 0 100 466",
+      "path": "M 50 3 C 34 9 22 15 22 21 C 22 30 63 15 63 21 C 63 35 78 46 78 53 C 78 63 37 46 37 53 C 37 68 22 78 22 85 C 22 94 63 78 63 85 C 63 96 50 99 50 104 C 50 110 50 113 50 116 C 50 132 28 140 32 152 C 36 166 70 168 66 178 C 62 196 78 206 75 216 C 71 232 34 248 30 262 C 24 270 10 275 -5 277",
+      "_reglages": "stepEvery = écart entre 2 pas (plus petit = foulée plus serrée) ; fadeSteps = longueur de la traînée avant effacement ; baseOpacity = 0 signifie que rien n'existe avant le passage de la marche ; headAnchor = où la marche se pose dans l'écran (0 = haut, 1 = bas).",
+      "stepEvery": 4.2,
+      "footScale": 3.1,
+      "sideOffset": 1.9,
+      "fadeSteps": 10,
+      "baseOpacity": 0,
+      "headAnchor": 0.78,
+      "autoStepsPerSec": 2.2,
+      "leadSteps": 9,
+      "catchUp": 2.4,
+      "colors": ["#d9dd7e", "#8195c2", "#8985d5", "#e8a248", "#c14c7c", "#eeefa2"]
+    }
+  },
+  "icones": {
+    "_lisezmoi": "Remplace les icônes actuelles par les aquarelles hébergées sur R2 (bucket public). Chaque entrée cible une icône par sa 'cle' = un fragment UNIQUE de son URL actuelle (le préfixe de hash Webflow) ; le script /mpp/icones.js pose alors base + fichier à la place. FILET DE SÉCURITÉ : si l'aquarelle ne se charge pas (nom de fichier faux, réseau…), l'icône d'origine est restaurée automatiquement — jamais d'image cassée. Pour corriger un nom : change simplement 'fichier'. Pour désactiver une entrée : mets 'actif' à false. Pour RETIRER une image (ancien sticker) au lieu de la remplacer : mets 'masquer' à true (pas besoin de 'fichier').",
+    "base": "https://pub-b62969cb28c74eaa82f2cc05d4ae9428.r2.dev/mpp/icones/",
+    "remplacements": [
+      { "_zone": "Valeurs — page d'accueil (index.html)", "element": "L'enfant au cœur de priorité", "cle": "69bebe1ed73ae9c20b58d03d", "fichier": "valeur-enfant-au-coeur.png", "actif": true },
+      { "_zone": "Valeurs — page d'accueil (index.html)", "element": "Le respect de l'être humain", "cle": "69bebe1ee7e73e30c76d6a8b", "fichier": "valeur-respect-etre-humain.png", "actif": true },
+      { "_zone": "Valeurs — page d'accueil (index.html)", "element": "La bienveillance", "cle": "69bebe1ec76cdbe1cd93732b", "fichier": "valeur-bienveillance.png", "actif": true },
+      { "_zone": "Valeurs — page d'accueil (index.html)", "element": "La communication", "cle": "69bebe1e0152fd73dcea1380", "fichier": "valeur-communication.png", "actif": true },
+      { "_zone": "Valeurs — page d'accueil (index.html)", "element": "Le respect de l'environnement", "cle": "69bebe1e14ee8525041e931a", "fichier": "valeur-respect-environnement.png", "actif": true },
+
+      { "_zone": "Valeurs — page À propos (about.html)", "element": "L'enfant au cœur de priorité", "cle": "69c68f0100d6952e32d51c41", "fichier": "valeur-enfant-au-coeur.png", "actif": true },
+      { "_zone": "Valeurs — page À propos (about.html)", "element": "Le respect de l'être humain", "cle": "69c68f017be6bec9536b3b14", "fichier": "valeur-respect-etre-humain.png", "actif": true },
+      { "_zone": "Valeurs — page À propos (about.html)", "element": "La communication", "cle": "69c68f013f91f95491226060", "fichier": "valeur-communication.png", "actif": true },
+      { "_zone": "Valeurs — page À propos (about.html)", "element": "La bienveillance", "cle": "69c68f012406bb20ad962bd1", "fichier": "valeur-bienveillance.png", "actif": true },
+      { "_zone": "Valeurs — page À propos (about.html)", "element": "Le respect de l'environnement", "cle": "69c68f01c0870e10f53cb4d3", "fichier": "valeur-respect-environnement.png", "actif": true },
+
+      { "_zone": "Journée type — diagramme (index.html + journee-type.html), ordre chronologique", "element": "0 · L'accueil et l'arrivée des enfants", "cle": "69cd21ea70198b12afed6642", "fichier": "horaire-accueil.png", "actif": true },
+      { "_zone": "Journée type — diagramme (index.html + journee-type.html), ordre chronologique", "element": "1 · Le temps de rassemblement", "cle": "69bec94b1e6800d62f4628fe", "fichier": "horaire-09h00.png", "actif": true },
+      { "_zone": "Journée type — diagramme (index.html + journee-type.html), ordre chronologique", "element": "2 · Activités", "cle": "69bec94bf83d2b51ab469bbf", "fichier": "horaire-09h30.png", "actif": true },
+      { "_zone": "Journée type — diagramme (index.html + journee-type.html), ordre chronologique", "element": "3 · Le temps repas", "cle": "69bec94af263a1e66d5eb31a", "fichier": "horaire-11h00.png", "actif": true },
+      { "_zone": "Journée type — diagramme (index.html + journee-type.html), ordre chronologique", "element": "4 · Soin et moment cocooning", "cle": "69bec94be8bb9ae44a57be64", "fichier": "horaire-11h30.png", "actif": true },
+      { "_zone": "Journée type — diagramme (index.html + journee-type.html), ordre chronologique", "element": "5 · La Sieste", "cle": "69bec94ae686617a126497d9", "fichier": "horaire-12h00.png", "actif": true },
+      { "_zone": "Journée type — diagramme (index.html + journee-type.html), ordre chronologique", "element": "6 · Le temps du goûter", "cle": "69cd21ebde32c85603dfae34", "fichier": "horaire-15h00.png", "actif": true },
+      { "_zone": "Journée type — diagramme (index.html + journee-type.html), ordre chronologique", "element": "7 · Le départ des enfants", "cle": "69bec94ac744e5290c3f341a", "fichier": "horaire-16h00.png", "actif": true },
+
+      { "_zone": "Footer — 4 TOTEMS à la place des anciens stickers (toutes les pages). L'ordre des totems dans les 4 emplacements est décoratif : échange les 'fichier' pour les replacer. La classe 'mpp-totem' les détoure (fond transparent) et les agrandit.", "element": "Emplacement fleur (haut-gauche)", "cle": "69c15571e761ada20645438e", "fichier": "totem-foret.png", "classe": "mpp-totem", "actif": true },
+      { "_zone": "Footer — 4 TOTEMS", "element": "Emplacement escargot (droite)", "cle": "69c155715d9c95716b8137de", "fichier": "totem-savane.png", "classe": "mpp-totem", "actif": true },
+      { "_zone": "Footer — 4 TOTEMS", "element": "Emplacement nuage (bas-gauche)", "cle": "69c155718348a1b5b04fe647", "fichier": "totem-ocean.png", "classe": "mpp-totem", "actif": true },
+      { "_zone": "Footer — 4 TOTEMS", "element": "Emplacement cookie (bas-centre)", "cle": "69c155719fab445a3b6a2e2c", "fichier": "totem-montagne.png", "classe": "mpp-totem", "actif": true },
+
+      { "_zone": "Footer — anciens stickers RETIRÉS (pingouin, goutte, note de musique)", "element": "Pingouin (retiré)", "cle": "69c1557141536e17ad05b025", "masquer": true, "actif": true },
+      { "_zone": "Footer — anciens stickers RETIRÉS", "element": "Goutte d'eau (retirée)", "cle": "69c155716cfbb1692619c696", "masquer": true, "actif": true },
+      { "_zone": "Footer — anciens stickers RETIRÉS", "element": "Note de musique (retirée)", "cle": "69c155722ab4431e573bfe32", "masquer": true, "actif": true }
+    ]
+  },
+  "footer": {
+    "_lisezmoi": "Refonte du footer (page d'accueil). Les tableaux phone.instagram / phone.facebook = images qui défilent dans l'écran du téléphone, par réseau. Remplace ces chemins par tes vraies photos (fichiers locaux dans mpp/img/ ou URLs complètes) — l'ordre = ordre d'affichage. Placeholders actuels = visuels d'ambiance du site. contact = coordonnées affichées en cascade dans le bloc CONTACT.",
+    "phone": {
+      "instagram": [
+        "mpp/img/hero-cuisine.jpg",
+        "mpp/img/hero-maquillage.jpg",
+        "mpp/img/hero-chemin.jpg"
+      ],
+      "facebook": [
+        "mpp/img/hero-maquillage.jpg",
+        "mpp/img/hero-chemin.jpg",
+        "mpp/img/hero-cuisine.jpg"
+      ]
+    },
+    "contact": {
+      "email": "info.mespremierspas@gmail.com",
+      "emailHref": "https://www.mespremierspas.net/",
+      "telVers": "04 50 16 19 29",
+      "telValleiry": "04 50 83 99 94"
+    }
+  }
+}

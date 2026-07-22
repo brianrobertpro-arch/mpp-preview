@@ -1,0 +1,383 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   MPP — REFONTE DU FOOTER (scène animée : téléphone + totems + CONTACT)
+   Construit par étapes. Chargé uniquement sur la page d'accueil.
+
+   ÉTAPE 1 — le téléphone (SVG) : pièce maîtresse, centre-gauche de la scène.
+   Palette DA : encre #1b1b1b, crème écran #ebe6d4, lime #d9dd7e, orange #e8a248.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Fond bleu du footer (comme avant la refonte : var(--_couleurs---c-bleu)).
+   Fixé explicitement car la variable Webflow ne se résout pas partout. */
+.footer-section { background-color: #8195c2 !important; }
+
+.footer-scene {
+  /* raccourcis palette pour la scène */
+  --ink: #1b1b1b;
+  --cream: #ebe6d4;
+  --lime: #d9dd7e;
+  --orange: #e8a248;
+  --rose: #c14c7c;
+  --bleu: #8195c2;
+
+  position: relative;
+  z-index: 2;                         /* au-dessus du fond / totems */
+  box-sizing: border-box;
+  min-height: clamp(520px, 72vh, 760px);
+  display: flex;
+  align-items: center;
+  gap: clamp(24px, 5vw, 80px);
+  padding: clamp(32px, 6vh, 72px) clamp(20px, 6vw, 90px);
+  --e: cubic-bezier(0.22, 1, 0.36, 1);   /* easing doux, commun à la chorégraphie */
+}
+
+/* ─── ÉTAPE 5 — bloc CONTACT (titre + coordonnées en cascade) ─────────────── */
+.footer-contact {
+  flex: 0 1 auto;
+  max-width: min(48%, 480px);
+  color: #f4f1e6;
+}
+.footer-contact__title {
+  font-family: 'Fuzzy Bubbles', cursive;
+  font-weight: 700;
+  font-size: clamp(2.6rem, 5.4vw, 5rem);
+  line-height: 1;
+  margin: 0 0 clamp(16px, 3vh, 30px);
+  color: #f4f1e6;
+}
+.footer-contact__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(10px, 1.9vh, 18px);
+  font-family: 'Nunito', system-ui, sans-serif;
+}
+.fc-line {
+  font-size: clamp(15px, 2.05vh, 20px);
+  font-weight: 600;
+  color: #f4f1e6;
+}
+.fc-line .fc-label { color: rgba(244, 241, 230, 0.72); font-weight: 700; margin-right: 0.35em; }
+.fc-line a {
+  color: #f4f1e6;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(244, 241, 230, 0.4);
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.fc-line a:hover { color: #fff; border-color: #fff; }
+
+/* ─── Chorégraphie d'entrée (une seule timeline) ───────────────────────────
+   Déclenchée quand le footer entre dans le viewport (classe .is-in ajoutée en
+   JS). Le téléphone se pose (fade + montée), PUIS le titre CONTACT glisse
+   depuis le téléphone vers la droite, PUIS les coordonnées en cascade.
+   Les états cachés ne s'appliquent qu'avec .anim-ready (posée en JS) : sans JS
+   ou si erreur, tout reste visible. */
+.footer-scene.anim-ready .footer-phone {
+  opacity: 0;
+  transform: translateY(48px);
+  transition: opacity 0.9s var(--e), transform 0.9s var(--e);
+}
+.footer-scene.anim-ready.is-in .footer-phone { opacity: 1; transform: translateY(0); }
+
+.footer-scene.anim-ready .footer-contact__title {
+  opacity: 0;
+  transform: translateX(-72px);       /* part du téléphone, glisse vers la droite */
+  transition: opacity 0.75s var(--e) 0.9s, transform 0.75s var(--e) 0.9s;
+}
+.footer-scene.anim-ready.is-in .footer-contact__title { opacity: 1; transform: translateX(0); }
+
+.footer-scene.anim-ready .fc-line {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s ease var(--d, 1.1s), transform 0.6s ease var(--d, 1.1s);
+}
+.footer-scene.anim-ready.is-in .fc-line { opacity: 1; transform: translateY(0); }
+.footer-scene.anim-ready .fc-line:nth-child(1) { --d: 1.15s; }
+.footer-scene.anim-ready .fc-line:nth-child(2) { --d: 1.30s; }
+.footer-scene.anim-ready .fc-line:nth-child(3) { --d: 1.45s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .footer-scene.anim-ready .footer-phone,
+  .footer-scene.anim-ready .footer-contact__title,
+  .footer-scene.anim-ready .fc-line {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* ─── LE TÉLÉPHONE ─────────────────────────────────────────────────────────
+   Ratio type iPhone (320 × 660). Hauteur ≈ 60-70 % de la section, responsive. */
+.footer-phone {
+  position: relative;
+  flex: 0 0 auto;
+  height: clamp(360px, 62vh, 560px);
+  aspect-ratio: 320 / 660;
+}
+
+.footer-phone__frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 1;                          /* au-dessus des totems */
+  filter: drop-shadow(0 18px 40px rgba(27, 27, 27, 0.28));
+}
+
+/* ─── ÉTAPE 4 — les 4 totems autour du téléphone ──────────────────────────
+   Disposés autour, débordant légèrement sur le téléphone. z-index ENTRE le
+   fond (bleu) et le contenu lisible : ils passent DERRIÈRE le téléphone (frame
+   z-index 1) → ils ne gênent jamais la lecture de l'écran. Opacité réduite
+   (décor). Flottement doux et autonome ; figés si prefers-reduced-motion. */
+.footer-totem {
+  position: absolute;
+  z-index: 0;                          /* derrière le téléphone, devant le fond */
+  width: 40%;
+  height: auto;
+  opacity: 0.55;
+  pointer-events: none;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 16px rgba(27, 27, 27, 0.15));
+  animation: mpp-totem-flottement var(--dur, 7s) ease-in-out var(--delay, 0s) infinite;
+  will-change: transform;
+}
+.footer-totem--1 { top: -8%;  left: -28%;  width: 42%; --dur: 7.5s; --delay: 0s;   --rot: -6deg; }
+.footer-totem--2 { top: -11%; right: -19%; width: 38%; --dur: 8.5s; --delay: -1.2s;--rot: 5deg; }
+.footer-totem--3 { bottom: 3%; left: -26%; width: 40%; --dur: 9s;   --delay: -2.4s;--rot: 4deg; }
+.footer-totem--4 { bottom: -9%; left: 30%; width: 39%; --dur: 8s;   --delay: -0.6s;--rot: -5deg; }
+
+@keyframes mpp-totem-flottement {
+  0%, 100% { transform: translateY(0) rotate(var(--rot, 0deg)); }
+  50%      { transform: translateY(-11px) rotate(calc(var(--rot, 0deg) + 2deg)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .footer-totem { animation: none; transform: rotate(var(--rot, 0deg)); }
+}
+
+/* L'écran = calque HTML posé sur la zone d'écran du SVG (voir viewBox 320×660 :
+   écran x22→298, y22→638). Il accueillera le contenu Insta/FB (étape 2). */
+.footer-phone__screen {
+  position: absolute;
+  left: 6.9%;
+  top: 3.35%;
+  width: 86.25%;
+  height: 93.3%;
+  border-radius: 13% / 6.4%;
+  overflow: hidden;
+  background: var(--cream);
+  display: flex;
+  flex-direction: column;
+  z-index: 2;                         /* au-dessus du cadre (z-index 1) */
+  isolation: isolate;                 /* contexte d'empilement propre à l'écran */
+}
+
+/* Dynamic island : pastille encre centrée en haut, toujours au-dessus du contenu. */
+.footer-phone__island {
+  position: absolute;
+  top: 2.2%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 32%;
+  height: 2.5%;
+  min-height: 14px;
+  background: var(--ink);
+  border-radius: 999px;
+  z-index: 3;
+}
+
+/* Barre de statut iOS : heure à gauche, réseau/wifi/batterie à droite. Discrète. */
+.footer-phone__statusbar {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 3.5% 8% 1.5%;
+  color: var(--ink);
+  font-family: 'Nunito', system-ui, sans-serif;
+  font-weight: 700;
+  font-size: clamp(10px, 1.5vh, 13px);
+  z-index: 2;
+}
+.footer-phone__statusbar .sb-icons {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.footer-phone__statusbar .sb-icons svg { display: block; height: 0.9em; width: auto; }
+
+/* Zone de contenu de l'écran (Insta/FB). */
+.footer-phone__content {
+  position: relative;
+  flex: 1 1 auto;
+  overflow: hidden;
+  background: var(--cream);
+}
+
+/* ─── ÉTAPE 2 — vues Instagram / Facebook (alternance en fondu) ───────────── */
+.fp-view {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--cream);
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  pointer-events: none;
+}
+.fp-view.is-active { opacity: 1; }
+
+/* En-tête type iOS : logo réseau + nom */
+.fp-view__header {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  padding: 4.5% 6% 3.5%;
+  font-family: 'Nunito', system-ui, sans-serif;
+  line-height: 1.1;
+}
+.fp-logo {
+  flex: 0 0 auto;
+  width: 2em;
+  height: 2em;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: #fff;
+}
+.fp-view--instagram .fp-logo {
+  background: linear-gradient(45deg, #f0a848 0%, #c14c7c 55%, #8985d5 100%);
+}
+.fp-view--facebook .fp-logo { background: #8195c2; }
+.fp-logo svg { width: 62%; height: 62%; display: block; }
+.fp-name {
+  font-weight: 800;
+  font-size: clamp(11px, 1.75vh, 15px);
+  color: var(--ink);
+}
+.fp-sub {
+  font-size: clamp(9px, 1.35vh, 12px);
+  color: #8a8578;
+  font-weight: 600;
+}
+
+/* Média (image) + dérive Ken Burns pilotée en JS (transform) */
+.fp-view__media {
+  position: relative;
+  flex: 1 1 auto;
+  overflow: hidden;
+  background: #d8d2bf;
+}
+.fp-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.14);      /* marge pour la dérive sans bord visible */
+  will-change: transform;
+}
+
+/* Barre d'actions minimale iOS (cœur, commentaire, envoi) */
+.fp-view__actions {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0.9em;
+  padding: 3.5% 6%;
+  color: var(--ink);
+}
+.fp-view__actions svg { width: 1.5em; height: 1.5em; display: block; }
+.fp-view__actions .spacer { flex: 1 1 auto; }
+.fp-view__actions .fp-tag {
+  font-family: 'Nunito', system-ui, sans-serif;
+  font-weight: 700;
+  font-size: clamp(9px, 1.3vh, 12px);
+  color: #8a8578;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 46%;
+  text-align: right;
+}
+
+/* prefers-reduced-motion : image figée, pas d'alternance auto (gérée en JS). */
+@media (prefers-reduced-motion: reduce) {
+  .fp-view { transition: none; }
+  .fp-img { transform: scale(1.05); }
+}
+
+/* ─── ÉTAPE 3 — boutons réseaux synchronisés avec l'écran ─────────────────
+   Vert pomme (fichiers -footer.svg, trait épaissi). Posés près du téléphone.
+   La pastille active suit la vue affichée ; le survol verrouille l'écran. */
+.footer-social {
+  position: absolute;
+  right: -13%;
+  bottom: 12%;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(12px, 1.8vh, 20px);
+  z-index: 4;
+}
+.fsoc {
+  width: clamp(46px, 7.2vh, 66px);
+  height: clamp(46px, 7.2vh, 66px);
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: transparent;
+  box-shadow: none;
+  transform: scale(1);
+  transition: background 0.35s ease, box-shadow 0.35s ease, transform 0.3s ease;
+}
+.fsoc img { width: 66%; height: 66%; object-fit: contain; display: block; }
+/* Pastille « active » (réseau affiché à l'écran) — dans la DA. */
+.fsoc.is-active {
+  background: #ebe6d4;
+  box-shadow: 0 8px 20px rgba(27, 27, 27, 0.22);
+  transform: scale(1.09);
+}
+.fsoc:hover { transform: scale(1.13); }
+.fsoc:focus-visible { outline: 2px solid #ebe6d4; outline-offset: 3px; }
+
+@media (max-width: 767px) {
+  .footer-social { right: auto; left: 50%; bottom: -7%; flex-direction: row; transform: translateX(-50%); }
+}
+
+/* ─── Ancien footer masqué pendant la refonte ─────────────────────────────
+   Le contenu social + les stickers physiques d'origine sont retirés
+   visuellement (les totems reviennent, placés autour du téléphone, à l'étape 4 ;
+   le CONTACT est reconstruit dans la scène à l'étape 5). */
+.footer-section .content-footer { display: none !important; }
+.footer-section .photo-deco { display: none !important; }
+
+/* Ligne d'infos existante (adresse, ©, crédit) : conservée, posée en bas.
+   Texte clair pour rester lisible sur le fond bleu. */
+.footer-section .informations-complementaire {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 0 20px clamp(18px, 3vh, 32px);
+}
+.footer-section .informations-complementaire .ff-footer { color: #f4f1e6; }
+
+/* ─── Responsive : mobile → téléphone plus petit, scène centrée ───────────── */
+@media (max-width: 767px) {
+  .footer-scene {
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: clamp(20px, 5vh, 40px);
+    min-height: 0;
+    padding: clamp(28px, 6vh, 48px) 20px;
+  }
+  .footer-phone { height: clamp(320px, 56vh, 440px); }
+  .footer-contact { max-width: 100%; text-align: center; }
+  .footer-contact__list { align-items: center; }
+  /* En mobile, le titre CONTACT descend simplement (pas de glissement latéral). */
+  .footer-scene.anim-ready .footer-contact__title { transform: translateY(24px); }
+  .footer-scene.anim-ready.is-in .footer-contact__title { transform: translateY(0); }
+}
+
+/* prefers-reduced-motion : géré au fil des étapes animées (2 et 5). */

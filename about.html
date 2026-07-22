@@ -1,0 +1,1666 @@
+<!DOCTYPE html><!-- This site was created in Webflow. https://webflow.com --><!-- Last Published: Wed Apr 01 2026 14:41:49 GMT+0000 (Coordinated Universal Time) --><html data-wf-domain="mes-premier-pas.webflow.io" data-wf-page="69c68ad56933d3066307e048" data-wf-site="6976e155d54ea0f654b007b1"><head><meta charset="utf-8"/><link href="https://cdn.prod.website-files.com" rel="preconnect" crossorigin="anonymous"/><title>about</title><meta content="about" property="og:title"/><meta content="about" name="twitter:title"/><meta content="width=device-width, initial-scale=1" name="viewport"/><meta content="Webflow" name="generator"/><link href="assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/css/mes-premier-pas.webflow.shared.1a07ee41e.css" rel="stylesheet" type="text/css" integrity="sha384-GgfuQeKiV/E7KSRiFX/RuX1zmlzzYRLuffmUjTlEynqZaBjgxcRQ6bSj39xZwv4e" crossorigin="anonymous"/><script type="text/javascript">!function(o,c){var n=c.documentElement,t=" w-mod-";n.className+=t+"js",("ontouchstart"in o||o.DocumentTouch&&c instanceof DocumentTouch)&&(n.className+=t+"touch")}(window,document);</script><link href="assets/cdn.prod.website-files.com/img/favicon.ico" rel="shortcut icon" type="image/x-icon"/><link href="assets/cdn.prod.website-files.com/img/webclip.png" rel="apple-touch-icon"/><style>
+/* NAVBAR FIXED */
+.navbar-2 {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 10vh;
+  z-index: 1000;
+  opacity: 0;
+  transform: translateY(-100%);
+}
+.navbar-2.loaded {
+  opacity: 1; transform: translateY(0);
+  transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+}
+.navbar-2.loaded.hidden {
+  transform: translateY(-100%);
+}
+
+/* TOGGLE ARROW */
+.navbar-toggle {
+  position: absolute; left: 20px; bottom: -24px;
+  width: 48px; height: 24px;
+  background: rgba(255,255,255,0.95);
+  border: none; border-radius: 0 0 12px 12px;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  z-index: 9999;
+}
+.navbar-toggle svg {
+  width: 16px; height: 16px; stroke: #D9DD7E; stroke-width: 2.5;
+  transition: transform 0.3s ease-out;
+}
+.navbar-toggle.flipped svg { transform: rotate(180deg); }
+
+/* Fix taille liens w--current identique aux autres */
+.navbar-gauche .link.w--current {
+  font-size: inherit;
+}
+
+/* Fix: empêcher le texte des liens de déborder en plein écran */
+.navbar-gauche .link {
+  white-space: nowrap;
+  font-size: clamp(12px, 1.1vw, 16px);
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+}
+
+/* Animation roll hover sur les liens */
+.navbar-gauche .link .link-text {
+  display: inline-block;
+  position: relative;
+  transition: transform 0.3s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.navbar-gauche .link .link-text::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 100%;
+  color: #D9DD7E;
+}
+
+.navbar-gauche .link:hover .link-text {
+  transform: translateY(-100%);
+}
+
+/* DROPDOWN PANEL */
+.custom-dropdown-panel {
+  position: fixed; z-index: 99999;
+  top: 10vh !important;
+  background: rgba(0, 0, 0, 0.27);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border-radius: 0 0 12px 12px;
+  padding: 10px 0; min-width: 200px;
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transform: translateY(-8px);
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+}
+.custom-dropdown-panel.open {
+  opacity: 1; visibility: visible; pointer-events: all; transform: translateY(0);
+}
+.custom-dropdown-panel a {
+  display: block; padding: 10px 24px;
+  color: rgba(255,255,255,0.85); text-decoration: none;
+  font-size: 14px; white-space: nowrap;
+  transition: color 0.2s ease;
+}
+.custom-dropdown-panel a:hover { color: #D9DD7E; }
+
+/* Flèche dropdown */
+.dd-arrow {
+  font-size: 0.7em;
+  opacity: 0.7;
+  margin-left: 2px;
+  display: inline;
+}
+
+/* BURGER */
+.burger-btn {
+  display: none; position: fixed; top: 20px; right: 20px;
+  width: 40px; height: 40px; background: rgba(255,255,255,0.95);
+  border: none; border-radius: 50%; cursor: pointer; z-index: 10001; padding: 0;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+.burger-btn span {
+  position: absolute; left: 50%; transform: translateX(-50%);
+  width: 18px; height: 2px; background: #D9DD7E; border-radius: 2px;
+  transition: all 0.3s ease;
+}
+.burger-btn span:nth-child(1) { top: 13px; }
+.burger-btn span:nth-child(2) { top: 19px; }
+.burger-btn span:nth-child(3) { top: 25px; }
+.burger-btn.active span:nth-child(1) { top: 19px; transform: translateX(-50%) rotate(45deg); }
+.burger-btn.active span:nth-child(2) { opacity: 0; }
+.burger-btn.active span:nth-child(3) { top: 19px; transform: translateX(-50%) rotate(-45deg); }
+
+/* MOBILE MENU */
+.mobile-menu {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100dvh;
+  background: rgba(255,255,255,0.98); backdrop-filter: blur(20px);
+  z-index: 10000; display: flex; flex-direction: column;
+  justify-content: center; align-items: center; padding: 2rem;
+  clip-path: circle(0% at calc(100% - 40px) 40px);
+  transition: clip-path 0.6s cubic-bezier(0.77,0,0.175,1);
+  pointer-events: none;
+}
+.mobile-menu.open { clip-path: circle(150% at calc(100% - 40px) 40px); pointer-events: all; }
+.mobile-menu .mobile-logo {
+  position: absolute; top: 30px; left: 50%; transform: translateX(-50%);
+  height: 70px; opacity: 0; transition: opacity 0.3s ease 0.2s;
+}
+.mobile-menu.open .mobile-logo { opacity: 1; }
+.mobile-menu .mobile-link {
+  font-size: 1.8rem; font-weight: 500; color: #333; text-decoration: none;
+  margin: 0.8rem 0; opacity: 0; transform: translateY(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease, color 0.3s ease;
+}
+.mobile-menu.open .mobile-link { opacity: 1; transform: translateY(0); }
+.mobile-menu.open .mobile-link:nth-child(2) { transition-delay: 0.1s; }
+.mobile-menu.open .mobile-link:nth-child(3) { transition-delay: 0.15s; }
+.mobile-menu.open .mobile-link:nth-child(4) { transition-delay: 0.2s; }
+.mobile-menu.open .mobile-link:nth-child(5) { transition-delay: 0.25s; }
+.mobile-menu.open .mobile-link:nth-child(6) { transition-delay: 0.3s; }
+.mobile-menu.open .mobile-link:nth-child(7) { transition-delay: 0.35s; }
+.mobile-menu.open .mobile-link:nth-child(8) { transition-delay: 0.4s; }
+.mobile-menu.open .mobile-link:nth-child(9) { transition-delay: 0.45s; }
+.mobile-menu .mobile-link:hover { color: #D9DD7E; }
+
+/* Mobile dropdown "Nos crèches" */
+.mobile-dd-toggle {
+  font-size: 1.8rem; font-weight: 500; color: #333;
+  text-decoration: none; margin: 0.8rem 0; cursor: pointer;
+  opacity: 0; transform: translateY(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease, color 0.3s ease;
+  background: none; border: none; font-family: inherit;
+}
+.mobile-menu.open .mobile-dd-toggle { opacity: 1; transform: translateY(0); }
+.mobile-dd-toggle:hover { color: #D9DD7E; }
+.mobile-dd-toggle .mobile-dd-arrow {
+  display: inline-block; font-size: 0.6em; margin-left: 6px;
+  transition: transform 0.3s ease;
+}
+.mobile-dd-toggle.active .mobile-dd-arrow { transform: rotate(180deg); }
+
+.mobile-dd-sub {
+  display: flex; flex-direction: column; align-items: center;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.3s ease;
+  opacity: 0;
+}
+.mobile-dd-sub.open {
+  max-height: 300px;
+  opacity: 1;
+}
+
+.mobile-dd-sub a {
+  font-size: 1.3rem; font-weight: 400; color: #666;
+  text-decoration: none; margin: 0.4rem 0;
+  transform: translateY(-10px);
+  transition: color 0.3s ease, transform 0.3s ease, opacity 0.3s ease;
+  opacity: 0;
+}
+.mobile-dd-sub.open a {
+  transform: translateY(0);
+  opacity: 1;
+}
+.mobile-dd-sub.open a:nth-child(1) { transition-delay: 0.05s; }
+.mobile-dd-sub.open a:nth-child(2) { transition-delay: 0.1s; }
+.mobile-dd-sub.open a:nth-child(3) { transition-delay: 0.15s; }
+.mobile-dd-sub.open a:nth-child(4) { transition-delay: 0.2s; }
+.mobile-dd-sub a:hover { color: #D9DD7E; }
+.mobile-menu .mobile-cta {
+  margin-top: 2rem; padding: 1rem 2.5rem; background: #D9DD7E;
+  color: #333; text-decoration: none; border-radius: 50px;
+  font-size: 1.1rem; font-weight: 500; opacity: 0;
+  transition: opacity 0.3s ease 0.45s;
+}
+.mobile-menu.open .mobile-cta { opacity: 1; }
+.mobile-menu .mobile-phone {
+  position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+  font-size: 1rem; color: #333; text-decoration: none; opacity: 0;
+  transition: opacity 0.3s ease 0.5s, color 0.3s ease;
+}
+.mobile-menu.open .mobile-phone { opacity: 1; }
+.mobile-menu .mobile-phone:hover { color: #D9DD7E; }
+
+@media screen and (max-width: 991px) {
+  .navbar-2 { display: none !important; }
+  .custom-dropdown-panel { display: none !important; }
+  .burger-btn { display: flex; align-items: center; justify-content: center; }
+}
+@media screen and (max-width: 767px) {
+  .mobile-menu .mobile-link { font-size: 1.5rem; }
+  .mobile-dd-toggle { font-size: 1.5rem; }
+  .mobile-dd-sub a { font-size: 1.1rem; }
+  .mobile-menu .mobile-logo { height: 60px; }
+}
+@media screen and (max-width: 479px) {
+  .mobile-menu .mobile-link { font-size: 1.3rem; }
+  .mobile-dd-toggle { font-size: 1.3rem; }
+  .mobile-dd-sub a { font-size: 1rem; }
+  .mobile-menu .mobile-logo { height: 50px; }
+}
+</style>
+<script src="assets/cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script><style>
+ @media screen and (max-width: 767px) {
+
+  /* Titre principal centré */
+  .section-values .heading-9 {
+    text-align: center;
+    width: 100%;
+    margin-bottom: 30px !important;
+  }
+
+  /* Tous les blocs en colonne — espacement interne réduit */
+  .div-content-values,
+  .div-content-values.inv {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 12px !important;
+    padding: 5vh 0 !important;
+    margin: 0 0 15px 0 !important;
+  }
+
+  /* Partie texte : toujours en haut */
+  .div-content-values-gauche,
+  .div-content-values-gauche._01,
+  .div-content-values-gauche.inv {
+    order: 1 !important;
+    width: 80vw !important;
+    max-width: 80vw !important;
+    min-width: unset !important;
+    text-align: center !important;
+    padding: 0 !important;
+    margin: 0 auto !important;
+  }
+
+  /* Partie image : toujours en bas */
+  .div-content-values-droite {
+    order: 2 !important;
+    width: auto !important;
+    max-width: 80vw !important;
+    min-width: unset !important;
+    min-height: unset !important;
+    height: auto !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 0 !important;
+    margin: 0 auto !important;
+  }
+
+  /* Images SVG */
+  .div-content-values-droite img {
+    width: 150px !important;
+    max-width: 150px !important;
+    height: auto !important;
+    object-fit: contain !important;
+  }
+
+  /* Tous les H3 identiques */
+  .heading-10,
+  .heading-10._01,
+  .heading-10.inv {
+    text-align: center !important;
+    width: 100% !important;
+    font-size: 22px !important;
+    line-height: 1.3 !important;
+    margin: 0 0 8px 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Paragraphes */
+  .paragraph-3,
+  .paragraph-3._01,
+  .paragraph-3._0,
+  .paragraph-3.inv {
+    text-align: center !important;
+    width: 100% !important;
+    max-width: 80vw !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+  }
+}
+
+
+@media (max-width: 767px) {
+  .hero-section.about .image-18 {
+    display: none;
+  }
+}
+
+</style><style>.w-webflow-badge{display:none!important}</style>
+  <link rel="stylesheet" href="mpp/overrides.css">
+</head><body><div class="page-wrapper"><div data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navbar-2 w-nav"><div class="container w-container"><div class="navbar-gauche"><img src="assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/697999635820c3472029c0ec_logo.png" loading="lazy" sizes="100vw" srcset="assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/697999635820c3472029c0ec_logo-p-500.png 500w, assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/697999635820c3472029c0ec_logo-p-800.png 800w, assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/697999635820c3472029c0ec_logo-p-1080.png 1080w, assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/697999635820c3472029c0ec_logo.png 1536w" alt="" class="image-4"/><a href="https://mes-premier-pas.webflow.io//home" data-text="Nos valeurs" class="link">Acceuil</a><a href="/" data-text="Nos valeurs" class="link">Nos crèches</a><a href="/about" data-text="Nos valeurs" aria-current="page" class="link w--current">Nos valeurs</a><a href="/journee-type" data-text="Journée type" class="link">Journée type</a><a href="#" data-text="Recrutement" class="link">Recrutement</a></div><div class="navbar-droite"><div class="text-block"><a href="tel:+33450839994" class="link-2">+33 4 50 83 99 94</a></div><a href="https://www.labulledespetitspas.com/_files/ugd/2ab568_b72a1b0fc9e649818590a7ef41905c2d.pdf" class="button type1 pre-inscription w-button">Pré-inscription</a></div></div></div><section class="hero-section about"><h1 class="heading-8">à propos de nous</h1><img src="assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/69c68bdbd3cc99b37de7d69b_St%20ju%20promenade.JPG" loading="lazy" sizes="(max-width: 1200px) 100vw, 1200px" srcset="assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/69c68bdbd3cc99b37de7d69b_St%20ju%20promenade-p-500.jpg 500w, assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/69c68bdbd3cc99b37de7d69b_St%20ju%20promenade-p-800.jpg 800w, assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/69c68bdbd3cc99b37de7d69b_St%20ju%20promenade-p-1080.jpg 1080w, assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/69c68bdbd3cc99b37de7d69b_St%20ju%20promenade.JPG 1200w" alt="" class="image-16"/><img src="assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/69c68ca423d52c57a626db04_Vector.svg" loading="lazy" alt="" class="image-17"/><img src="assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/69c68c0f4c8240d7115c60bc_Vers%20poule.JPG" loading="lazy" sizes="(max-width: 1600px) 100vw, 1600px" srcset="assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/69c68c0f4c8240d7115c60bc_Vers%20poule-p-500.jpg 500w, assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/69c68c0f4c8240d7115c60bc_Vers%20poule-p-800.jpg 800w, assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/69c68c0f4c8240d7115c60bc_Vers%20poule-p-1080.jpg 1080w, assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/69c68c0f4c8240d7115c60bc_Vers%20poule.JPG 1600w" alt="" class="image-18"/></section><section class="section-values"><h1 class="heading-9">Nos valeurs</h1><div class="div-content-values"><div class="div-content-values-gauche _01"><h3 class="heading-10 _01">L’enfant au coeur de priorité</h3><p class="paragraph-3 _01">Dans nos établissements, ce n&#x27;est pas à l&#x27;enfant de s&#x27;adapter à l&#x27;adulte et à ses contraintes, mais aux adultes de tout mettre en oeuvre pour soutenir le développement de chaque enfant.</p></div><div class="div-content-values-droite"><img src="assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/69c68f0100d6952e32d51c41_Vector.svg" loading="lazy" alt=""/></div></div><div class="div-content-values inv"><div class="div-content-values-droite"><img src="assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/69c68f017be6bec9536b3b14_Group%2017.svg" loading="lazy" alt=""/></div><div class="div-content-values-gauche inv"><h3 class="heading-10 inv">Le respect de l’être humain</h3><p class="paragraph-3 inv">Chez Mes Premiers Pas, nous souhaitons profondément respecter l&#x27;être humain. En effet, chaque personne (familles, professionnels de terrain et professionnels de bureau, intervenants, partenaires...) ont leur propre histoire et perception du monde.</p></div></div><div class="div-content-values"><div class="div-content-values-gauche _01"><h3 class="heading-10 _01">Communication</h3><p class="paragraph-3 _0">Nous souhaitons mettre au coeur de chaque relations humaines une communication positive, bienveillante et transparente. Effectivement, nous souhaitons des relations fluides pour le bien être de tous.</p></div><div class="div-content-values-droite"><img src="assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/69c68f013f91f95491226060_Group%2018.svg" loading="lazy" alt=""/></div></div><div class="div-content-values inv"><div class="div-content-values-droite"><img src="assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/69c68f012406bb20ad962bd1_Group%2019.svg" loading="lazy" alt=""/></div><div class="div-content-values-gauche inv"><h3 class="heading-10 inv">La bienveillance</h3><p class="paragraph-3 inv">Nous souhaitons mettre au coeur de chaque relations humaines une communication positive, bienveillante et transparente. Effectivement, nous souhaitons des relations fluides pour le bien être de tous.La bienveillance peut être définie comme &quot;La qualité d&#x27;une volonté qui vise le bien et le bonheur d&#x27;autrui&quot;. Ainsi, chez Mes Premiers Pas, notre volonté est de viser le bien pour le bonheur des enfants, parents et collaborateurs.</p></div></div><div class="div-content-values"><div class="div-content-values-gauche _01"><h3 class="heading-10 _01">Le respect de l’environnment</h3><p class="paragraph-3 _0">Nous souhaitons respecter l&#x27;environnement dans nos pratiques. Par exemple, nos surchaussures, nos charlottes, nos masques sont réutilisables et lavables. Nous utilisons également la vapeur et le vinaigre pour nettoyer et désinfecter.</p></div><div class="div-content-values-droite"><img src="assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/69c68f01c0870e10f53cb4d3_Group%2020.svg" loading="lazy" alt=""/></div></div></section><section class="section-projet-pedagogique"><div class="code-embed w-embed w-script"><!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Fuzzy+Bubbles&family=Nunito:wght@400;600;700&family=Raleway:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    overflow-x: hidden;
+  }
+
+  html {
+    overflow-x: hidden;
+  }
+
+  #team-section {
+    display: flex;
+    height: 90vh;
+    background: #e8a248;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* LEFT SIDE — fixed title on top, scrollable content below */
+  .text-side {
+    flex: 0 0 50%;
+    display: flex;
+    flex-direction: column;
+    background: #e8a248;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .title-area {
+    flex-shrink: 0;
+    padding: 50px 60px 30px 60px;
+  }
+
+  .section-title {
+    font-size: 52px;
+    font-weight: 400;
+    color: #2A3444;
+    margin: 0;
+    font-family: 'Fuzzy Bubbles', cursive;
+    font-style: italic;
+  }
+
+  .content-area {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 60px 60px 60px;
+  }
+
+  #dynamic-text {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  #description {
+    font-size: 18px;
+    line-height: 1.85;
+    color: #2A3444;
+    margin: 0;
+    font-family: 'Nunito', sans-serif;
+    max-width: 500px;
+  }
+
+  #description .desc-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 14px;
+    color: #2A3444;
+    font-family: 'Nunito', sans-serif;
+  }
+
+  #description .desc-intro {
+    margin-bottom: 18px;
+  }
+
+  #description ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  #description ul li {
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 14px;
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  #description ul li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: #2A3444;
+    font-weight: 700;
+  }
+
+  #description ul li strong {
+    font-weight: 700;
+  }
+
+  /* RIGHT SIDE */
+  .carousel-side {
+    flex: 0 0 50%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: #e8a248;
+  }
+
+  /* NAV BAR */
+  .nav-bar {
+    display: flex;
+    width: 100%;
+    height: 52px;
+    background: #e8a248;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 10;
+  }
+
+  .nav-tab {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-family: 'Nunito', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.45);
+    transition: all 0.4s ease;
+    position: relative;
+    padding: 0 16px;
+  }
+
+  .nav-tab.active {
+    color: rgba(255, 255, 255, 1);
+  }
+
+  .nav-tab:hover {
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .nav-tab .arrow {
+    display: inline-flex;
+    font-size: 18px;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    line-height: 1;
+  }
+
+  .nav-tab:first-child .arrow {
+    transform: scaleX(-1);
+  }
+
+  .nav-tab:last-child .arrow {
+    transform: scaleX(1);
+  }
+
+  /* Active indicator line */
+  .nav-indicator {
+    position: absolute;
+    bottom: 0;
+    height: 3px;
+    background: white;
+    transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1), width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 3px 3px 0 0;
+  }
+
+  /* CAROUSEL */
+  #carousel-container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  #carousel {
+    display: flex;
+    height: 100%;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .slide {
+    flex: 0 0 100%;
+    height: 100%;
+    cursor: pointer;
+  }
+
+  .slide-image {
+    width: 100%;
+    height: 100%;
+    background: #E5E0D8;
+    position: relative;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center center;
+  }
+
+  /* MOBILE */
+  @media (max-width: 1024px) {
+    #team-section {
+      flex-direction: column;
+      height: auto;
+    }
+
+    .text-side {
+      flex: none;
+      min-height: auto;
+    }
+
+    .title-area {
+      padding: 30px 30px 15px 30px;
+    }
+
+    .content-area {
+      display: none;
+    }
+
+    .section-title {
+      font-size: 38px;
+    }
+
+    .carousel-side {
+      flex: none;
+      height: 65vh;
+    }
+
+    .nav-tab {
+      font-size: 13px;
+      padding: 0 10px;
+    }
+
+    .btn-voir-desc-mobile {
+      display: block;
+    }
+  }
+
+  @media (min-width: 1025px) {
+    .btn-voir-desc-mobile {
+      display: none;
+    }
+  }
+
+  /* DESKTOP NORMAL */
+  @media (min-width: 1025px) and (max-width: 1599px) {
+    .title-area {
+      padding: 40px 50px 25px 50px;
+    }
+
+    .content-area {
+      padding: 0 50px 60px 50px;
+    }
+
+    .section-title {
+      font-size: 46px;
+    }
+
+    #description {
+      font-size: 16px;
+      max-width: 450px;
+    }
+
+    #description ul li {
+      font-size: 15px;
+    }
+  }
+
+  /* GRAND ÉCRAN */
+  @media (min-width: 1600px) {
+    #description {
+      max-width: 550px;
+    }
+  }
+
+  /* Mobile modal */
+  #modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    pointer-events: none;
+    transition: background 0.4s ease;
+  }
+
+  #modal-overlay.active {
+    background: rgba(0,0,0,0.5);
+    pointer-events: auto;
+  }
+
+  #modal-content {
+    background: #e8a248;
+    border-radius: 16px;
+    padding: 30px;
+    max-width: 420px;
+    width: calc(100% - 40px);
+    max-height: 80vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: relative;
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  #modal-overlay.active #modal-content {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  #modal-content .desc-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 14px;
+    color: #2A3444;
+    font-family: 'Nunito', sans-serif;
+  }
+
+  #modal-content .desc-intro {
+    font-size: 15px;
+    line-height: 1.8;
+    color: #2A3444;
+    font-family: 'Nunito', sans-serif;
+    margin-bottom: 16px;
+  }
+
+  #modal-content ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  #modal-content ul li {
+    position: relative;
+    padding-left: 18px;
+    margin-bottom: 12px;
+    font-size: 14px;
+    line-height: 1.7;
+    color: #2A3444;
+    font-family: 'Nunito', sans-serif;
+  }
+
+  #modal-content ul li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-weight: 700;
+  }
+
+  #modal-content ul li strong {
+    font-weight: 700;
+  }
+
+  #modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.5);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: #2A3444;
+    transition: all 0.3s ease;
+  }
+
+  #modal-close:hover {
+    background: rgba(255,255,255,0.8);
+    transform: scale(1.1);
+  }
+
+  /* Mobile button */
+  @media (max-width: 1024px) {
+    .mobile-btn-container {
+      display: flex;
+      justify-content: center;
+      padding: 16px;
+      background: #e8a248;
+    }
+
+    .btn-voir-desc {
+      display: inline-block;
+      padding: 10px 24px;
+      background: #d4912e;
+      color: #2A3444;
+      border: none;
+      border-radius: 25px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-voir-desc:hover {
+      background: #c4811e;
+    }
+  }
+
+  @media (min-width: 1025px) {
+    .mobile-btn-container {
+      display: none;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div id="team-section">
+
+  <!-- TEXTE À GAUCHE -->
+  <div class="text-side">
+    <div class="title-area">
+      <h2 class="section-title">Le projet d'établissement</h2>
+    </div>
+    <div class="content-area">
+      <div id="dynamic-text">
+        <div id="description"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CAROUSEL À DROITE -->
+  <div class="carousel-side">
+
+    <!-- Barre de navigation -->
+    <div class="nav-bar" id="nav-bar">
+      <button class="nav-tab active" data-index="0">
+        <span class="arrow">›</span>
+        <span class="label">Principes de base</span>
+      </button>
+      <button class="nav-tab" data-index="1">
+        <span class="label">L'aménagement de l'espace</span>
+        <span class="arrow">›</span>
+      </button>
+      <div class="nav-indicator" id="nav-indicator"></div>
+    </div>
+
+    <div id="carousel-container">
+      <div id="carousel">
+        <div class="slide" data-index="0">
+          <div class="slide-image" style="background-image: url('assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/69bbd11893e81e4148aeec6e_bg-image-2.jpg');"></div>
+        </div>
+        <div class="slide" data-index="1">
+          <div class="slide-image" style="background-image: url('assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/69bbf88b39255fdef8e07968_Vers.jpg');"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Mobile: bouton voir description -->
+<div class="mobile-btn-container">
+  <button class="btn-voir-desc" id="btn-mobile-desc">Voir le détail</button>
+</div>
+
+<!-- Modal mobile -->
+<div id="modal-overlay">
+  <div id="modal-content">
+    <button id="modal-close">×</button>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<script>
+const slideData = [
+  {
+    title: "Principes de base",
+    intro: "L'idée majeure du projet d'établissement, est l'adhésion de chacun autour d'un projet commun.\n\nDans cette idée, nous souhaitons :",
+    points: [
+      { bold: "Intergénération", text: " : nous souhaitons mettre au cœur de nos pratiques des activités intergénérationnelles (lien avec des EHPAD, des clubs du 3ème âge, etc)." },
+      { bold: "Faire participer les parents à la vie de la crèche", text: " : Décoration d'objets pour la crèche, ateliers autour de la parentalité..." },
+      { bold: "Être ancré dans chaque localité", text: " : intergénération, bibliothèques municipales, écoles maternelles..." },
+      { bold: "Documenter la vie de la crèche", text: " : photos, exposition des œuvres d'arts des enfants, citations des enfants, blog et page facebook..." },
+      { bold: "Améliorer continuellement notre pratique", text: " : nous souhaitons également nous documenter régulièrement : livres, articles..." }
+    ]
+  },
+  {
+    title: "L'aménagement de l'espace",
+    intro: "Chaque crèche est composée des divers espaces suivants, permettant le développement et l'éveil des enfants.",
+    points: [
+      { bold: "Une salle de vie avec motricité et jeux libre", text: " : Chez Mes Premiers Pas, nous pensons qu'un enfant libre de ses jeux et de sa motricité est un enfant acteur de sa journée et plus globalement de son développement." },
+      { bold: "Des espaces dédiés à la nature", text: " : Dans la même dynamique que notre volonté de respecter l'environnement, nous souhaitons que les enfants soient proches de la nature en leur proposant régulièrement de sortir, et nous souhaitons également leur proposer des activités en lien avec la nature (potager par exemple)." },
+      { bold: "Des espaces dédiés à la création", text: " : Nous souhaitons, avec des objets de récupération par les familles ou les collaborateurs, avoir des espaces pour créer de nouveaux objets destinés à la décoration ou aux activités." },
+      { bold: "Des espaces dédiés à l'imagination", text: " : Chez Mes Premiers Pas, nous affectionnons particulièrement lire des histoires. Lire des histoires est essentiel pour développer l'imagination chez les plus petits." },
+      { bold: "Des espaces dédiés à la détente", text: " : Entre les moments forts des petits, il est important de prendre le temps d'avoir des moments cocooning et de détente pour calmer l'excitation et rythmer la journée." },
+      { bold: "Des espaces dédiés à la communication", text: " : En lien avec notre valeur de communication, nous souhaitons dédier des espaces pour favoriser une communication positive et non violente." }
+    ]
+  }
+];
+
+let currentIndex = 0;
+
+const carousel = document.getElementById('carousel');
+const descriptionEl = document.getElementById('description');
+const dynamicText = document.getElementById('dynamic-text');
+const navBar = document.getElementById('nav-bar');
+const navIndicator = document.getElementById('nav-indicator');
+const tabs = document.querySelectorAll('.nav-tab');
+const modalOverlay = document.getElementById('modal-overlay');
+const modalBody = document.getElementById('modal-body');
+const modalClose = document.getElementById('modal-close');
+const btnMobileDesc = document.getElementById('btn-mobile-desc');
+const contentArea = document.querySelector('.content-area');
+
+function buildDescHTML(data) {
+  let html = `<div class="desc-title">${data.title}</div>`;
+  html += `<div class="desc-intro">${data.intro.replace(/\n/g, '<br>')}</div>`;
+  html += '<ul>';
+  data.points.forEach(p => {
+    html += `<li><strong>${p.bold}</strong>${p.text}</li>`;
+  });
+  html += '</ul>';
+  return html;
+}
+
+function updateIndicator() {
+  const activeTab = tabs[currentIndex];
+  if (activeTab && navBar) {
+    const barRect = navBar.getBoundingClientRect();
+    const tabRect = activeTab.getBoundingClientRect();
+    navIndicator.style.left = (tabRect.left - barRect.left) + 'px';
+    navIndicator.style.width = tabRect.width + 'px';
+  }
+}
+
+function goToSlide(index, animate = true) {
+  currentIndex = index;
+
+  if (animate) {
+    carousel.style.transition = 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+  } else {
+    carousel.style.transition = 'none';
+  }
+  carousel.style.transform = `translateX(-${index * 100}%)`;
+
+  tabs.forEach((tab, i) => {
+    tab.classList.toggle('active', i === index);
+  });
+
+  updateIndicator();
+
+  // Update description (desktop)
+  dynamicText.style.opacity = '0';
+  dynamicText.style.transform = 'translateY(10px)';
+
+  // Scroll content back to top
+  if (contentArea) contentArea.scrollTop = 0;
+
+  setTimeout(() => {
+    descriptionEl.innerHTML = buildDescHTML(slideData[index]);
+    dynamicText.style.opacity = '1';
+    dynamicText.style.transform = 'translateY(0)';
+  }, 250);
+}
+
+// Tab clicks
+tabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    const idx = parseInt(tab.dataset.index);
+    goToSlide(idx);
+  });
+});
+
+// Slide clicks
+carousel.addEventListener('click', () => {
+  goToSlide(currentIndex === 0 ? 1 : 0);
+});
+
+// Mobile button
+if (btnMobileDesc) {
+  btnMobileDesc.addEventListener('click', () => {
+    modalBody.innerHTML = buildDescHTML(slideData[currentIndex]);
+    modalOverlay.classList.add('active');
+  });
+}
+
+// Close modal
+modalClose.addEventListener('click', () => {
+  modalOverlay.classList.remove('active');
+});
+
+modalOverlay.addEventListener('click', (e) => {
+  if (e.target === modalOverlay) {
+    modalOverlay.classList.remove('active');
+  }
+});
+
+// Resize
+window.addEventListener('resize', () => {
+  updateIndicator();
+});
+
+// Init
+goToSlide(0, false);
+requestAnimationFrame(() => {
+  updateIndicator();
+});
+</script>
+  <script src="mpp/overrides.js"></script><script src="mpp/icones.js"></script>
+</body>
+</html></div></section><section class="footer-section"><div class="footer-section-wrapper"><div class="code-embed-2 w-embed w-script"><!-- EMBED FOOTER PHYSICS - Coller dans un Embed Webflow à l'intérieur de ta section footer -->
+
+<style>
+.footer-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.photo-deco {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+[class*="Image-bg-footer-"] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  will-change: transform;
+  transform-origin: center center;
+  pointer-events: auto;
+  user-select: none;
+  -webkit-user-drag: none;
+  opacity: 0.3;
+}
+
+/* Desktop */
+.Image-bg-footer-01 { width: 160px; height: 160px; }
+.Image-bg-footer-02 { width: 140px; height: 140px; }
+.Image-bg-footer-03 { width: 180px; height: 180px; }
+.Image-bg-footer-04 { width: 150px; height: 150px; }
+.Image-bg-footer-05 { width: 170px; height: 170px; }
+.Image-bg-footer-06 { width: 155px; height: 155px; }
+.Image-bg-footer-07 { width: 165px; height: 165px; }
+.Image-bg-footer-08 { width: 160px; height: 160px; }
+.Image-bg-footer-09 { width: 150px; height: 150px; }
+.Image-bg-footer-10 { width: 180px; height: 180px; }
+
+/* Tablette */
+@media (max-width: 991px) {
+  .Image-bg-footer-01 { width: 120px; height: 120px; }
+  .Image-bg-footer-02 { width: 105px; height: 105px; }
+  .Image-bg-footer-03 { width: 135px; height: 135px; }
+  .Image-bg-footer-04 { width: 112px; height: 112px; }
+  .Image-bg-footer-05 { width: 127px; height: 127px; }
+  .Image-bg-footer-06 { width: 116px; height: 116px; }
+  .Image-bg-footer-07 { width: 124px; height: 124px; }
+  .Image-bg-footer-08 { width: 120px; height: 120px; }
+  .Image-bg-footer-09 { width: 112px; height: 112px; }
+  .Image-bg-footer-10 { width: 135px; height: 135px; }
+}
+
+/* Mobile paysage */
+@media (max-width: 767px) {
+  .Image-bg-footer-01 { width: 95px; height: 95px; }
+  .Image-bg-footer-02 { width: 85px; height: 85px; }
+  .Image-bg-footer-03 { width: 105px; height: 105px; }
+  .Image-bg-footer-04 { width: 90px; height: 90px; }
+  .Image-bg-footer-05 { width: 100px; height: 100px; }
+  .Image-bg-footer-06 { width: 92px; height: 92px; }
+  .Image-bg-footer-07 { width: 98px; height: 98px; }
+  .Image-bg-footer-08 { width: 95px; height: 95px; }
+  .Image-bg-footer-09 { width: 90px; height: 90px; }
+  .Image-bg-footer-10 { width: 105px; height: 105px; }
+}
+
+/* Mobile portrait */
+@media (max-width: 479px) {
+  .Image-bg-footer-01 { width: 70px; height: 70px; }
+  .Image-bg-footer-02 { width: 60px; height: 60px; }
+  .Image-bg-footer-03 { width: 80px; height: 80px; }
+  .Image-bg-footer-04 { width: 65px; height: 65px; }
+  .Image-bg-footer-05 { width: 75px; height: 75px; }
+  .Image-bg-footer-06 { width: 68px; height: 68px; }
+  .Image-bg-footer-07 { width: 72px; height: 72px; }
+  .Image-bg-footer-08 { width: 70px; height: 70px; }
+  .Image-bg-footer-09 { width: 65px; height: 65px; }
+  .Image-bg-footer-10 { width: 80px; height: 80px; }
+}
+</style>
+
+<div class="photo-deco">
+  <img class="Image-bg-footer-01" src="assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/69c1557141536e17ad05b025_sticker_19.svg" alt="">
+  <img class="Image-bg-footer-02" src="assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/69c155716cfbb1692619c696_sticker_08.svg" alt="">
+  <img class="Image-bg-footer-03" src="assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/69c155718348a1b5b04fe647_sticker_18.svg" alt="">
+  <img class="Image-bg-footer-04" src="assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/69c15571e761ada20645438e_sticker_09.svg" alt="">
+  <img class="Image-bg-footer-05" src="assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/69c155719fab445a3b6a2e2c_sticker_05.svg" alt="">
+  <img class="Image-bg-footer-06" src="assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/69c155715d9c95716b8137de_sticker_02.svg" alt="">
+  <img class="Image-bg-footer-07" src="assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/69c155722ab4431e573bfe32_sticker_17.svg" alt="">
+</div>
+
+<script src="assets/cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+<script>
+(function() {
+  const container = document.querySelector('.footer-section');
+  if (!container) return;
+
+  let animationStarted = false;
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !animationStarted) {
+        animationStarted = true;
+        startPhysics();
+        observer.disconnect();
+      }
+    });
+  }, { threshold: 0.2 });
+
+  observer.observe(container);
+
+  function startPhysics() {
+    if (typeof Matter === 'undefined') return;
+
+    const { Engine, Bodies, Composite, Body } = Matter;
+    
+    let W = container.offsetWidth;
+    let H = container.offsetHeight;
+
+    const engine = Engine.create();
+    engine.world.gravity.y = 0;
+    engine.world.gravity.x = 0;
+
+    const wallThickness = 100;
+    let walls = [
+      Bodies.rectangle(W/2, H + wallThickness/2, W + 200, wallThickness, { isStatic: true }),
+      Bodies.rectangle(W/2, -wallThickness/2, W + 200, wallThickness, { isStatic: true }),
+      Bodies.rectangle(-wallThickness/2, H/2, wallThickness, H + 200, { isStatic: true }),
+      Bodies.rectangle(W + wallThickness/2, H/2, wallThickness, H + 200, { isStatic: true })
+    ];
+    Composite.add(engine.world, walls);
+
+    const stickers = document.querySelectorAll('[class*="Image-bg-footer-"]');
+    const bodies = [];
+
+    stickers.forEach((img, index) => {
+      const size = Math.max(img.offsetWidth, img.offsetHeight) || 160;
+      const radius = size / 2;
+      
+      const x = 100 + Math.random() * (W - 200);
+      const y = 100 + Math.random() * (H - 200);
+
+      const body = Bodies.circle(x, y, radius, {
+        restitution: 0.5,
+        friction: 0.01,
+        frictionAir: 0.015,
+        density: 0.0003
+      });
+
+      Body.setAngularVelocity(body, (Math.random() - 0.5) * 0.02);
+      Body.setVelocity(body, { 
+        x: (Math.random() - 0.5) * 1, 
+        y: (Math.random() - 0.5) * 1 
+      });
+
+      bodies.push({ body, element: img, radius });
+      Composite.add(engine.world, body);
+    });
+
+    let mousePos = { x: W/2, y: H/2 };
+    let lastMousePos = { x: W/2, y: H/2 };
+    let mouseVelocity = { x: 0, y: 0 };
+    
+    function updateMouseVelocity(newX, newY) {
+      mouseVelocity.x = (newX - lastMousePos.x) * 0.3;
+      mouseVelocity.y = (newY - lastMousePos.y) * 0.3;
+      lastMousePos.x = mousePos.x;
+      lastMousePos.y = mousePos.y;
+      mousePos.x = newX;
+      mousePos.y = newY;
+    }
+
+    function applyWaterCurrent() {
+      const currentStrength = Math.sqrt(mouseVelocity.x ** 2 + mouseVelocity.y ** 2);
+      
+      if (currentStrength > 0.5) {
+        bodies.forEach(({ body }) => {
+          const dx = body.position.x - mousePos.x;
+          const dy = body.position.y - mousePos.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          
+          const influenceRadius = 300;
+          
+          if (dist < influenceRadius) {
+            const influence = (1 - dist / influenceRadius) * 0.0004;
+            
+            Body.applyForce(body, body.position, {
+              x: mouseVelocity.x * influence,
+              y: mouseVelocity.y * influence
+            });
+            
+            Body.setAngularVelocity(body, body.angularVelocity + mouseVelocity.x * 0.0001);
+          }
+        });
+      }
+      
+      mouseVelocity.x *= 0.95;
+      mouseVelocity.y *= 0.95;
+    }
+
+    container.addEventListener('mousemove', (e) => {
+      const rect = container.getBoundingClientRect();
+      updateMouseVelocity(e.clientX - rect.left, e.clientY - rect.top);
+    });
+
+    container.addEventListener('touchmove', (e) => {
+      const rect = container.getBoundingClientRect();
+      const touch = e.touches[0];
+      updateMouseVelocity(touch.clientX - rect.left, touch.clientY - rect.top);
+    });
+
+    function addFloatEffect() {
+      bodies.forEach(({ body }, index) => {
+        const time = Date.now() * 0.001;
+        const offsetX = Math.sin(time * 0.5 + index * 1.5) * 0.00002;
+        const offsetY = Math.cos(time * 0.4 + index * 1.2) * 0.00002;
+        
+        Body.applyForce(body, body.position, {
+          x: offsetX,
+          y: offsetY
+        });
+        
+        const rotationForce = Math.sin(time * 0.3 + index) * 0.0001;
+        Body.setAngularVelocity(body, body.angularVelocity * 0.99 + rotationForce);
+      });
+    }
+
+    function update() {
+      Engine.update(engine, 1000/60);
+      applyWaterCurrent();
+      addFloatEffect();
+      
+      bodies.forEach(({ body, element, radius }) => {
+        const x = body.position.x - radius;
+        const y = body.position.y - radius;
+        const angle = body.angle * (180 / Math.PI);
+        element.style.transform = `translate(${x}px, ${y}px) rotate(${angle}deg)`;
+      });
+      
+      requestAnimationFrame(update);
+    }
+    
+    update();
+
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        const oldW = W, oldH = H;
+        W = container.offsetWidth;
+        H = container.offsetHeight;
+        
+        walls.forEach(wall => Composite.remove(engine.world, wall));
+        walls = [
+          Bodies.rectangle(W/2, H + wallThickness/2, W + 200, wallThickness, { isStatic: true }),
+          Bodies.rectangle(W/2, -wallThickness/2, W + 200, wallThickness, { isStatic: true }),
+          Bodies.rectangle(-wallThickness/2, H/2, wallThickness, H + 200, { isStatic: true }),
+          Bodies.rectangle(W + wallThickness/2, H/2, wallThickness, H + 200, { isStatic: true })
+        ];
+        Composite.add(engine.world, walls);
+        
+        // Mettre à jour les rayons des corps physiques selon la nouvelle taille CSS
+        bodies.forEach(({ body, element }) => {
+          const newSize = Math.max(element.offsetWidth, element.offsetHeight);
+          const newRadius = newSize / 2;
+          const scale = newRadius / body.circleRadius;
+          
+          Body.scale(body, scale, scale);
+          
+          Body.setPosition(body, {
+            x: Math.min(Math.max(body.position.x * (W/oldW), newRadius + 10), W - newRadius - 10),
+            y: Math.min(Math.max(body.position.y * (H/oldH), newRadius + 10), H - newRadius - 10)
+          });
+        });
+      }, 100);
+    });
+  }
+})();
+</script></div><div class="content-footer"><div class="infos-reseaux"><h3 class="heading-5">Rejoignez-nous !</h3><div class="div-res"><a href="https://www.instagram.com/mes_premierspas/" target="_blank" class="reseaux insta w-inline-block"><img loading="lazy" src="assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/69bae785cae20954f649a8f2_instagram-svgrepo-com.svg" alt=""/></a><a href="https://www.facebook.com/mes.premierpas.52/about?locale=fr_FR" target="_blank" class="reseaux w-inline-block"><img loading="lazy" src="assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/69bae785e7300c3a5e573b81_facebook-svgrepo-com%20(1).svg" alt="" class="image-14"/></a></div></div><div class="separateur"></div><div class="contact"><h3 class="heading-6">Contact</h3><div class="rich-text-block w-richtext"><blockquote class="block-quote"><a href="https://www.mespremierspas.net/" class="link-3">info.mespremierspas@gmail.com</a></blockquote><blockquote class="paragraph">Vers : 04 50 16 19 29</blockquote><blockquote class="paragraph-2">Valleiry (siège social) : 04 50 83 99 94</blockquote><p>‍</p></div></div></div><div class="informations-complementaire"><div class="ff-footer">310 Rue du Riondet, 74520 Valleiry, France</div><div class="ff-footer">© Mes premier pas 2026</div><div class="ff-footer">Site Designé par Brian Robert</div></div></div></section></div><script src="assets/d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=6976e155d54ea0f654b007b1" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script><script src="assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/js/webflow.schunk.393b714c35c62e6b.js" type="text/javascript" integrity="sha384-x0A60RRiTmePcmSrFkzEzmqkxHSAlHdtvbT8T774orJNsVh3uSj81FqWtuSgybAO" crossorigin="anonymous"></script><script src="assets/cdn.prod.website-files.com/6976e155d54ea0f654b007b1/js/webflow.c9f80112.8f14fdb118ccbbf5.js" type="text/javascript" integrity="sha384-WlIJLyenOi6xnQwHim5ODi/TZfOy3WL21LP6qlYJhmSi/lzWVVvGH+0HTc8Bd+b2" crossorigin="anonymous"></script><script>
+document.addEventListener('DOMContentLoaded', function() {
+
+  var navbar = document.querySelector('.navbar-2');
+  if (!navbar) return;
+
+  // ================================
+  // CRÈCHES - URLs
+  // ================================
+  var creches = [
+    { text: 'Vers 1 Océan',        href: '/nos-creche-vers-ocean' },
+    { text: 'Vers Forêt',          href: '/nos-creche-vers-foret' },
+    { text: 'Valleiry Montagne',   href: '/nos-creche-valleiry-montagne' },
+    { text: 'Saint-Julien Savane', href: '/nos-creche-saint-julien-savane' }
+  ];
+
+  // ================================
+  // 1. LOGO → <a href="/">
+  // ================================
+  var logoImg = navbar.querySelector('.image-4');
+  if (logoImg && !logoImg.closest('a')) {
+    var logoLink = document.createElement('a');
+    logoLink.href = '/';
+    logoImg.parentElement.insertBefore(logoLink, logoImg);
+    logoLink.appendChild(logoImg);
+  }
+
+  // ================================
+  // 2. SAUVEGARDER les href originaux
+  //    AVANT toute manipulation
+  // ================================
+  var allLinks = navbar.querySelectorAll('.navbar-gauche .link');
+  var linkData = [];
+
+  allLinks.forEach(function(link) {
+    linkData.push({
+      el: link,
+      text: link.textContent.trim(),
+      href: link.getAttribute('href') || '#'
+    });
+  });
+
+  // ================================
+  // 3. TROUVER le lien "Nos crèches"
+  //    et y attacher le dropdown
+  // ================================
+  var ddLink = null;
+  var panelEl = null;
+
+  linkData.forEach(function(data) {
+    if (data.text.toLowerCase().indexOf('nos crèche') === 0 ||
+        data.text.toLowerCase().indexOf('nos creche') === 0) {
+      ddLink = data.el;
+    }
+  });
+
+  if (ddLink) {
+    // Empêcher la navigation UNIQUEMENT sur ce lien
+    ddLink.setAttribute('href', '#');
+    ddLink.classList.remove('w--current');
+
+    // Créer le panel
+    panelEl = document.createElement('div');
+    panelEl.className = 'custom-dropdown-panel';
+
+    creches.forEach(function(c) {
+      var a = document.createElement('a');
+      a.href = c.href;
+      a.textContent = c.text;
+      panelEl.appendChild(a);
+    });
+
+    document.body.appendChild(panelEl);
+
+    // Positionner centré sous le lien
+    function positionPanel() {
+      var linkRect = ddLink.getBoundingClientRect();
+      var panelWidth = panelEl.offsetWidth || 200;
+      var centerX = linkRect.left + (linkRect.width / 2) - (panelWidth / 2);
+      if (centerX < 0) centerX = 0;
+      panelEl.style.left = centerX + 'px';
+    }
+
+    // Toggle au clic
+    ddLink.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      positionPanel();
+      panelEl.classList.toggle('open');
+    });
+
+    // Fermer en cliquant ailleurs
+    document.addEventListener('click', function(e) {
+      if (!ddLink.contains(e.target) && !panelEl.contains(e.target)) {
+        panelEl.classList.remove('open');
+      }
+    });
+
+    // Fermer avec Escape
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') panelEl.classList.remove('open');
+    });
+
+    // Repositionner au resize
+    window.addEventListener('resize', function() {
+      if (panelEl.classList.contains('open')) positionPanel();
+    });
+  }
+
+  // ================================
+  // 4. ANIMATION ROLL sur les liens
+  //    SANS casser les href
+  // ================================
+  linkData.forEach(function(data) {
+    var link = data.el;
+    var text = data.text;
+
+    // Si c'est le dropdown, traiter séparément (texte + flèche)
+    if (link === ddLink) {
+      // Vider le contenu
+      link.innerHTML = '';
+      // Span pour le texte avec animation roll
+      var span = document.createElement('span');
+      span.className = 'link-text';
+      span.setAttribute('data-text', text);
+      span.textContent = text;
+      link.appendChild(span);
+      // Ajouter la flèche
+      var arrow = document.createElement('span');
+      arrow.className = 'dd-arrow';
+      arrow.textContent = ' ▾';
+      link.appendChild(arrow);
+    } else {
+      // Lien normal : animation roll
+      link.innerHTML = '';
+      var span = document.createElement('span');
+      span.className = 'link-text';
+      span.setAttribute('data-text', text);
+      span.textContent = text;
+      link.appendChild(span);
+    }
+  });
+
+  // ================================
+  // 5. RESTAURER les href originaux
+  //    (sauf le dropdown qui est déjà à #)
+  // ================================
+  linkData.forEach(function(data) {
+    if (data.el !== ddLink) {
+      data.el.setAttribute('href', data.href);
+    }
+  });
+
+  // ================================
+  // 6. FIX ACCUEIL : forcer href="/"
+  // ================================
+  linkData.forEach(function(data) {
+    if (data.text.toLowerCase().indexOf('accueil') >= 0 ||
+        data.text.toLowerCase().indexOf('acceuil') >= 0) {
+      data.el.setAttribute('href', '/');
+      data.el.addEventListener('click', function(e) {
+        // Ne pas bloquer si c'est un ctrl+click ou cmd+click
+        if (e.ctrlKey || e.metaKey) return;
+        e.preventDefault();
+        window.location.href = '/';
+      });
+    }
+  });
+
+  // ================================
+  // 7. TOGGLE NAVBAR
+  // ================================
+  var toggleBtn = document.createElement('button');
+  toggleBtn.className = 'navbar-toggle';
+  toggleBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none"><polyline points="6 15 12 9 18 15"></polyline></svg>';
+  navbar.appendChild(toggleBtn);
+
+  toggleBtn.addEventListener('click', function() {
+    navbar.classList.toggle('hidden');
+    toggleBtn.classList.toggle('flipped');
+    if (panelEl) panelEl.classList.remove('open');
+  });
+
+  var firstScroll = true;
+  window.addEventListener('scroll', function() {
+    if (firstScroll && navbar.classList.contains('loaded') && window.innerWidth > 991) {
+      navbar.classList.add('hidden');
+      toggleBtn.classList.add('flipped');
+      firstScroll = false;
+    }
+  }, { passive: true });
+
+  // ================================
+  // 8. BURGER MOBILE
+  // ================================
+  var logoSrc = navbar.querySelector('.image-4') ? navbar.querySelector('.image-4').src : '';
+  var ctaBtn = navbar.querySelector('.button.pre-inscription');
+  var phoneLink = navbar.querySelector('.link-2');
+
+  var ctaHref = ctaBtn ? ctaBtn.getAttribute('href') : '#';
+  var ctaText = ctaBtn ? ctaBtn.textContent.trim() : 'Pré-inscription';
+  var phoneHref = phoneLink ? phoneLink.getAttribute('href') : 'tel:+33450839994';
+  var phoneText = phoneLink ? phoneLink.textContent.trim() : '+33 4 50 83 99 94';
+
+  var burgerBtn = document.createElement('button');
+  burgerBtn.className = 'burger-btn';
+  burgerBtn.innerHTML = '<span></span><span></span><span></span>';
+  document.body.appendChild(burgerBtn);
+
+  var mobileMenu = document.createElement('div');
+  mobileMenu.className = 'mobile-menu';
+
+  var menuHTML = '<a href="/"><img src="' + logoSrc + '" alt="Logo" class="mobile-logo"></a>';
+
+  // Utiliser linkData pour garder les bons textes et href
+  linkData.forEach(function(data) {
+    var text = data.text.replace(' ▾', '');
+    var href = data.href;
+    if (text.toLowerCase().indexOf('nos crèche') === 0 ||
+        text.toLowerCase().indexOf('nos creche') === 0) {
+      menuHTML += '<button class="mobile-dd-toggle">Nos crèches <span class="mobile-dd-arrow">▾</span></button>';
+      menuHTML += '<div class="mobile-dd-sub">';
+      creches.forEach(function(c) {
+        menuHTML += '<a href="' + c.href + '">' + c.text + '</a>';
+      });
+      menuHTML += '</div>';
+    } else {
+      // Forcer href="/" pour Accueil
+      if (text.toLowerCase().indexOf('accueil') >= 0 ||
+          text.toLowerCase().indexOf('acceuil') >= 0) {
+        href = '/';
+      }
+      menuHTML += '<a href="' + href + '" class="mobile-link">' + text + '</a>';
+    }
+  });
+
+  menuHTML += '<a href="' + ctaHref + '" class="mobile-cta">' + ctaText + '</a>';
+  menuHTML += '<a href="' + phoneHref + '" class="mobile-phone">' + phoneText + '</a>';
+
+  mobileMenu.innerHTML = menuHTML;
+  document.body.appendChild(mobileMenu);
+
+  // Toggle du sous-menu "Nos crèches" mobile
+  var mobileDdBtn = mobileMenu.querySelector('.mobile-dd-toggle');
+  var mobileDdSub = mobileMenu.querySelector('.mobile-dd-sub');
+  if (mobileDdBtn && mobileDdSub) {
+    mobileDdBtn.addEventListener('click', function() {
+      mobileDdBtn.classList.toggle('active');
+      mobileDdSub.classList.toggle('open');
+    });
+  }
+
+  burgerBtn.addEventListener('click', function() {
+    burgerBtn.classList.toggle('active');
+    mobileMenu.classList.toggle('open');
+    document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+  });
+
+  mobileMenu.querySelectorAll('a').forEach(function(link) {
+    link.addEventListener('click', function() {
+      burgerBtn.classList.remove('active');
+      mobileMenu.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  });
+
+});
+
+function showNavbar(delay) {
+  var navbar = document.querySelector('.navbar-2');
+  if (navbar) {
+    setTimeout(function() {
+      document.body.classList.add('has-navbar');
+      navbar.classList.add('loaded');
+    }, delay || 0);
+  }
+}
+</script><script>
+document.addEventListener('DOMContentLoaded', () => {
+
+  // ========================================
+  // HERO SECTION — Apparition séquentielle fluide
+  // ========================================
+
+  const heroSection = document.querySelector('.hero-section.about');
+
+  if (heroSection) {
+    const heroTitle = heroSection.querySelector('.heading-8');
+    const img1 = heroSection.querySelector('.image-16');
+    const svgShape = heroSection.querySelector('.image-17');
+    const img2 = heroSection.querySelector('.image-18');
+
+    const allEls = [img1, svgShape, img2, heroTitle].filter(Boolean);
+
+    // Tout invisible au départ
+    allEls.forEach(el => {
+      el.style.opacity = '0';
+      el.style.willChange = 'opacity, transform';
+    });
+
+    // Configs par élément
+    const sequence = [
+      {
+        el: img1,
+        delay: 300,
+        duration: 900,
+        // Pas de transform sur les photos — fade pur
+      },
+      {
+        el: svgShape,
+        delay: 600,
+        duration: 700,
+        from: 'scale(0.5)',
+        to: 'scale(1)',
+      },
+      {
+        el: img2,
+        delay: 850,
+        duration: 900,
+        // Pas de transform — fade pur
+      },
+      {
+        el: heroTitle,
+        delay: 1150,
+        duration: 800,
+        from: 'translateY(20px)',
+        to: 'translateY(0)',
+      },
+    ];
+
+    // Applique les transforms initiaux uniquement si définis
+    sequence.forEach(cfg => {
+      if (cfg.el && cfg.from) {
+        cfg.el.style.transform = cfg.from;
+      }
+    });
+
+    // Lance la séquence
+    setTimeout(() => {
+      sequence.forEach(cfg => {
+        if (!cfg.el) return;
+        setTimeout(() => {
+          const props = cfg.from
+            ? `opacity ${cfg.duration}ms cubic-bezier(0.16, 1, 0.3, 1), transform ${cfg.duration}ms cubic-bezier(0.16, 1, 0.3, 1)`
+            : `opacity ${cfg.duration}ms cubic-bezier(0.16, 1, 0.3, 1)`;
+          cfg.el.style.transition = props;
+          cfg.el.style.opacity = '1';
+          if (cfg.to) cfg.el.style.transform = cfg.to;
+        }, cfg.delay);
+      });
+
+      if (typeof showNavbar === 'function') {
+        setTimeout(() => showNavbar(500), 1400);
+      }
+    }, 150);
+
+    // Nettoyage
+    setTimeout(() => {
+      allEls.forEach(el => { el.style.willChange = 'auto'; });
+    }, 2500);
+  }
+
+  // ========================================
+  // SECTION VALEURS — Animation au scroll
+  // ========================================
+
+  const valuesSection = document.querySelector('.section-values');
+
+  if (valuesSection) {
+    const valuesTitle = valuesSection.querySelector('.heading-9');
+    const valuesBlocks = valuesSection.querySelectorAll('.div-content-values, .div-content-values.inv');
+
+    if (valuesTitle) {
+      valuesTitle.style.opacity = '0';
+      valuesTitle.style.transform = 'translateY(25px)';
+      valuesTitle.style.transition = 'opacity 0.7s ease-out, transform 0.7s ease-out';
+    }
+
+    valuesBlocks.forEach(block => {
+      const gauche = block.querySelector('[class*="values-gauche"]');
+      const droite = block.querySelector('[class*="values-droite"]');
+      if (gauche) {
+        gauche.style.opacity = '0';
+        gauche.style.transform = 'translateX(-30px)';
+        gauche.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+      }
+      if (droite) {
+        droite.style.opacity = '0';
+        droite.style.transform = 'translateX(30px)';
+        droite.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+      }
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        if (el === valuesTitle) {
+          el.style.opacity = '1';
+          el.style.transform = 'translateY(0)';
+          observer.unobserve(el);
+          return;
+        }
+        const gauche = el.querySelector('[class*="values-gauche"]');
+        const droite = el.querySelector('[class*="values-droite"]');
+        if (gauche) {
+          gauche.style.opacity = '1';
+          gauche.style.transform = 'translateX(0)';
+        }
+        if (droite) {
+          setTimeout(() => {
+            droite.style.opacity = '1';
+            droite.style.transform = 'translateX(0)';
+          }, 150);
+        }
+        observer.unobserve(el);
+      });
+    }, { threshold: 0.2, rootMargin: '0px 0px -50px 0px' });
+
+    if (valuesTitle) observer.observe(valuesTitle);
+    valuesBlocks.forEach(block => observer.observe(block));
+  }
+
+});
+</script>
+
+<!-- EMBED PARALLAX HERO IMAGES -->
+<!-- PLACEMENT : Embed en bas de page, APRÈS le chargement de GSAP+ScrollTrigger -->
+<!-- Si GSAP n'est pas déjà chargé sur la page, décommenter les deux lignes ci-dessous -->
+<!-- <script src="assets/cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script> -->
+<!-- <script src="assets/cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script> -->
+
+</body></html>

@@ -1,0 +1,462 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   MPP — HERO : fond changeable + couleur de texte accordée (Tâche 1).
+   Chargé après overrides.css (qui définit --mpp-ink).
+
+   PAIRES fond → texte. Les ratios ci-dessous sont MESURÉS (WCAG 2.1, formule
+   de luminance relative), pas estimés. Seuil AA texte normal = 4.5.
+   Le texte #4a4a4a du site d'origine est volontairement écarté : il tombe à
+   2.96 sur bleu, 2.69 sur violet et 1.94 sur rose → illisible.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  --hero-ink: #1b1b1b;
+  --hero-blanc: #ffffff;
+  /* défaut = beige, écrasé par html[data-hero-bg] dès que hero.js a lu data.json */
+  --hero-bg: #e1dccc;
+  --hero-text: var(--hero-ink);
+}
+
+html[data-hero-bg='beige']   { --hero-bg: #e1dccc; --hero-text: var(--hero-ink);   } /* 12.56 */
+html[data-hero-bg='creme']   { --hero-bg: #ebe6d4; --hero-text: var(--hero-ink);   } /* 13.78 */
+html[data-hero-bg='lime']    { --hero-bg: #d9dd7e; --hero-text: var(--hero-ink);   } /* 11.97 */
+html[data-hero-bg='vanille'] { --hero-bg: #eeefa2; --hero-text: var(--hero-ink);   } /* 14.36 */
+html[data-hero-bg='bleu']    { --hero-bg: #8195c2; --hero-text: var(--hero-ink);   } /*  5.75 */
+html[data-hero-bg='violet']  { --hero-bg: #8985d5; --hero-text: var(--hero-ink);   } /*  5.23 */
+html[data-hero-bg='orange']  { --hero-bg: #e8a248; --hero-text: var(--hero-ink);   } /*  7.95 */
+html[data-hero-bg='rose']    { --hero-bg: #c14c7c; --hero-text: var(--hero-blanc); } /*  4.57 — seul fond où l'encre échoue (3.77) */
+
+/* Couleur de texte FORCÉE à la main (barre dev). Écrase la paire automatique :
+   le contraste n'est alors plus garanti → la barre affiche le ratio mesuré. */
+html[data-hero-text='beige']   { --hero-text: #e1dccc; }
+html[data-hero-text='creme']   { --hero-text: #ebe6d4; }
+html[data-hero-text='lime']    { --hero-text: #d9dd7e; }
+html[data-hero-text='vanille'] { --hero-text: #eeefa2; }
+html[data-hero-text='bleu']    { --hero-text: #8195c2; }
+html[data-hero-text='violet']  { --hero-text: #8985d5; }
+html[data-hero-text='orange']  { --hero-text: #e8a248; }
+html[data-hero-text='rose']    { --hero-text: #c14c7c; }
+html[data-hero-text='ink']     { --hero-text: #1b1b1b; }
+html[data-hero-text='blanc']   { --hero-text: #ffffff; }
+
+/* ─── Le hero ────────────────────────────────────────────────────────────────
+   SIGNALÉ (non demandé, donc non corrigé ailleurs) : le fond d'origine est une
+   PHOTO servie par le CDN Webflow DISTANT (cdn.prod.website-files.com), seule
+   référence distante restante du site. La tâche demande un fond couleur : on la
+   remplace ici, mais le lien distant subsiste dans le HTML d'origine. */
+.hero-section.main {
+  background-image: none !important;
+  background-color: var(--hero-bg) !important;
+  transition: background-color 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Les textes du hero prennent la couleur associée au fond.
+   AVANT : h1 en rgba(217,221,126,0.6) (lime à 60% d'opacité) ; h3 en blanc. */
+.hero-section.main .h1-hero-main {
+  color: var(--hero-text) !important;
+  transition: color 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+/* CTA « Nos différentes crèches » en BLANC (demandé).
+   SIGNALÉ : illisible sur les 4 fonds clairs — contrastes mesurés du blanc :
+   beige 1.37 · crème 1.25 · lime 1.44 · vanille 1.20 (seuil AA = 4.5).
+   Il ne passe que sur rose (4.57). Volontairement laissé en blanc. */
+.hero-section.main .heading {
+  color: #fff !important;
+  transition: color 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-section.main,
+  .hero-section.main .h1-hero-main,
+  .hero-section.main .heading { transition: none !important; }
+  /* Pas de cascade : tout est en place d'emblée. Sans ce bloc, opacity:0 est
+     l'état de départ → le hero resterait vide si l'animation est neutralisée. */
+  .mpp-hero-l, .mpp-hero-cadre, .hero-section.main .box-reseaux {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  /* pas de parallaxe : la photo reste centrée dans son cadre */
+  .mpp-hero-img { transform: translateY(-50%) !important; }
+}
+
+/* Groupe de caractères formant un mot (posé par hero.js sur les .split-text) :
+   insécable, donc plus aucune coupure au milieu d'un mot. */
+.mpp-mot { display: inline-block; white-space: nowrap; }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   COMPOSITION DU HERO (d'après le croquis de Brian)
+   La section est PLUS HAUTE que la fenêtre : elle déborde en bas, le hero n'est
+   pas contenu dans un écran. Les éléments sont posés en % de la section pour que
+   le chemin d'empreintes (tâche 2) puisse les relier dans un même repère.
+   ═══════════════════════════════════════════════════════════════════════════ */
+:root {
+  --hero-h: 132vh;              /* > 100vh : la section déborde de la fenêtre */
+  --hero-titre: clamp(3rem, 6.6vw, 6.5rem);   /* AVANT : clamp(2.4rem, 5.2vw, 5rem) */
+  /* L'ÉCART entre chaque rangée (photo → texte → photo). Valeur unique :
+     c'est elle qui donne le rythme, au lieu d'un placement au jugé. */
+  --hero-rythme: clamp(3rem, 7vh, 6.5rem);
+  --hero-gouttiere: clamp(0.75rem, 1.6vw, 1.75rem);
+  --reseaux-icone: clamp(30px, 2.8vw, 38px);   /* AVANT : 24→30px */
+  --reseaux-pad: clamp(14px, 1.4vw, 19px);     /* AVANT : 10→14px */
+  --reseaux-largeur: calc(var(--reseaux-icone) + 2 * var(--reseaux-pad));
+  /* Air sous la navbar OUVERTE : --nav-height est la hauteur de la navbar
+     (source de vérité posée avec la navbar). +8px car le logo déborde sous la
+     pilule. La première image ne peut donc plus la toucher. */
+  --hero-sous-navbar: clamp(2.5rem, 6vh, 4.5rem);
+  /* « et la Bienveillance » était trop près du CTA */
+  --hero-place-cta: clamp(6rem, 14vh, 10rem);
+  /* « et la Bienveillance » était trop collé à la photo de « les Sens, » */
+  --hero-respire-bienveillance: clamp(1.5rem, 4vh, 3.5rem);
+  /* Repris de .section.qui-somme-nous (padding-left/right: 15vh).
+     SIGNALÉ : c'est du vh pour un espacement HORIZONTAL — redimensionner la
+     fenêtre en hauteur change les marges latérales. Valeur d'origine conservée
+     telle quelle sur demande de Brian, pour aligner le hero sur le reste du site. */
+  --hero-marge-x: 15vh;
+
+  /* ─── Animation d'arrivée ───
+     Les textes démarrent DERRIÈRE leur image et glissent jusqu'à leur place :
+     gauche→droite quand le texte est à droite de la photo, droite→gauche sinon. */
+  --hero-glisse: 620ms;
+  --hero-fondu: 480ms;
+  --hero-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --hero-cascade: 130ms;      /* décalage d'un élément au suivant */
+}
+
+.hero-section.main {
+  min-height: var(--hero-h) !important;
+  height: auto !important;
+  padding: 0 !important;
+  display: block !important;
+  position: relative;
+  overflow: visible !important;
+}
+
+/* ─── GRILLE : 12 colonnes, rangées alternées ────────────────────────────────
+   align-items:center → dans une rangée, le texte est centré avec sa photo.
+   row-gap → l'écart régulier entre photo, texte, photo suivante.
+   C'est la grille qui gère les espacements, plus des % posés à la main. */
+.mpp-hero {
+  position: relative;
+  width: 100%;
+  min-height: var(--hero-h);
+  max-width: 1440px;
+  margin: 0 auto;
+  /* Le bas réserve la place du CTA, qui est en absolu à cheval sur la frontière :
+     sans ça, « et la Bienveillance » lui colle dessus. */
+  padding: calc(var(--nav-height) + 8px + var(--hero-sous-navbar))
+           var(--hero-marge-x)
+           var(--hero-place-cta);
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  align-items: center;              /* ← « textes centrés avec les images » */
+  row-gap: var(--hero-rythme);      /* ← « un certain écart » entre chaque rangée */
+  /* Gouttière SERRÉE : à 3vw, les 11 gouttières avalaient 473px des 993 dispo
+     → images rabougries et titres repliés. */
+  column-gap: var(--hero-gouttiere);
+}
+
+/* ─── Titre : un seul H1 ; display:contents laisse les 4 lignes se placer
+       elles-mêmes dans la grille (le H1 n'est pas une boîte intermédiaire). ── */
+.mpp-hero-titre {
+  display: contents;
+  margin: 0 !important;
+  font-size: var(--hero-titre);
+  line-height: 1.02;
+  color: var(--hero-text);
+}
+.mpp-hero-l {
+  display: block;
+  font-size: var(--hero-titre);
+  line-height: 1.02;
+  color: var(--hero-text);
+  /* ARRIVÉE : caché, décalé vers sa photo, et DERRIÈRE elle (z-index 1 < 2) */
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+  transform: translateX(var(--depuis, 0));
+  transition: opacity var(--hero-fondu) var(--hero-ease),
+              transform var(--hero-glisse) var(--hero-ease);
+  transition-delay: var(--retard, 0ms);
+  will-change: transform, opacity;
+}
+
+/* ─── Images : un CADRE fixe, la photo glisse derrière ─────────────────────
+   Le cadre est posé par hero.js autour de chaque image. C'est lui qui occupe la
+   grille et qui reçoit l'animation d'arrivée ; la photo, elle, ne fait que
+   coulisser verticalement au scroll (comme un tableau qu'on ferait défiler
+   derrière son cadre). overflow:hidden = le cadre ne bouge jamais. */
+.mpp-hero-cadre {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  box-shadow: 0 14px 40px -18px rgba(27, 27, 27, 0.5);
+  /* z-index 2 : le cadre masque le texte tant qu'il n'en est pas sorti */
+  z-index: 2;
+  opacity: 0;
+  transform: translateY(26px) scale(0.97);
+  transition: opacity var(--hero-fondu) var(--hero-ease),
+              transform var(--hero-glisse) var(--hero-ease);
+  transition-delay: var(--retard, 0ms);
+  will-change: transform, opacity;
+}
+.mpp-hero-cadre--maquillage,
+.mpp-hero-cadre--cuisine { aspect-ratio: 4 / 3; }
+.mpp-hero-cadre--chemin  { aspect-ratio: 3 / 4; }
+
+.mpp-hero-img {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  /* PLUS HAUTE que son cadre : c'est cette réserve qui permet le glissement. */
+  height: calc(100% + 2 * var(--par-course, 34px));
+  object-fit: cover;
+  display: block;
+  transform: translateY(calc(-50% + var(--par, 0px)));
+  will-change: transform;
+}
+
+/* ─── État final, posé par hero.js une fois la page prête ─────────────────── */
+html[data-hero-anim='on'] .mpp-hero-l {
+  opacity: 1;
+  transform: translateX(0);
+}
+html[data-hero-anim='on'] .mpp-hero-cadre {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Sens de sortie + cascade. Le texte part de la position de SA photo :
+   à droite d'une photo → il sort vers la DROITE (--depuis négatif), et l'inverse. */
+.mpp-hero-cadre--maquillage { --retard: 0ms; }
+.mpp-hero-l--grandir        { --retard: 130ms; --depuis: -26vw; }  /* gauche → droite */
+.mpp-hero-cadre--chemin     { --retard: 260ms; }
+.mpp-hero-l--liens          { --retard: 390ms; --depuis:  26vw; }  /* droite → gauche */
+.mpp-hero-cadre--cuisine    { --retard: 520ms; }
+.mpp-hero-l--sens           { --retard: 650ms; --depuis: -26vw; }  /* gauche → droite */
+.mpp-hero-l--bienveillance  { --retard: 780ms; --depuis: 0; }      /* centré : fondu seul */
+
+/* Rien ne doit être coupé pendant que le texte sort de derrière la photo. */
+.mpp-hero { overflow: visible; }
+
+/* ─── RANGÉES (l'ordre de lecture du croquis est conservé) ─────────────────── */
+/* Le texte prend 8 colonnes, la photo 4 : « avec les Liens, » à 95px réclame
+   ~640px, il ne tient pas dans 6 colonnes. Les rangées restent alternées.
+   MI-DISTANCE : la zone du texte couvre exactement l'espace laissé libre par la
+   photo → l'y centrer le place à mi-chemin entre la photo et le bord (croquis).
+   « et la Bienveillance » est exclu : il occupe déjà toute la largeur. */
+.mpp-hero-l--grandir,
+.mpp-hero-l--liens,
+.mpp-hero-l--sens { text-align: center; white-space: nowrap; }
+/* La zone du texte démarre une gouttière après la photo : sans compensation, le
+   centre est décalé de 23px et la « mi-distance » est fausse. On étend la zone
+   jusqu'au bord de la photo côté photo. */
+.mpp-hero-l--sens  { margin-left: calc(-1 * var(--hero-gouttiere)); }
+.mpp-hero-l--liens { margin-right: calc(-1 * var(--hero-gouttiere)); }
+/* « Grandir » est encadré des DEUX côtés (photo à gauche, pilule à droite) :
+   on annule les deux gouttières pour que les deux distances soient égales. */
+.mpp-hero-l--grandir {
+  margin-left: calc(-1 * var(--hero-gouttiere));   /* colle la boîte au bord de la photo */
+  padding-right: var(--reseaux-largeur);           /* réserve la pilule → bord gauche de la pilule */
+}
+/* 1 · photo à gauche  ←→  « Grandir » à droite */
+.mpp-hero-cadre--maquillage { grid-area: 1 / 1 / 2 / 5;   }
+/* « Grandir » couvre toute la place restante, et son padding-right réserve
+   exactement la largeur de la pilule → sa BOÎTE DE CONTENU va du bord droit de
+   la photo au bord gauche de la pilule. text-align:center donne alors deux
+   distances rigoureusement égales. */
+.mpp-hero-l--grandir        { grid-area: 1 / 5 / 2 / 13;  }
+/* 2 · « avec les Liens, » à gauche  ←→  photo à droite */
+.mpp-hero-l--liens          { grid-area: 2 / 1 / 3 / 9;   }
+.mpp-hero-cadre--chemin     { grid-area: 2 / 9 / 3 / 13;  }
+/* 3 · photo à gauche  ←→  « les Sens, » à droite */
+.mpp-hero-cadre--cuisine    { grid-area: 3 / 1 / 4 / 5;   }
+.mpp-hero-l--sens           { grid-area: 3 / 5 / 4 / 13;  }
+/* 4 · « et la Bienveillance » — pleine largeur, centré */
+.mpp-hero-l--bienveillance {
+  grid-area: 4 / 1 / 5 / 13;
+  text-align: center;
+  margin-top: var(--hero-respire-bienveillance);   /* il collait à la photo du dessus */
+}
+
+/* ─── Réseaux : bloc de 2 icônes EMPILÉES, en haut à droite (croquis) ─────── */
+/* Dans la GRILLE, rangée 1, dernière colonne : elle partage donc l'axe médian
+   de la photo et de « Grandir » (align-items:center de la grille), et « Grandir »
+   peut se centrer ENTRE la photo et elle. En absolu, ni l'un ni l'autre. */
+.hero-section.main .box-reseaux {
+  position: relative !important;
+  /* Le site d'origine la posait en absolu avec un top (64vh). En relative, ce top
+     subsistait et la décalait vers le bas : le placement en grille était correct,
+     c'est cet offset résiduel qui la sortait de l'axe. */
+  top: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  left: auto !important;
+  /* z-index 3 : elle partage sa zone de grille avec « Grandir » (z-index 1), dont
+     la BOÎTE la recouvre et interceptait les clics et le hover. */
+  z-index: 3;
+  /* Sa révélation était pilotée par la cascade du site d'origine (classe .visible
+     posée tard par playEntryAnimation) : hero.js la pose désormais dès le
+     chargement. On raccourcit aussi la transition d'origine (0.8s/0.6s), trop
+     lente pour arriver avec la navbar. */
+  transition: opacity var(--hero-fondu) var(--hero-ease),
+              transform var(--hero-glisse) var(--hero-ease) !important;
+  transition-delay: 60ms !important;
+  /* !important : sans lui, une règle du site d'origine reprenait le placement et
+     la pilule se retrouvait centrée sur la LIGNE entre les rangées 1 et 2
+     (118px trop bas) au lieu du milieu de la rangée 1. */
+  grid-area: 1 / 5 / 2 / 13 !important;   /* même zone que « Grandir » : elle se cale à droite */
+  justify-self: end !important;
+  align-self: center !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  /* SYMÉTRIE : le padding d'origine valait 18px 28.8px (haut/bas ≠ gauche/droite).
+     Une seule valeur → marge identique sur les 4 côtés. */
+  padding: var(--reseaux-pad) !important;
+  gap: var(--reseaux-pad) !important;
+  border-radius: 14px !important;
+  /* Même verre teinté que la navbar (tokens partagés, définis dans overrides.css)
+     — le fond d'origine était rgba(225,220,204,0.2), différent de la barre. */
+  background: var(--verre-bg) !important;
+  -webkit-backdrop-filter: var(--verre-blur);
+  backdrop-filter: var(--verre-blur);
+  box-shadow: var(--verre-ombre) !important;
+}
+/* Les SVG n'ont pas de ratio intrinsèque exploitable : height:auto les écrasait
+   à 0. On impose une boîte carrée et l'icône s'y contient. */
+.hero-section.main .box-reseaux .link-reseaux {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  width: var(--reseaux-icone) !important;
+  height: var(--reseaux-icone) !important;
+  padding: 0 !important;
+  flex: 0 0 auto;
+}
+.hero-section.main .box-reseaux img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain;
+  display: block;
+}
+
+/* ─── CTA « Nos différentes crèches » : À CHEVAL sur la frontière ──────────
+   Il est sorti de la grille et centré sur le bord BAS du hero : translateY(50%)
+   le fait déborder de moitié dans la section carrousel qui suit. La section a
+   overflow:visible, sinon il serait coupé net. */
+.hero-section.main .div-footer-hero {
+  position: absolute !important;
+  bottom: 0 !important;
+  left: 50% !important;
+  right: auto !important;
+  top: auto !important;
+  transform: translate(-50%, 50%);
+  z-index: 3;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 0.4rem !important;
+}
+/* la section suivante ne doit pas passer par-dessus le CTA */
+.cc-section { position: relative; z-index: 0; }
+
+/* ─── Mobile : la composition éclatée ne tient pas → on empile ────────────── */
+@media screen and (max-width: 767px) {
+  :root { --hero-h: auto; }
+  .hero-section.main { min-height: 0 !important; }
+  .mpp-hero {
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.4rem;
+    padding: 7.5rem 1.25rem 3rem;
+  }
+  .mpp-hero-titre { display: contents; }
+  .mpp-hero-l {
+    position: static;
+    white-space: normal;
+    text-align: center;
+  }
+  .mpp-hero-cadre { width: min(78%, 320px); }
+  .hero-section.main .box-reseaux {
+    position: static !important;
+    transform: none;
+    flex-direction: row !important;
+  }
+  .hero-section.main .div-footer-hero {
+    position: static !important;
+    transform: none;
+  }
+}
+
+/* ═══ WIDGET DEV — barre flottante de choix du fond ══════════════════════════
+   Injecté par hero.js UNIQUEMENT en local (localhost/127.0.0.1). */
+/* Les deux barres sont empilées en bas : fond du hero, puis couleur des textes. */
+.mpp-dev-stack {
+  position: fixed;
+  left: 50%;
+  bottom: 16px;
+  transform: translateX(-50%);
+  z-index: 99999;
+  display: flex;
+  flex-direction: column-reverse;   /* la barre « texte » se pose AU-DESSUS */
+  gap: 8px;
+  align-items: center;
+}
+.mpp-dev-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: 999px;
+  background: rgba(27, 27, 27, 0.82);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+  font-family: Nunito, system-ui, sans-serif;
+}
+.mpp-dev-bar__label {
+  color: #fff;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0.75;
+  white-space: nowrap;
+}
+.mpp-dev-bar__swatch {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  padding: 0;
+  outline-offset: 3px;
+  transition: transform 160ms ease, border-color 160ms ease;
+}
+.mpp-dev-bar__swatch:hover { transform: scale(1.15); }
+.mpp-dev-bar__swatch[aria-pressed='true'] {
+  border-color: #fff;
+  transform: scale(1.15);
+}
+.mpp-dev-bar__reset {
+  background: none; border: 0; cursor: pointer;
+  color: #fff; opacity: 0.6;
+  font-size: 11px; text-decoration: underline;
+  padding: 0 2px;
+}
+.mpp-dev-bar__reset:hover { opacity: 1; }
+
+/* Ratio de contraste mesuré en direct : rouge dès que ça passe sous AA (4.5). */
+.mpp-dev-bar__ratio {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 7px;
+  border-radius: 999px;
+  white-space: nowrap;
+  background: rgba(255, 255, 255, 0.14);
+  color: #7ee081;
+}
+.mpp-dev-bar__ratio[data-aa='non'] { color: #ff8a8a; background: rgba(255, 80, 80, 0.18); }

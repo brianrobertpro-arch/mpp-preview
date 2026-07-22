@@ -1,0 +1,54 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   MPP — Flèches de navigation des carrousels
+   Les deux carrousels du site (crèches et équipe pilote) avaient des flèches
+   différentes. On aligne celles des CRÈCHES sur la forme de celles de l'ÉQUIPE
+   (référence choisie par Brian) : fond blanc légèrement translucide et ombre
+   plus douce. La taille reste adaptée à chaque contexte.
+
+   Référence mesurée sur #nav-btn (équipe) :
+     background rgba(255,255,255,0.95) · border-radius 50%
+     box-shadow rgba(0,0,0,0.1) 0 4px 15px
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.cc-section .c3d-arrow {
+  background: rgba(255, 255, 255, 0.95) !important;   /* AVANT : blanc opaque */
+  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 15px !important;  /* AVANT : 0.15, plus dure */
+  border-radius: 50% !important;
+  border: 0 !important;
+  /* Cercle strictement rond : le parent .c3d-main porte une perspective 3D et
+     le bouton est un élément flex — sans ces garde-fous il pouvait s'étirer et
+     paraître ovale. */
+  aspect-ratio: 1 / 1;
+  flex: 0 0 auto;
+  padding: 0 !important;
+  box-sizing: border-box;
+  line-height: 1 !important;
+  transition: 0.3s;              /* même transition que #nav-btn */
+  color: #4a4a4a;   /* le chevron SVG hérite via currentColor */
+}
+
+/* Chevron SVG posé par carousel.js, à la place des caractères « ‹ » / « › » :
+   un glyphe typographique repose sur une ligne de base et n'est jamais centré
+   optiquement — c'est ce qui donnait l'impression d'ovale. */
+.cc-section .c3d-arrow svg {
+  width: 26px;
+  height: 26px;
+  display: block;
+}
+.cc-section .c3d-arrow.prev svg { transform: rotate(180deg); }
+
+/* Survol COPIÉ à l'identique de #nav-btn (carrousel équipe pilote) :
+     transform: translateY(-50%) scale(1.08)
+     box-shadow: 0 6px 20px rgba(0,0,0,0.15)
+   ⚠ Le translateY(-50%) doit être RÉÉCRIT dans le transform : c'est lui qui
+   centre le bouton verticalement, et un scale() seul l'écrasait — le bouton
+   sautait alors de 26px. Le fond ne change pas, comme sur le bouton équipe. */
+.cc-section .c3d-arrow:hover {
+  transform: translateY(-50%) scale(1.08) !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cc-section .c3d-arrow { transition: none !important; }
+  .cc-section .c3d-arrow:hover { transform: translateY(-50%) !important; }
+}
