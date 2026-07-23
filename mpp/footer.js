@@ -3,12 +3,14 @@
 
    L'écran alterne AUTOMATIQUEMENT entre une vue « Instagram » et une vue
    « Facebook » (toutes les ~5 s, fondu doux). Chaque vue = un habillage minimal
-   iOS (logo + nom du réseau) + une image de contenu tirée de data.json
-   (footer.phone.instagram[] / footer.phone.facebook[], remplaçables par Brian).
+   iOS (logo + nom du réseau) + une VIDÉO (R2, muette, en boucle) — poster de
+   secours = première image de data.json (footer.phone.instagram[] / [facebook]).
 
-   Derrière l'écran, les images DÉRIVENT en continu : mouvement fluide, pseudo-
-   aléatoire (somme de sinus), type Ken Burns — MÊME esprit que le hero mais
-   AUTONOME (boucle rAF, jamais liée au scroll). prefers-reduced-motion : figé.
+   Derrière l'écran, la vidéo affichée DÉRIVE en continu (transform CSS posé en
+   JS) : mouvement fluide, pseudo-aléatoire (somme de sinus), type Ken Burns —
+   MÊME esprit que le hero mais AUTONOME (boucle rAF, jamais liée au scroll).
+   La vidéo non affichée est mise en pause. prefers-reduced-motion : vidéos
+   jamais lancées automatiquement (figées sur leur poster), dérive coupée.
 
    Expose window.mppPhone = { show, lock, unlock, current } — utilisé à l'étape 3
    pour la synchro / le verrouillage au survol des boutons réseaux.
@@ -23,6 +25,11 @@
 
   const reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const RESEAUX = ['instagram', 'facebook'];
+  // Vidéos R2 (muettes, sans piste audio, +faststart) — une par réseau, à l'identique.
+  const VIDEOS = {
+    instagram: 'https://pub-b62969cb28c74eaa82f2cc05d4ae9428.r2.dev/insta-web.mp4',
+    facebook: 'https://pub-b62969cb28c74eaa82f2cc05d4ae9428.r2.dev/facebook-web.mp4',
+  };
   const NOMS = {
     instagram: { nom: 'mes_premierspas', sous: 'Mes Premiers Pas' },
     facebook:  { nom: 'Mes Premiers Pas', sous: 'Crèche associative' },
@@ -51,45 +58,44 @@
   };
 
   // Construit une vue réseau (header + média + actions).
+  // Le poster (image data.json) sert de repli si la vidéo ne charge pas (réseau
+  // coupé, R2 injoignable) et de premier visuel figé sous prefers-reduced-motion.
   const construire = (reseau) => {
     const v = document.createElement('div');
     v.className = 'fp-view fp-view--' + reseau;
     v.dataset.reseau = reseau;
     const meta = NOMS[reseau];
+    const poster = etat.images[reseau][0] || '';
     v.innerHTML =
       '<div class="fp-view__header"><span class="fp-logo">' + LOGO[reseau] + '</span>' +
       '<span><span class="fp-name">' + meta.nom + '</span><br><span class="fp-sub">' + meta.sous + '</span></span></div>' +
-      '<div class="fp-view__media"><img class="fp-img" alt="" decoding="async"></div>' +
+      '<div class="fp-view__media"><video class="fp-video" src="' + VIDEOS[reseau] + '"' +
+      (poster ? ' poster="' + poster + '"' : '') +
+      ' autoplay loop muted playsinline preload="metadata" aria-hidden="true"></video></div>' +
       '<div class="fp-view__actions">' + ACTIONS[reseau] + '</div>';
     return v;
   };
 
   const etat = {
-    images: { instagram: [], facebook: [] },
-    idx: { instagram: 0, facebook: 0 },
+    images: { instagram: [], facebook: [] },   // poster de repli, par réseau
     vues: {},
     actif: 'instagram',
     verrou: null,       // réseau verrouillé (hover) ou null
     timer: null,
   };
 
-  const imgDe = (reseau) => etat.vues[reseau].querySelector('.fp-img');
+  const videoDe = (reseau) => etat.vues[reseau].querySelector('.fp-video');
 
-  // Avance l'image d'un réseau (cycle dans son tableau) et l'assigne.
-  const avancerImage = (reseau, premier) => {
-    const liste = etat.images[reseau];
-    if (!liste.length) return;
-    if (!premier) etat.idx[reseau] = (etat.idx[reseau] + 1) % liste.length;
-    const el = imgDe(reseau);
-    const url = liste[etat.idx[reseau]];
-    if (el.getAttribute('src') !== url) el.src = url;
-  };
-
-  // Affiche un réseau (fondu). Avance son image quand il (re)devient actif.
-  const montrer = (reseau, sansAvancer) => {
+  // Affiche un réseau (fondu) : lit sa vidéo (sauf reduit), met en pause l'autre.
+  const montrer = (reseau) => {
     if (!etat.vues[reseau]) return;
-    if (!sansAvancer && reseau !== etat.actif) avancerImage(reseau);
-    RESEAUX.forEach((r) => etat.vues[r].classList.toggle('is-active', r === reseau));
+    RESEAUX.forEach((r) => {
+      etat.vues[r].classList.toggle('is-active', r === reseau);
+      const vid = videoDe(r);
+      if (!vid) return;
+      if (r === reseau) { if (!reduit) vid.play().catch(() => {}); }
+      else vid.pause();
+    });
     etat.actif = reseau;
     if (window.mppButtons && window.mppButtons.sync) window.mppButtons.sync(reseau);
   };
@@ -112,7 +118,7 @@
   const driver = (now) => {
     const t = now / 1000;
     RESEAUX.forEach((r) => {
-      const el = imgDe(r);
+      const el = videoDe(r);
       const p = phases.get(el);
       if (!p) return;
       // somme de sinus lents → dérive fluide, pseudo-aléatoire, toutes directions
@@ -146,8 +152,11 @@
         const v = construire(r);
         etat.vues[r] = v;
         contenu.appendChild(v);
-        semer(v.querySelector('.fp-img'));
-        avancerImage(r, true);                     // première image
+        const vid = v.querySelector('.fp-video');
+        semer(vid);
+        // prefers-reduced-motion : coupe la lecture avant même qu'elle démarre
+        // (attribut autoplay conservé sur la balise, cf. T2) — le poster reste visible.
+        if (reduit) vid.pause();
       });
       // ── Boutons réseaux synchronisés + verrouillage au survol (étape 3) ──
       const boutons = {};
@@ -182,7 +191,7 @@
         ul.innerHTML = lignes.map((h) => '<li class="fc-line">' + h + '</li>').join('');
       }
 
-      montrer('instagram', true);                  // vue initiale
+      montrer('instagram');                         // vue initiale
       window.mppButtons.sync(etat.actif);          // pastille initiale
       if (!reduit) { requestAnimationFrame(driver); relancer(); }
 

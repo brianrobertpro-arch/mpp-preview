@@ -263,14 +263,14 @@
   font-weight: 600;
 }
 
-/* Média (image) + dérive Ken Burns pilotée en JS (transform) */
+/* Média (vidéo) + dérive Ken Burns pilotée en JS (transform) */
 .fp-view__media {
   position: relative;
   flex: 1 1 auto;
   overflow: hidden;
   background: #d8d2bf;
 }
-.fp-img {
+.fp-video {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -278,6 +278,7 @@
   object-fit: cover;
   transform: scale(1.14);      /* marge pour la dérive sans bord visible */
   will-change: transform;
+  background: #d8d2bf;         /* visible tant que le poster/la vidéo ne sont pas prêts */
 }
 
 /* Barre d'actions minimale iOS (cœur, commentaire, envoi) */
@@ -303,10 +304,11 @@
   text-align: right;
 }
 
-/* prefers-reduced-motion : image figée, pas d'alternance auto (gérée en JS). */
+/* prefers-reduced-motion : vidéo figée sur son poster, pas d'alternance auto
+   (lecture jamais lancée, cf. mpp/footer.js). */
 @media (prefers-reduced-motion: reduce) {
   .fp-view { transition: none; }
-  .fp-img { transform: scale(1.05); }
+  .fp-video { transform: scale(1.05); }
 }
 
 /* ─── ÉTAPE 3 — boutons réseaux synchronisés avec l'écran ─────────────────
