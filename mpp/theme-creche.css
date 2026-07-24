@@ -131,6 +131,28 @@ html[data-creche="savane"] .hero-section {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
+   SECTION ÉQUIPE (.cc-section.versocean) — fond par thème
+
+   Même bug d'aspiration Webflow que le hero ci-dessus : la section carrousel
+   équipe porte la classe "cc-section versocean" sur LES DEUX pages crèche
+   (nos-creche-vers-foret.html:667 ET nos-creche-vers-ocean.html:667), classe
+   jamais adaptée par page. Le fond de .cc-section.versocean
+   (mes-premier-pas.webflow.shared…css:2907, background-color:
+   var(--_couleurs---c-bleu)) est donc bleu même sur la page Forêt.
+
+   Correctif : fond piloté par --creche-accent (même variable que les
+   boutons ci-dessous), scoped par data-creche — la classe Webflow bugguée
+   n'est pas retirée ni remplacée, seulement neutralisée par un sélecteur
+   plus spécifique. Aucune classe .versforet créée.
+
+   montagne/savane n'ont pas de page aujourd'hui : couvertes automatiquement,
+   --creche-accent étant déjà défini pour les quatre thèmes plus haut dans ce
+   fichier. */
+html[data-creche] .cc-section.versocean {
+  background-color: var(--creche-accent) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
    BOUTONS — remplace les couleurs en dur du CSS Webflow partagé
    (mes-premier-pas.webflow.shared…css:2501-2645), incohérentes d'un bouton à
    l'autre et parfois d'un état à l'autre (ex. .ip.foret / .ip.foret:hover ne
@@ -202,32 +224,32 @@ html[data-creche] .button.type1.pp.is-active {
    .heading-7 (-webkit-text-stroke est une propriété héritée, comme dans la
    règle Webflow d'origine qui ne le redéclarait pas sur le span).
 
-   4b — Révélation par clip-path polygon(), scoped par data-creche. Même
-   nombre et même ordre de sommets entre les deux keyframes (0%/100%) : seule
-   la coordonnée X de chaque sommet varie, donc la FORME reste rigide et se
-   contente de glisser de gauche à droite (pas d'interpolation qui déformerait
-   le tracé). clip-path ne retire jamais le texte du DOM ni de l'arbre
-   d'accessibilité : sélectionnable et lisible au lecteur d'écran pendant et
-   après l'animation (contrairement à display:none/visibility:hidden).
-   Aucun scale/skew/rotation sur les glyphes.
+   4b — SUPPRIMÉE (finitions-v1) : révélation par clip-path polygon(),
+   scoped par data-creche (mpp-hero-reveal-vague / -pousse). Le titre
+   disparaissait au premier rendu puis se révélait — diagnostiqué
+   Playwright (getAnimations(), classList.add hooké, échantillonnage par
+   requestAnimationFrame) : le keyframe 0% de ces animations plaçait tout
+   le polygon hors cadre à gauche (ex. vague : x de -25% à -10%), donc
+   texte totalement caché. Avec animation-fill-mode:both et sans délai,
+   dès que l'IntersectionObserver posait .mpp-hero-in, le style calculé
+   sautait instantanément de clip-path:none (état par défaut, visible) au
+   keyframe 0% (cause : le keyframe 0% ne correspond jamais à l'état par
+   défaut, contrairement à ce que suppose un fill-mode:both) — un jump cut
+   vers l'invisible en un seul frame, mesuré ici entre deux
+   requestAnimationFrame consécutifs (clip-path: none → polygon(-25% 0%,
+   -10% 0%, …) au frame suivant l'ajout de la classe), avant que les 1100ms
+   de wipe ne le ramènent à visible. Contrainte non négociable : le titre
+   reste visible en permanence. Une révélation par clip-path est par nature
+   incompatible avec cette contrainte (son 0% est un état caché) — supprimée
+   plutôt que rafistolée. Le titre reste donc simplement dans son état par
+   défaut ci-dessous (clip-path:none), sans wipe ni cascade. L'ancien 4d
+   (correctif retours-v1 T5, état par défaut visible + déclenchement au
+   viewport) reste vrai pour la partie "état par défaut visible" mais son
+   hypothèse "l'animation ne cause aucun flash tant qu'elle part de l'état
+   visible" était fausse : elle en causait un à chaque déclenchement.
 
-   OCÉAN — vague : front sinusoïdal (1 cycle complet sur la hauteur du
-   titre, amplitude 8%), disposé sur 7 points (0/16,67/33,33/50/66,67/
-   83,33/100 % de hauteur). Position de départ décalée de -10% (marge de
-   sécurité au-delà de l'amplitude, rien ne dépasse 0%) ; position d'arrivée
-   décalée de +110% (symétrique, rien ne reste sous 100%).
-
-   FORÊT — pousse : front en paliers nets (5 bandes de 20% de hauteur,
-   plateau horizontal puis saut vertical à angle droit — pas de courbe),
-   décalages [0,6,12,6,0] (motif symétrique, façon cernes de croissance).
-   Mêmes marges de sécurité (-15% / +115%) que l'océan pour garantir un état
-   totalement caché puis totalement révélé.
-
-   Durée commune 1100ms (dans la fourchette 900-1400ms imposée), easing de
-   charte cubic-bezier(0.22,1,0.36,1), pour les deux thèmes — seule la forme
-   du front diffère.
-
-   4d — CORRECTIF (retours-v1, T5) : cette animation était déclenchée sans
+   4d — ANCIEN correctif (retours-v1, T5), pour mémoire : cette animation
+   se déclenchait sans
    condition dès que html[data-creche] matchait, c'est-à-dire au parsing —
    pas à l'entrée dans le viewport. Diagnostic mesuré (Playwright,
    getAnimations()/getComputedTiming(), voir rapport) : tant que
@@ -241,44 +263,56 @@ html[data-creche] .button.type1.pp.is-active {
    rapporté. Le polygone final (100%) couvre lui bien 100% du texte (vérifié
    par calcul et par mesure) — ce n'est donc pas le tracé qui est en cause.
 
-   Correctif : l'état PAR DÉFAUT (sans classe JS) est désormais
-   entièrement visible (clip-path:none) — condition non négociable, quel
-   que soit l'état du chargement de la page. L'animation elle-même ne se
-   déclenche plus qu'une fois la classe .mpp-hero-in posée par un
-   IntersectionObserver sur .hero-section (voir script inline de la page,
-   même mécanisme que pratiqueObserver plus bas dans le même fichier) —
-   entrée dans le viewport, pas chargement du document. Si ce script est
-   lui-même retardé ou ne s'exécute jamais (même cause racine), le titre
-   reste simplement visible sans animation : dégradation acceptée, jamais
-   de découpe. */
+   Correctif d'alors : état PAR DÉFAUT (sans classe JS) rendu entièrement
+   visible (clip-path:none), animation déclenchée seulement par
+   l'IntersectionObserver sur .hero-section (script inline de la page,
+   même mécanisme que pratiqueObserver plus bas dans ce fichier) au lieu du
+   parsing. Corrigeait bien le gel sur le keyframe 0% pendant le chargement,
+   mais introduisait le bug 4b ci-dessus (jump cut à chaque déclenchement de
+   l'observer) — non détecté à l'époque car non testé au moment précis de
+   la pose de la classe. D'où la suppression pure et simple en 4b : le
+   .mpp-hero-in posé par cet observer ne pilote plus aucune règle CSS sur
+   .heading-7 (cf. règles ci-dessous, aucune ne cible plus
+   .hero-section.mpp-hero-in .heading-7).
+
+   4e — CAUSE RÉELLE DU CROP (mesurée Playwright, Range.getBoundingClientRect
+   sur le contenu du <h1>, cf. rapport) : ni clip-path ni overflow:hidden.
+   Le sélecteur d'élément `h1` du CSS Webflow partagé (mes-premier-pas.
+   webflow.shared…css:384-388) pose `font-size:38px; line-height:44px`
+   (ratio ~1.16, cohérent À CE font-size). `.heading-7` et les media queries
+   inline de chaque page crèche (nos-creche-vers-*.html) réécrivent le
+   font-size par palier (28/36/48px puis 4.8rem≈76.8px en desktop, 96px
+   ≥1600px, 120px ≥2000px) mais ne touchent jamais line-height : le ratio
+   d'origine explose (44px de boîte pour ~87px de glyphes mesurés à 76.8px).
+   Comme overflow est visible sur toute la chaîne d'ancêtres (h1 → div-footer
+   → .hero-section), rien ne "clippe" le texte au sens CSS — mais le glyphe
+   déborde symétriquement ~21px au-dessus ET en dessous de sa boîte de 44px.
+   Or .div-footer n'a que 2vh de padding-bottom avant le bord bas de
+   .hero-section (height:100vh, donc = hauteur de la fenêtre) : ce debord de
+   ~21px sous la boîte dépasse ces ~2vh de marge et sort de la fenêtre —
+   coupé par le SCROLL FOLD au chargement, pas par une règle CSS. Vérifié à
+   1440×900 (dépassement +3px), 1440×800 (+5px), 1024×768 (+5,6px),
+   1440×1024 (+0,5px) : le débordement existe à toute hauteur de viewport
+   desktop dès que le palier ≥992px (aucune surcharge de font-size) est
+   actif, puisque hero et marge sont tous deux en vh (le rapport reste
+   constant) alors que line-height:44px est fixe en px.
+   Correctif : line-height RELATIF (1.15, proportionnel au font-size actif à
+   CHAQUE palier) au lieu du 44px fixe hérité de la règle `h1` générique — la
+   boîte du titre contient alors ses propres glyphes à toutes les tailles,
+   sans jamais réduire le font-size. */
 html[data-creche] .heading-7 {
   color: var(--mpp-white) !important;
   -webkit-text-stroke-width: 1px !important;
   -webkit-text-stroke-color: var(--mpp-ink) !important;
+  line-height: 1.15 !important;
 }
 html[data-creche] .text-span-15 {
   color: var(--creche-accent) !important;
 }
 
 html[data-creche] .heading-7 {
-  opacity: 1 !important;      /* la révélation se fait par clip-path, pas par opacité */
-  clip-path: none;            /* état par défaut : texte entier visible, aucune découpe */
-}
-html[data-creche] .hero-section.mpp-hero-in .heading-7 {
-  animation-duration: 1100ms;
-  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
-  animation-fill-mode: both;
-}
-html[data-creche="ocean"] .hero-section.mpp-hero-in .heading-7 { animation-name: mpp-hero-reveal-vague; }
-html[data-creche="foret"] .hero-section.mpp-hero-in .heading-7 { animation-name: mpp-hero-reveal-pousse; }
-
-@keyframes mpp-hero-reveal-vague {
-  0%   { clip-path: polygon(-25% 0%, -10.00% 0%, -3.07% 16.67%, -3.07% 33.33%, -10.00% 50%, -16.93% 66.67%, -16.93% 83.33%, -10.00% 100%, -25% 100%); }
-  100% { clip-path: polygon(-25% 0%, 110.00% 0%, 116.93% 16.67%, 116.93% 33.33%, 110.00% 50%, 103.07% 66.67%, 103.07% 83.33%, 110.00% 100%, -25% 100%); }
-}
-@keyframes mpp-hero-reveal-pousse {
-  0%   { clip-path: polygon(-25% 0%, -15% 0%, -15% 20%, -9% 20%, -9% 40%, -3% 40%, -3% 60%, -9% 60%, -9% 80%, -15% 80%, -15% 100%, -25% 100%); }
-  100% { clip-path: polygon(-25% 0%, 115% 0%, 115% 20%, 121% 20%, 121% 40%, 127% 40%, 127% 60%, 121% 60%, 121% 80%, 115% 80%, 115% 100%, -25% 100%); }
+  opacity: 1 !important;      /* jamais d'animation d'opacité sur le titre */
+  clip-path: none !important; /* seul état : texte entier visible en permanence, aucune découpe, aucune révélation */
 }
 
 /* 4c — bouton "Visite Virtuelle" : entre en fondu APRÈS le titre (ordre
@@ -304,11 +338,6 @@ html[data-creche] .button.type1.visite {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html[data-creche] .heading-7 {
-    animation: none !important;
-    clip-path: none !important;
-    opacity: 1 !important;
-  }
   html[data-creche] .button.type1.visite {
     animation: none !important;
     opacity: 1 !important;
