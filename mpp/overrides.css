@@ -216,7 +216,7 @@ html[data-nav='open'] .navbar-2 {
   border-radius: 999px !important;
   line-height: 1.2 !important;
   color: var(--mpp-ink) !important;
-  background: rgba(129, 149, 194, 0.85) !important;
+  background: var(--mpp-back-to-top, #E8A248) !important;
 }
 .dd-arrow { font-size: 0.72em !important; opacity: 0.6 !important; }
 

@@ -131,6 +131,28 @@ html[data-creche="savane"] .hero-section {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
+   SECTION ÉQUIPE (.cc-section.versocean) — fond par thème
+
+   Même bug d'aspiration Webflow que le hero ci-dessus : la section carrousel
+   équipe porte la classe "cc-section versocean" sur LES DEUX pages crèche
+   (nos-creche-vers-foret.html:667 ET nos-creche-vers-ocean.html:667), classe
+   jamais adaptée par page. Le fond de .cc-section.versocean
+   (mes-premier-pas.webflow.shared…css:2907, background-color:
+   var(--_couleurs---c-bleu)) est donc bleu même sur la page Forêt.
+
+   Correctif : fond piloté par --creche-accent (même variable que les
+   boutons ci-dessous), scoped par data-creche — la classe Webflow bugguée
+   n'est pas retirée ni remplacée, seulement neutralisée par un sélecteur
+   plus spécifique. Aucune classe .versforet créée.
+
+   montagne/savane n'ont pas de page aujourd'hui : couvertes automatiquement,
+   --creche-accent étant déjà défini pour les quatre thèmes plus haut dans ce
+   fichier. */
+html[data-creche] .cc-section.versocean {
+  background-color: var(--creche-accent) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
    BOUTONS — remplace les couleurs en dur du CSS Webflow partagé
    (mes-premier-pas.webflow.shared…css:2501-2645), incohérentes d'un bouton à
    l'autre et parfois d'un état à l'autre (ex. .ip.foret / .ip.foret:hover ne
@@ -250,11 +272,38 @@ html[data-creche] .button.type1.pp.is-active {
    entrée dans le viewport, pas chargement du document. Si ce script est
    lui-même retardé ou ne s'exécute jamais (même cause racine), le titre
    reste simplement visible sans animation : dégradation acceptée, jamais
-   de découpe. */
+   de découpe.
+
+   4e — CAUSE RÉELLE DU CROP (mesurée Playwright, Range.getBoundingClientRect
+   sur le contenu du <h1>, cf. rapport) : ni clip-path ni overflow:hidden.
+   Le sélecteur d'élément `h1` du CSS Webflow partagé (mes-premier-pas.
+   webflow.shared…css:384-388) pose `font-size:38px; line-height:44px`
+   (ratio ~1.16, cohérent À CE font-size). `.heading-7` et les media queries
+   inline de chaque page crèche (nos-creche-vers-*.html) réécrivent le
+   font-size par palier (28/36/48px puis 4.8rem≈76.8px en desktop, 96px
+   ≥1600px, 120px ≥2000px) mais ne touchent jamais line-height : le ratio
+   d'origine explose (44px de boîte pour ~87px de glyphes mesurés à 76.8px).
+   Comme overflow est visible sur toute la chaîne d'ancêtres (h1 → div-footer
+   → .hero-section), rien ne "clippe" le texte au sens CSS — mais le glyphe
+   déborde symétriquement ~21px au-dessus ET en dessous de sa boîte de 44px.
+   Or .div-footer n'a que 2vh de padding-bottom avant le bord bas de
+   .hero-section (height:100vh, donc = hauteur de la fenêtre) : ce debord de
+   ~21px sous la boîte dépasse ces ~2vh de marge et sort de la fenêtre —
+   coupé par le SCROLL FOLD au chargement, pas par une règle CSS. Vérifié à
+   1440×900 (dépassement +3px), 1440×800 (+5px), 1024×768 (+5,6px),
+   1440×1024 (+0,5px) : le débordement existe à toute hauteur de viewport
+   desktop dès que le palier ≥992px (aucune surcharge de font-size) est
+   actif, puisque hero et marge sont tous deux en vh (le rapport reste
+   constant) alors que line-height:44px est fixe en px.
+   Correctif : line-height RELATIF (1.15, proportionnel au font-size actif à
+   CHAQUE palier) au lieu du 44px fixe hérité de la règle `h1` générique — la
+   boîte du titre contient alors ses propres glyphes à toutes les tailles,
+   sans jamais réduire le font-size. */
 html[data-creche] .heading-7 {
   color: var(--mpp-white) !important;
   -webkit-text-stroke-width: 1px !important;
   -webkit-text-stroke-color: var(--mpp-ink) !important;
+  line-height: 1.15 !important;
 }
 html[data-creche] .text-span-15 {
   color: var(--creche-accent) !important;
