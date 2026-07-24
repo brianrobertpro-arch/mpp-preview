@@ -34,5 +34,16 @@
   requestAnimationFrame(raf);
 
   // Garde ScrollTrigger (carrousel, animations d'origine) synchro avec Lenis.
-  if (window.ScrollTrigger) lenis.on('scroll', window.ScrollTrigger.update);
+  // GSAP/ScrollTrigger chargent après ce script (fin de body) : on repolle
+  // jusqu'à ce qu'il apparaisse, sans jamais tourner indéfiniment si la page
+  // ne charge pas GSAP du tout.
+  const brancherScrollTrigger = () => {
+    if (!window.ScrollTrigger) return false;
+    lenis.on('scroll', window.ScrollTrigger.update);
+    return true;
+  };
+  if (!brancherScrollTrigger()) {
+    const iv = setInterval(() => { if (brancherScrollTrigger()) clearInterval(iv); }, 50);
+    setTimeout(() => clearInterval(iv), 8000);
+  }
 })();

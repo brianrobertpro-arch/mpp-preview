@@ -316,8 +316,9 @@
    La pastille active suit la vue affichée ; le survol verrouille l'écran. */
 .footer-social {
   position: absolute;
-  right: -13%;
-  bottom: 12%;
+  left: -13%;
+  top: 50%;
+  transform: translateY(-50%);
   display: flex;
   flex-direction: column;
   gap: clamp(12px, 1.8vh, 20px);
@@ -345,7 +346,7 @@
 .fsoc:focus-visible { outline: 2px solid #ebe6d4; outline-offset: 3px; }
 
 @media (max-width: 767px) {
-  .footer-social { right: auto; left: 50%; bottom: -7%; flex-direction: row; transform: translateX(-50%); }
+  .footer-social { left: 50%; top: auto; bottom: -7%; flex-direction: row; transform: translateX(-50%); }
 }
 
 /* ─── Ancien footer masqué pendant la refonte ─────────────────────────────

@@ -2,8 +2,11 @@
    MPP — BOUTON « RETOUR EN HAUT »
 
    Petit rond discret en bas à droite (DA sable/crème translucide + flèche
-   orange). N'apparaît qu'après ~1 écran de scroll, avec un fondu doux. Le clic
-   remonte en haut en scroll lissé, compatible Lenis (window.lenis).
+   colorée). N'apparaît qu'après ~1 écran de scroll, avec un fondu doux. Le
+   clic remonte en haut en scroll lissé, compatible Lenis (window.lenis).
+
+   Couleur de l'accent (flèche + focus) pilotée par la custom property CSS
+   --mpp-back-to-top, à définir par page (repli #E8A248 si absente).
 
    Autonome : injecte son style et son bouton, ne dépend d'aucun HTML existant.
    pointer-events actifs UNIQUEMENT quand le bouton est visible.
@@ -27,8 +30,10 @@
       'transition:opacity .35s ease,transform .35s ease,background .2s ease,box-shadow .2s ease;}' +
       '.mpp-haut.visible{opacity:1;transform:translateY(0);pointer-events:auto;}' +
       '.mpp-haut:hover{background:rgba(250,246,238,.96);box-shadow:0 8px 22px rgba(120,100,60,.24);}' +
-      '.mpp-haut:focus-visible{outline:2px solid #E8A248;outline-offset:2px;}' +
-      '.mpp-haut svg{width:20px;height:20px;display:block;}' +
+      '.mpp-haut:focus-visible{outline:2px solid var(--mpp-back-to-top, #E8A248);outline-offset:2px;}' +
+      // Icône = fonctionnelle (doit rester lisible) → encre. L'anneau, décoratif,
+      // garde la couleur de la page (voir bordure ci-dessus).
+      '.mpp-haut svg{width:20px;height:20px;display:block;stroke:var(--mpp-ink, #1b1b1b);}' +
       '@media (max-width:479px){.mpp-haut{right:16px;bottom:16px;}}';
     (document.head || document.documentElement).appendChild(st);
   };
@@ -40,7 +45,7 @@
     btn.setAttribute('aria-label', 'Retour en haut de la page');
     // Flèche vers le haut, trait orange arrondi (cohérent avec les icônes réseaux).
     btn.innerHTML =
-      '<svg viewBox="0 0 24 24" fill="none" stroke="#E8A248" stroke-width="2.4" ' +
+      '<svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" ' +
       'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
       '<path d="M12 19V5"/><path d="M6 11l6-6 6 6"/></svg>';
 
