@@ -22,7 +22,10 @@
     st.textContent =
       '.mpp-haut{position:fixed;right:24px;bottom:24px;z-index:9999;' +
       'width:44px;height:44px;display:flex;align-items:center;justify-content:center;' +
-      'border:1px solid rgba(232,162,72,.35);border-radius:999px;' +
+      // Anneau : 1px → 3px. À 1px la couleur de page (--mpp-back-to-top) ne se
+      // distinguait pas ; en prime la bordure était figée en orange en dur,
+      // sans jamais lire la variable (bug — seul le focus-visible la lisait).
+      'border:3px solid var(--mpp-back-to-top, #E8A248);border-radius:999px;' +
       'background:rgba(250,246,238,.82);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);' +
       'box-shadow:0 6px 18px rgba(120,100,60,.18);cursor:pointer;padding:0;' +
       // Caché par défaut : transparent, légèrement descendu, non cliquable.

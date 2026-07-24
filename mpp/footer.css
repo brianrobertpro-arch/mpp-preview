@@ -316,7 +316,12 @@
    La pastille active suit la vue affichée ; le survol verrouille l'écran. */
 .footer-social {
   position: absolute;
-  left: -13%;
+  /* right:100% + margin-right (px) plutôt qu'un left:-X% : le bord droit du
+     bloc colle exactement au bord gauche du téléphone, quelle que soit la
+     largeur de l'icône — un left en % recouvrait le cadre car il ne tenait
+     pas compte de la largeur du bloc lui-même. */
+  right: 100%;
+  margin-right: clamp(12px, 1.6vw, 20px);
   top: 50%;
   transform: translateY(-50%);
   display: flex;
@@ -345,8 +350,29 @@
 .fsoc:hover { transform: scale(1.13); }
 .fsoc:focus-visible { outline: 2px solid #ebe6d4; outline-offset: 3px; }
 
+@media (min-width: 768px) and (max-width: 1023px) and (min-height: 850px) {
+  /* Palier tablette PORTRAIT (768×1024 type iPad) uniquement — la condition
+     min-height exclut le paysage 1024×768, où la place ne manque pas. En
+     portrait, le téléphone (hauteur pilotée en vh) occupe une part bien plus
+     grande de la largeur dispo → plus assez de place pour les icônes à leur
+     gabarit desktop sans sortir de la section. Gabarit réduit ici, mesuré
+     par instrumentation Playwright (marge cible : quelques px positifs).
+     Doit venir APRÈS les règles de base .footer-social/.fsoc pour les
+     surcharger (même spécificité, l'ordre de cascade décide). */
+  .footer-social { margin-right: clamp(5px, 0.8vw, 7px); }
+  .fsoc { width: clamp(26px, 4vh, 30px); height: clamp(26px, 4vh, 30px); }
+}
+
 @media (max-width: 767px) {
-  .footer-social { left: 50%; top: auto; bottom: -7%; flex-direction: row; transform: translateX(-50%); }
+  .footer-social {
+    left: 50%;
+    right: auto;             /* annule le right:100% desktop, sinon left+right actifs ensemble écrasent la largeur */
+    margin-right: 0;
+    top: auto;
+    bottom: -7%;
+    flex-direction: row;
+    transform: translateX(-50%);
+  }
 }
 
 /* ─── Ancien footer masqué pendant la refonte ─────────────────────────────
