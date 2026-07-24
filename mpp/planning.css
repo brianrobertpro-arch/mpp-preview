@@ -28,8 +28,13 @@
    seule graphie vérifiable dans ce sandbox — Google Fonts y est bloqué).
    La règle CSS prime sur l'attribut de présentation SVG (spécificité 0).
    Taille +1px (15→16, cran mesuré) : l'horaire (Georgia, 28px) n'est pas
-   touché. */
+   touché.
+   Graisse 700 (gras) : seule graisse supérieure à 400 réellement chargée en
+   self-host pour Fuzzybubbles (@font-face 400/700 uniquement, vérifié par
+   grep dans webflow.shared…css:2201-2216 — aucune 500/600/800/900, un
+   font-weight intermédiaire produirait un gras synthétique). */
 .section-4 .planning-card text[font-family="system-ui, sans-serif"] {
   font-family: 'Fuzzybubbles', sans-serif;
   font-size: 16px;
+  font-weight: 700;
 }

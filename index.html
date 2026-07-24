@@ -1205,7 +1205,13 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 80px 60px;
+      /* Repères de padding en custom properties : réutilisés tels quels par
+         .section-title (position absolute, T6b) pour s'aligner au même
+         coin sans dupliquer les valeurs en dur — une seule source vraie,
+         y compris au palier 1025-1599px qui les redéfinit plus bas. */
+      --ts-pad-y: 80px;
+      --ts-pad-x: 60px;
+      padding: var(--ts-pad-y) var(--ts-pad-x);
       background: #B5C0D4;
       position: relative;
       overflow: hidden;
@@ -1341,7 +1347,8 @@
     /* DESKTOP NORMAL (1024px - 1599px) */
     @media (min-width: 1025px) and (max-width: 1599px) {
       .text-side {
-        padding: 60px 50px;
+        --ts-pad-y: 60px;
+        --ts-pad-x: 50px;
       }
       
       .section-title {
@@ -1449,6 +1456,21 @@
     }
     
     @media (min-width: 1025px) {
+      /* T6b (retours-v1) : le titre et le texte formaient un seul groupe
+         centré (.text-side en flex-column + justify-content:center).
+         Le titre sort du flux (position absolute, ancré en haut à gauche —
+         top:0/left:0 s'aligne sur le bord intérieur du padding existant,
+         aucune valeur dupliquée) : #dynamic-text devient alors le seul
+         enfant en flux de .text-side, et justify-content:center ne centre
+         plus que lui, verticalement, indépendamment du titre. Repli mobile
+         non nécessaire : #dynamic-text est display:none sous 1025px (voir
+         plus haut), donc le titre y reste seul et inchangé dans le flux. */
+      .section-title {
+        position: absolute;
+        top: var(--ts-pad-y, 80px);
+        left: var(--ts-pad-x, 60px);
+        margin: 0;
+      }
       .btn-voir-desc {
         display: none;
       }
@@ -1672,11 +1694,19 @@ function updateSlide(index, animate = true) {
   setTimeout(() => {
     description.textContent = teamData[realIndex].description;
     if (anime) {
+      // T6c (retours-v1) : le texte entrant partait de translateX(0) (simple
+      // fondu sur place) — il ne « arrivait » visuellement de nulle part.
+      // Il part maintenant de translateX(100%) (hors champ à droite, masqué
+      // par l'overflow:hidden de .text-side, T6d) puis glisse jusqu'à sa
+      // position de repos — même transition (durée + easing) que la sortie
+      // ci-dessus et que le transform du #carousel, même déclencheur
+      // (updateSlide(), lignes plus haut).
       dynamicText.style.transition = 'none';
-      dynamicText.style.transform = 'translateX(0)';
+      dynamicText.style.transform = 'translateX(100%)';
       void dynamicText.offsetWidth;   // force le reflow avant de réactiver la transition
       dynamicText.style.transition = 'opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
       dynamicText.style.opacity = '1';
+      dynamicText.style.transform = 'translateX(0)';
     }
   }, delai);
 }

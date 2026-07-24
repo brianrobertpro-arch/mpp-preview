@@ -151,15 +151,18 @@ html[data-creche] .button.type1.pp.is-active {
 
    4a — Webflow shared css (mes-premier-pas.webflow.shared…css:3462) pose un
    contour : -webkit-text-stroke-width:1px + couleur encre, fill blanc, span
-   "OCEAN"/"FORÊT" en lime fixe (:3474) — jamais thématique. Retiré ici, texte
-   entier recoloré en --creche-accent-fonce (encre déjà utilisée par le
-   contour d'origine, cohérent avec la charte). Contraste mesuré vs crème
-   --mpp-cream (fond de section le plus proche disponible pour mesure fiable
-   dans ce sandbox — l'egress bloque le chargement du fond hero réel, une
-   photo distante cdn.prod.website-files.com ; à re-vérifier en production,
-   voir rapport) : identique aux ratios --creche-accent-fonce déjà consignés
-   plus haut (>= 4,5:1 sur les 4 thèmes, montagne compris à 3,66:1 — cas
-   particulier déjà signalé).
+   "OCEAN"/"FORÊT" en lime fixe (:3474) — jamais thématique.
+   Une session précédente avait retiré ce contour et recoloré tout le titre
+   (« VERS » + span) en --creche-accent-fonce. Rétabli ici sur consigne : le
+   contour d'encre garantit la lisibilité du blanc sur une photo de fond dont
+   les valeurs ne sont pas maîtrisées (fond hero non chargeable dans ce
+   sandbox — egress bloqué vers cdn.prod.website-files.com, à re-vérifier en
+   production, voir rapport). « VERS » (.heading-7) reprend donc le blanc +
+   contour d'origine ; le nom de la crèche (.text-span-15) passe en
+   --creche-accent (pas accent-fonce : c'est la couleur DOMINANTE du thème
+   qui est demandée ici) tout en gardant le même contour, hérité de
+   .heading-7 (-webkit-text-stroke est une propriété héritée, comme dans la
+   règle Webflow d'origine qui ne le redéclarait pas sur le span).
 
    4b — Révélation par clip-path polygon(), scoped par data-creche. Même
    nombre et même ordre de sommets entre les deux keyframes (0%/100%) : seule
@@ -184,25 +187,52 @@ html[data-creche] .button.type1.pp.is-active {
 
    Durée commune 1100ms (dans la fourchette 900-1400ms imposée), easing de
    charte cubic-bezier(0.22,1,0.36,1), pour les deux thèmes — seule la forme
-   du front diffère. */
+   du front diffère.
+
+   4d — CORRECTIF (retours-v1, T5) : cette animation était déclenchée sans
+   condition dès que html[data-creche] matchait, c'est-à-dire au parsing —
+   pas à l'entrée dans le viewport. Diagnostic mesuré (Playwright,
+   getAnimations()/getComputedTiming(), voir rapport) : tant que
+   document.readyState reste "loading" (un <link> Google Fonts placé APRÈS
+   le <h1> dans le HTML, cf. da-mpp.md §3.2 sur les liens dupliqués en cours
+   de page, bloque le thread principal — comportement standard navigateur
+   « stylesheet bloque les scripts/le parsing qui suivent » — tant qu'il ne
+   se résout pas), l'animation reste bloquée gelée sur le keyframe 0%, donc
+   sur SA FORME LA PLUS DÉCOUPÉE. Sur un réseau lent ou un bloqueur de
+   polices, le titre reste coupé un temps indéterminé : c'est le symptôme
+   rapporté. Le polygone final (100%) couvre lui bien 100% du texte (vérifié
+   par calcul et par mesure) — ce n'est donc pas le tracé qui est en cause.
+
+   Correctif : l'état PAR DÉFAUT (sans classe JS) est désormais
+   entièrement visible (clip-path:none) — condition non négociable, quel
+   que soit l'état du chargement de la page. L'animation elle-même ne se
+   déclenche plus qu'une fois la classe .mpp-hero-in posée par un
+   IntersectionObserver sur .hero-section (voir script inline de la page,
+   même mécanisme que pratiqueObserver plus bas dans le même fichier) —
+   entrée dans le viewport, pas chargement du document. Si ce script est
+   lui-même retardé ou ne s'exécute jamais (même cause racine), le titre
+   reste simplement visible sans animation : dégradation acceptée, jamais
+   de découpe. */
 html[data-creche] .heading-7 {
-  color: var(--creche-accent-fonce) !important;
-  -webkit-text-stroke-width: 0 !important;
-  -webkit-text-stroke-color: transparent !important;
+  color: var(--mpp-white) !important;
+  -webkit-text-stroke-width: 1px !important;
+  -webkit-text-stroke-color: var(--mpp-ink) !important;
 }
 html[data-creche] .text-span-15 {
-  color: var(--creche-accent-fonce) !important;
+  color: var(--creche-accent) !important;
 }
 
 html[data-creche] .heading-7 {
-  opacity: 1 !important;               /* la révélation se fait par clip-path, pas par opacité */
+  opacity: 1 !important;      /* la révélation se fait par clip-path, pas par opacité */
+  clip-path: none;            /* état par défaut : texte entier visible, aucune découpe */
+}
+html[data-creche] .hero-section.mpp-hero-in .heading-7 {
   animation-duration: 1100ms;
   animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
   animation-fill-mode: both;
-  animation-delay: 150ms;
 }
-html[data-creche="ocean"] .heading-7 { animation-name: mpp-hero-reveal-vague; }
-html[data-creche="foret"] .heading-7 { animation-name: mpp-hero-reveal-pousse; }
+html[data-creche="ocean"] .hero-section.mpp-hero-in .heading-7 { animation-name: mpp-hero-reveal-vague; }
+html[data-creche="foret"] .hero-section.mpp-hero-in .heading-7 { animation-name: mpp-hero-reveal-pousse; }
 
 @keyframes mpp-hero-reveal-vague {
   0%   { clip-path: polygon(-25% 0%, -10.00% 0%, -3.07% 16.67%, -3.07% 33.33%, -10.00% 50%, -16.93% 66.67%, -16.93% 83.33%, -10.00% 100%, -25% 100%); }
