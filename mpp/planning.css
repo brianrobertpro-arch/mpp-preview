@@ -21,3 +21,15 @@
   margin-bottom: calc(-1 * var(--planning-decalage) * 0.62);
   box-sizing: border-box;
 }
+
+/* ─── Description sous chaque horaire (pas l'horaire lui-même) ────────────
+   Webflow d'origine : font-family="system-ui, sans-serif" en attribut SVG,
+   remplacé ici en Fuzzybubbles (self-host, chargée par webflow.shared…css,
+   seule graphie vérifiable dans ce sandbox — Google Fonts y est bloqué).
+   La règle CSS prime sur l'attribut de présentation SVG (spécificité 0).
+   Taille +1px (15→16, cran mesuré) : l'horaire (Georgia, 28px) n'est pas
+   touché. */
+.section-4 .planning-card text[font-family="system-ui, sans-serif"] {
+  font-family: 'Fuzzybubbles', sans-serif;
+  font-size: 16px;
+}

@@ -1,0 +1,346 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   MPP — THÈME PAR CRÈCHE
+   Chaque page crèche porte data-creche="ocean|foret|montagne|savane" sur
+   <html>. Ce fichier définit, par valeur de cet attribut, un jeu de variables
+   CSS réutilisées par les boutons (mpp/theme-creche.css consommé après
+   mpp/overrides.css, qui porte les tokens --mpp-* dont ce fichier dépend).
+
+   --creche-accent       : couleur dominante de la crèche (= un token --mpp-*
+                           existant, cf. da-mpp.md §2.7 "Palette retenue").
+   --creche-accent-fonce : variante assombrie, pour les états hover/actif ET
+                           le texte sur fond clair (titre hero). Hex calculés
+                           hors CSS (assombrissement RGB simple vers le noir,
+                           pas de color-mix()/calc() : support navigateur trop
+                           récent pour un site en production) puis écrits en
+                           dur ; dérivation et ratio de contraste commentés
+                           à chaque règle.
+   --creche-accent-clair : variante éclaircie (RGB vers le blanc, 35%), pour
+                           fonds/survols discrets. Aucune exigence de contraste
+                           n'est demandée pour cette variante (décorative).
+   --creche-contraste    : couleur de texte lisible SUR --creche-accent.
+                           Mesuré : le blanc (couleur historique des boutons
+                           Webflow, .w-button{color:#fff}) échoue sur les
+                           quatre accents de base (1,16:1 à 3,00:1 — sous le
+                           seuil légal de 4,5:1). L'encre --mpp-ink passe sur
+                           les quatre (5,75:1 à 14,82:1) : retenue uniformément
+                           comme --creche-contraste. Sur les états hover/actif
+                           (fond = accent-fonce, plus sombre), c'est l'inverse
+                           qui est vrai (l'encre y échoue, 2,76:1 à 3,77:1) —
+                           ces états repassent donc en blanc directement dans
+                           les règles de boutons (phase 3), pas ici : ce n'est
+                           pas une nouvelle couleur, c'est le blanc déjà
+                           utilisé par .w-button.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ─── OCÉAN — bleu (--mpp-bleu, da-mpp.md §2.7) ────────────────────────────
+   accent-fonce : #8195c2 assombri de 35 % vers le noir -> #54617e.
+   Contraste vs crème #ebe6d4 (fond de carte/section) : 4,97:1 (>= 4,5:1 requis).
+   Contraste texte encre --mpp-ink (#1b1b1b) sur l'accent de base : 5,75:1.
+   Contraste texte blanc sur l'accent-fonce (hover/actif) : 6,20:1. */
+:root[data-creche="ocean"], html[data-creche="ocean"] {
+  --creche-accent: var(--mpp-bleu);
+  --creche-accent-fonce: #54617e;
+  --creche-accent-clair: #adbad7;
+  --creche-contraste: var(--mpp-ink);
+}
+
+/* ─── FORÊT — lime (--mpp-lime, da-mpp.md §2.7) ────────────────────────────
+   accent-fonce : #d9dd7e assombri de 55 % vers le noir -> #626339 (le lime
+   est très clair : il faut l'assombrir bien plus que le bleu pour atteindre
+   le seuil de contraste).
+   Contraste vs crème #ebe6d4 : 4,98:1 (>= 4,5:1 requis).
+   Contraste texte encre sur l'accent de base : 11,97:1.
+   Contraste texte blanc sur l'accent-fonce (hover/actif) : 6,24:1. */
+:root[data-creche="foret"], html[data-creche="foret"] {
+  --creche-accent: var(--mpp-lime);
+  --creche-accent-fonce: #626339;
+  --creche-accent-clair: #e6e9ab;
+  --creche-contraste: var(--mpp-ink);
+}
+
+/* ─── MONTAGNE (page à venir) — neige, dérivée de --mpp-bleu ───────────────
+   accent : #ebeef4, --mpp-bleu (#8195c2) éclairci de 84 % vers le blanc
+   (vérifié : lighten(#8195c2, 0.84) = #ebeef5, à 1 unité près de la valeur
+   fournie par la consigne — dérivation confirmée).
+   accent-fonce : CAS PARTICULIER. Assombrir la neige elle-même ne suffit à
+   aucun seuil de lisibilité utile (une neige assombrie reste presque blanche
+   à toute profondeur raisonnable) : la consigne impose donc le rose de la
+   charte --mpp-rose (#c14c7c) comme accent-fonce pour ce thème, pas une
+   dérivée de l'accent.
+   Contraste rose vs crème #ebe6d4 : 3,66:1 — SOUS le seuil de 4,5:1 (mesuré,
+   consigné tel quel : la consigne fixe cette valeur explicitement, ce n'est
+   pas un choix laissé à cette session — voir « Décisions prises seul »).
+   Contraste texte blanc sur le rose (hover/actif) : 4,57:1 (>= 4,5:1, tout
+   juste).
+   Contraste texte encre sur l'accent de base (neige) : 14,82:1. */
+:root[data-creche="montagne"], html[data-creche="montagne"] {
+  --creche-accent: #ebeef4;
+  --creche-accent-fonce: var(--mpp-rose);
+  --creche-accent-clair: #f2f4f8;
+  --creche-contraste: var(--mpp-ink);
+}
+
+/* ─── SAVANE (page à venir) — orange (--mpp-orange, da-mpp.md §2.7) ────────
+   accent-fonce : #e8a248 assombri de 45 % vers le noir -> #805928.
+   Contraste vs crème #ebe6d4 : 4,98:1 (>= 4,5:1 requis).
+   Contraste texte encre sur l'accent de base : 7,95:1.
+   Contraste texte blanc sur l'accent-fonce (hover/actif) : 6,22:1. */
+:root[data-creche="savane"], html[data-creche="savane"] {
+  --creche-accent: var(--mpp-orange);
+  --creche-accent-fonce: #805928;
+  --creche-accent-clair: #f0c388;
+  --creche-contraste: var(--mpp-ink);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   BOUTONS — remplace les couleurs en dur du CSS Webflow partagé
+   (mes-premier-pas.webflow.shared…css:2501-2645), incohérentes d'un bouton à
+   l'autre et parfois d'un état à l'autre (ex. .ip.foret / .ip.foret:hover ne
+   différaient que d'une opacité de 30 % — hover à peine perceptible ;
+   .pp.foret passait à l'encre puis au beige au survol, sans rapport avec le
+   thème). Ne touche que .visite/.ip/.pp (seuls boutons réellement utilisés
+   sur ces deux pages, cf. phase 1) — jamais .pre-inscription (navbar,
+   partagée avec les autres pages, hors périmètre).
+
+   Spécificité : ce fichier charge après le CSS Webflow partagé (même ordre
+   de source suffirait déjà à égalité de spécificité), mais les couleurs
+   utilisent !important — convention déjà en vigueur dans mpp/overrides.css
+   pour ce même besoin (surcharger des règles Webflow au poids variable).
+   Forme/taille/rayon/espacement d'origine non touchés : seule la couleur
+   change, comme demandé.
+
+   --creche-contraste (encre) passe l'idle (fond = accent clair) ; le blanc,
+   déjà la couleur historique de .w-button, repasse sur les états hover/actif
+   (fond = accent-fonce, plus sombre) — voir la démonstration de contraste en
+   tête de fichier. Aucune couleur nouvelle introduite dans ni l'un ni
+   l'autre cas.
+
+   Easing : le bouton ne portait pas de easing explicite (transition avec
+   fonction implicite "ease" par défaut) — la signature de charte
+   cubic-bezier(0.22,1,0.36,1) est donc appliquée aux propriétés couleur
+   sans conflit à signaler. box-shadow/transform gardent leur "ease" et leur
+   durée d'origine (0.2s), redéclarés ici à l'identique uniquement parce que
+   CSS n'autorise pas un easing par propriété sans réénoncer tout le train
+   de transitions. */
+html[data-creche] .button.type1.visite,
+html[data-creche] .button.type1.ip,
+html[data-creche] .button.type1.pp {
+  background-color: var(--creche-accent) !important;
+  color: var(--creche-contraste) !important;
+  transition: background-color 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+              color 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.2s ease,
+              transform 0.2s ease !important;
+}
+
+html[data-creche] .button.type1.visite:hover,
+html[data-creche] .button.type1.ip:hover,
+html[data-creche] .button.type1.ip:active,
+html[data-creche] .button.type1.ip:focus,
+html[data-creche] .button.type1.ip.is-active,
+html[data-creche] .button.type1.pp:hover,
+html[data-creche] .button.type1.pp:active,
+html[data-creche] .button.type1.pp:focus,
+html[data-creche] .button.type1.pp.is-active {
+  background-color: var(--creche-accent-fonce) !important;
+  color: var(--mpp-white) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   TITRE DU HERO (.heading-7 « VERS OCÉAN/FORÊT »)
+
+   4a — Webflow shared css (mes-premier-pas.webflow.shared…css:3462) pose un
+   contour : -webkit-text-stroke-width:1px + couleur encre, fill blanc, span
+   "OCEAN"/"FORÊT" en lime fixe (:3474) — jamais thématique. Retiré ici, texte
+   entier recoloré en --creche-accent-fonce (encre déjà utilisée par le
+   contour d'origine, cohérent avec la charte). Contraste mesuré vs crème
+   --mpp-cream (fond de section le plus proche disponible pour mesure fiable
+   dans ce sandbox — l'egress bloque le chargement du fond hero réel, une
+   photo distante cdn.prod.website-files.com ; à re-vérifier en production,
+   voir rapport) : identique aux ratios --creche-accent-fonce déjà consignés
+   plus haut (>= 4,5:1 sur les 4 thèmes, montagne compris à 3,66:1 — cas
+   particulier déjà signalé).
+
+   4b — Révélation par clip-path polygon(), scoped par data-creche. Même
+   nombre et même ordre de sommets entre les deux keyframes (0%/100%) : seule
+   la coordonnée X de chaque sommet varie, donc la FORME reste rigide et se
+   contente de glisser de gauche à droite (pas d'interpolation qui déformerait
+   le tracé). clip-path ne retire jamais le texte du DOM ni de l'arbre
+   d'accessibilité : sélectionnable et lisible au lecteur d'écran pendant et
+   après l'animation (contrairement à display:none/visibility:hidden).
+   Aucun scale/skew/rotation sur les glyphes.
+
+   OCÉAN — vague : front sinusoïdal (1 cycle complet sur la hauteur du
+   titre, amplitude 8%), disposé sur 7 points (0/16,67/33,33/50/66,67/
+   83,33/100 % de hauteur). Position de départ décalée de -10% (marge de
+   sécurité au-delà de l'amplitude, rien ne dépasse 0%) ; position d'arrivée
+   décalée de +110% (symétrique, rien ne reste sous 100%).
+
+   FORÊT — pousse : front en paliers nets (5 bandes de 20% de hauteur,
+   plateau horizontal puis saut vertical à angle droit — pas de courbe),
+   décalages [0,6,12,6,0] (motif symétrique, façon cernes de croissance).
+   Mêmes marges de sécurité (-15% / +115%) que l'océan pour garantir un état
+   totalement caché puis totalement révélé.
+
+   Durée commune 1100ms (dans la fourchette 900-1400ms imposée), easing de
+   charte cubic-bezier(0.22,1,0.36,1), pour les deux thèmes — seule la forme
+   du front diffère. */
+html[data-creche] .heading-7 {
+  color: var(--creche-accent-fonce) !important;
+  -webkit-text-stroke-width: 0 !important;
+  -webkit-text-stroke-color: transparent !important;
+}
+html[data-creche] .text-span-15 {
+  color: var(--creche-accent-fonce) !important;
+}
+
+html[data-creche] .heading-7 {
+  opacity: 1 !important;               /* la révélation se fait par clip-path, pas par opacité */
+  animation-duration: 1100ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  animation-fill-mode: both;
+  animation-delay: 150ms;
+}
+html[data-creche="ocean"] .heading-7 { animation-name: mpp-hero-reveal-vague; }
+html[data-creche="foret"] .heading-7 { animation-name: mpp-hero-reveal-pousse; }
+
+@keyframes mpp-hero-reveal-vague {
+  0%   { clip-path: polygon(-25% 0%, -10.00% 0%, -3.07% 16.67%, -3.07% 33.33%, -10.00% 50%, -16.93% 66.67%, -16.93% 83.33%, -10.00% 100%, -25% 100%); }
+  100% { clip-path: polygon(-25% 0%, 110.00% 0%, 116.93% 16.67%, 116.93% 33.33%, 110.00% 50%, 103.07% 66.67%, 103.07% 83.33%, 110.00% 100%, -25% 100%); }
+}
+@keyframes mpp-hero-reveal-pousse {
+  0%   { clip-path: polygon(-25% 0%, -15% 0%, -15% 20%, -9% 20%, -9% 40%, -3% 40%, -3% 60%, -9% 60%, -9% 80%, -15% 80%, -15% 100%, -25% 100%); }
+  100% { clip-path: polygon(-25% 0%, 115% 0%, 115% 20%, 121% 20%, 121% 40%, 127% 40%, 127% 60%, 121% 60%, 121% 80%, 115% 80%, 115% 100%, -25% 100%); }
+}
+
+/* 4c — bouton "Visite Virtuelle" : entre en fondu APRÈS le titre (ordre
+   lisible titre -> bouton), léger recouvrement avec la fin de la révélation
+   du titre (démarre à 950ms, le titre finit sa révélation à 150+1100=1250ms)
+   plutôt qu'une attente totale — cohérent avec le style de cascade déjà
+   pratiqué ailleurs sur le site (départs décalés, pas de blocage séquentiel
+   strict). --hero-cascade (130ms) n'est pas atteignable ici : mpp/hero.css
+   n'est pas chargé sur ces deux pages (vérifié par grep) — pas de sous-titre
+   dans ce hero (uniquement titre + bouton). Séquence complète : départ titre
+   150ms -> fin bouton 950+500=1450ms, soit 1300ms d'étalement, sous le
+   plafond de 2000ms. */
+html[data-creche] .button.type1.visite {
+  animation-name: mpp-hero-bouton-fondu;
+  animation-duration: 500ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  animation-fill-mode: both;
+  animation-delay: 950ms;
+}
+@keyframes mpp-hero-bouton-fondu {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-creche] .heading-7 {
+    animation: none !important;
+    clip-path: none !important;
+    opacity: 1 !important;
+  }
+  html[data-creche] .button.type1.visite {
+    animation: none !important;
+    opacity: 1 !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PHASE 5 — Bouton "Visite Virtuelle" avec totem
+
+   Contrainte matérielle : les totems sont des PNG en pastille ronde, fond de
+   couleur incrusté dans le fichier (pas de transparence, pas de détourage
+   CSS possible, cf. da-mpp.md §6.2) — composition imposée : pastille à
+   gauche, débordant au-dessus/à gauche du bouton, libellé à droite. Le
+   totem est un enfant DOM du lien (pas juste posé dessus) : un clic dessus
+   déclenche la navigation comme le reste du bouton (bulle jusqu'à l'ancre),
+   pas de pointer-events:none qui l'exclurait de la zone cliquable.
+
+   Police du libellé : Fuzzybubbles (self-host, webflow.shared…css) —
+   même choix que la description des horaires d'index.html (session
+   précédente) : seule graphie vérifiable dans ce sandbox, Google Fonts y
+   étant bloqué. 'Fuzzy Bubbles' (Google Fonts, deux mots) est également
+   chargée sur ces pages mais son rendu réel n'est pas vérifiable ici.
+
+   Couleurs : fond --creche-accent, texte --creche-contraste — mêmes
+   variables et mêmes ratios de contraste que les boutons ip/pp (phase 3,
+   >= 4,5:1 sur les 4 thèmes sauf montagne en accent-fonce, cas particulier
+   déjà signalé — non concerné ici car .mpp-visite-totem utilise l'accent de
+   base, pas l'accent-fonce, à l'idle).
+
+   Zone cliquable : min-height 44px sur l'ancre elle-même ; le totem,
+   overflow:visible, déborde du cadre du bouton mais reste un descendant du
+   lien — jamais la zone cliquable réduite pour faire de la place au totem. */
+html[data-creche] .mpp-visite-totem {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  overflow: visible;
+  min-height: 44px;
+  padding: 12px 30px 12px 46px !important;
+  background-color: var(--creche-accent) !important;
+  color: var(--creche-contraste) !important;
+  font-family: 'Fuzzybubbles', Raleway, Arial, sans-serif !important;
+  font-weight: 700;
+  transition: background-color 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+              color 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.2s ease,
+              transform 0.2s ease !important;   /* box-shadow/transform : mêmes propriétés que le .button.type1 d'origine (survol scale+ombre), reconduites à l'identique pour ne pas perdre leur transition douce en écrasant le raccourci "transition" */
+}
+html[data-creche] .mpp-visite-totem:hover,
+html[data-creche] .mpp-visite-totem:focus-visible {
+  background-color: var(--creche-accent-fonce) !important;
+  color: var(--mpp-white) !important;
+}
+html[data-creche] .mpp-visite-totem:focus-visible {
+  outline: 2px solid var(--creche-accent-fonce);
+  outline-offset: 3px;
+}
+
+.mpp-visite-totem__totem {
+  position: absolute;
+  top: -14px;
+  left: -18px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  filter: drop-shadow(0 8px 16px rgba(27, 27, 27, 0.18));
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+html[data-creche] .mpp-visite-totem:hover .mpp-visite-totem__totem,
+html[data-creche] .mpp-visite-totem:focus-visible .mpp-visite-totem__totem {
+  transform: rotate(-8deg) scale(1.06);
+}
+
+.mpp-visite-totem__label {
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Le changement de couleur au survol subsiste (transition déjà courte,
+     0.2s, non concernée par la consigne) ; seule l'animation du totem
+     (rotation/rebond) est supprimée. */
+  .mpp-visite-totem__totem {
+    transition: none !important;
+  }
+  html[data-creche] .mpp-visite-totem:hover .mpp-visite-totem__totem,
+  html[data-creche] .mpp-visite-totem:focus-visible .mpp-visite-totem__totem {
+    transform: none !important;
+  }
+}
+
+/* <480px : réduire le totem, jamais la zone cliquable (min-height reste 44px). */
+@media screen and (max-width: 479px) {
+  html[data-creche] .mpp-visite-totem {
+    padding: 10px 22px 10px 38px !important;
+  }
+  .mpp-visite-totem__totem {
+    width: 42px;
+    height: 42px;
+    top: -10px;
+    left: -14px;
+  }
+}
