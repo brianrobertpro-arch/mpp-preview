@@ -93,6 +93,44 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
+   HERO — image de fond, par thème
+
+   Bug corrigé : .hero-section.vers-ocean (mes-premier-pas.webflow.shared…
+   css:2388) est appliqué en dur sur les deux pages crèche —
+   nos-creche-vers-foret.html:553 ET nos-creche-vers-ocean.html:553 portent
+   toutes deux class="hero-section vers-ocean" (aspiration Webflow, classe
+   jamais adaptée par page) — la page Forêt affichait donc la photo de
+   l'Océan.
+
+   Seule l'URL change ici. Cadrage/position/calque restent ceux déjà en
+   place : background-position 50% 100%, no-repeat, cover, attachment
+   scroll (mes-premier-pas.webflow.shared…css:2388-2404), plus les
+   surcharges responsive inline de chaque page (identiques sur les deux
+   pages, ex. nos-creche-vers-foret.html:288/406/473 à 991/767/479px) — rien
+   de tout cela n'est touché ni redéclaré ici.
+
+   !important gardé par cohérence avec le reste du fichier (convention déjà
+   en vigueur ci-dessous), pas par nécessité de spécificité : ce fichier est
+   lié après tous les blocs ci-dessus dans le <head> (théme-creche.css lié
+   en dernier, cf. nos-creche-vers-foret.html:551), donc gagnerait déjà sans.
+
+   montagne/savane n'ont pas de page aujourd'hui : variables définies quand
+   même (mécanisme déjà utilisé ainsi plus haut dans ce fichier pour ces deux
+   thèmes). */
+html[data-creche="ocean"] .hero-section {
+  background-image: url("https://pub-b62969cb28c74eaa82f2cc05d4ae9428.r2.dev/mpp/photos/site-hero-ocean-v6.webp") !important;
+}
+html[data-creche="foret"] .hero-section {
+  background-image: url("https://pub-b62969cb28c74eaa82f2cc05d4ae9428.r2.dev/mpp/photos/site-hero-foret-v1.webp") !important;
+}
+html[data-creche="montagne"] .hero-section {
+  background-image: url("https://pub-b62969cb28c74eaa82f2cc05d4ae9428.r2.dev/mpp/photos/site-hero-saint-julien-v3.webp") !important;
+}
+html[data-creche="savane"] .hero-section {
+  background-image: url("https://pub-b62969cb28c74eaa82f2cc05d4ae9428.r2.dev/mpp/photos/site-hero-valleiry-v3.webp") !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
    BOUTONS — remplace les couleurs en dur du CSS Webflow partagé
    (mes-premier-pas.webflow.shared…css:2501-2645), incohérentes d'un bouton à
    l'autre et parfois d'un état à l'autre (ex. .ip.foret / .ip.foret:hover ne
