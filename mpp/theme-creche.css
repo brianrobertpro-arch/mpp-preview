@@ -74,9 +74,9 @@
    juste).
    Contraste texte encre sur l'accent de base (neige) : 14,82:1. */
 :root[data-creche="montagne"], html[data-creche="montagne"] {
-  --creche-accent: #ebeef4;
-  --creche-accent-fonce: var(--mpp-rose);
-  --creche-accent-clair: #f2f4f8;
+  --creche-accent: #b9d8e1;
+  --creche-accent-fonce: #556368;
+  --creche-accent-clair: #d2e6ec;
   --creche-contraste: var(--mpp-ink);
 }
 
