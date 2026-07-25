@@ -7,8 +7,18 @@
    ═══════════════════════════════════════════════════════════════════════════ */
 
 /* Fond bleu du footer (comme avant la refonte : var(--_couleurs---c-bleu)).
-   Fixé explicitement car la variable Webflow ne se résout pas partout. */
+   Fixé explicitement car la variable Webflow ne se résout pas partout.
+   Reste la valeur par défaut sur les pages sans data-creche. */
 .footer-section { background-color: #8195c2 !important; }
+
+/* Pages crèche : fond du footer = accent foncé du thème (cf. mpp/theme-creche.css).
+   Texte du footer en crème #f4f1e6 : illisible sur l'accent de base (1,27–2,65:1),
+   conforme sur l'accent foncé (5,48–5,52:1 sur ocean/forêt/savane — voir rapport
+   pour l'écart mesuré sur montagne, dont l'accent foncé réel est --mpp-rose). */
+:root[data-creche] .footer-section,
+html[data-creche] .footer-section {
+  background-color: var(--creche-accent-fonce) !important;
+}
 
 .footer-scene {
   /* raccourcis palette pour la scène */
