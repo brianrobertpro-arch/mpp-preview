@@ -1663,28 +1663,15 @@ Elle dispose d'un beau jardin extérieur avec vue sur les montagnes, ainsi que d
 <script>
 (function() {
 
-  /* HERO — Titre : révélation en CSS pure (mpp/theme-creche.css,
-     animations mpp-hero-reveal-vague/-pousse), déclenchée par la classe
-     .mpp-hero-in posée ici à l'entrée du hero dans le viewport — même
-     mécanisme (IntersectionObserver, threshold 0.2, déclenchement unique)
-     que pratiqueObserver juste en dessous. Par défaut, avant déclenchement
-     ou si ce script est retardé/ne tourne jamais, le titre reste
-     entièrement visible (mpp/theme-creche.css, .heading-7{clip-path:none}
-     hors classe) — correctif retours-v1 T5, voir rapport pour le
-     diagnostic. Bouton "Visite Virtuelle" (mpp-hero-bouton-fondu) : hors
+  /* HERO — Titre : plus de révélation ni de classe .mpp-hero-in
+     (finitions-v1). L'ancienne cascade clip-path faisait disparaître le
+     titre au moment précis où l'observer posait la classe
+     (animation-fill-mode:both sautait au keyframe 0%, entièrement caché,
+     avant de se révéler sur 1100ms) — incompatible avec la contrainte
+     "titre visible en permanence", donc supprimée (mpp/theme-creche.css).
+     Le titre reste dans son état par défaut, stable, du premier paint à
+     l'état final. Bouton "Visite Virtuelle" (mpp-hero-bouton-fondu) : hors
      périmètre, laissé en CSS pur tel quel. */
-  var heroSection = document.querySelector('.hero-section');
-  if (heroSection) {
-    var heroObserver = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        if (entry.isIntersecting) {
-          heroSection.classList.add('mpp-hero-in');
-          heroObserver.disconnect();
-        }
-      });
-    }, { threshold: 0.2 });
-    heroObserver.observe(heroSection);
-  }
 
   /* PRATIQUE — Bouton 1 → Bouton 2 → Texte + Spirale */
   var btnInfos = document.querySelector('.button.type1.ip');
