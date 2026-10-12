@@ -1,0 +1,10 @@
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Transformed by: SVG Repo Mixer Tools -->
+<svg fill="#000000" width="800px" height="800px" viewBox="0 0 24 24" id="curve-arrow-up-4" data-name="Flat Color" xmlns="http://www.w3.org/2000/svg" class="icon flat-color">
+<g id="SVGRepo_bgCarrier" stroke-width="0"/>
+<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+<g id="SVGRepo_iconCarrier">
+<path id="secondary" d="M18,10a1,1,0,0,1-.8-.4L13,4,8.8,9.6A1,1,0,1,1,7.2,8.4l4.22-5.61a2,2,0,0,1,3.16,0L18.8,8.4a1,1,0,0,1-.2,1.4A1,1,0,0,1,18,10Z" style="fill: #d9dd7e;"/>
+<path id="primary" d="M18.8,14.4l-5-6.76a1,1,0,0,0-.8-.4h0a1,1,0,0,0-.8.41l-5,6.76A1,1,0,0,0,8,16H9.88c-.7,2.79-4.17,4-4.21,4.05A1,1,0,0,0,6,22c7.66,0,9.58-3.4,9.93-6H18a1,1,0,0,0,.89-.55A1,1,0,0,0,18.8,14.4Z" style="fill: #d9dd7e;"/>
+</g>
+</svg>

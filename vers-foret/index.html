@@ -1,0 +1,501 @@
+<!DOCTYPE html><html lang="fr" data-theme="mpp" style="--mpp-accent-page:#d9dd7e;--voile-chargement:#626339"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v7.2.8"><title>La p&#39;tite forêt — Mes Premiers Pas</title><link rel="canonical" href="/vers-foret/"><meta property="og:type" content="website"><script type="application/ld+json">{"@context":"https://schema.org","@type":"ChildCare","name":"Mes Premiers Pas","address":"310 Rue du Riondet, 74520 Valleiry, France","telephone":["04 50 16 19 29","04 50 83 99 94"],"openingHours":"7h15 – 18h15"}</script><script>
+			/*
+			 * Pose data-nav AVANT le premier rendu (bloquant, dans <head>) — sans
+			 * quoi le CSS keyed sur html[data-nav] s'applique après un flash dans
+			 * l'état non stylé. Repliée en mobile, déployée en desktop, comme la
+			 * référence (overrides.js) — pas de mémorisation d'un chargement au
+			 * suivant.
+			 */
+			(function () {
+				var mobile = window.matchMedia('(max-width: 820px)').matches;
+				document.documentElement.setAttribute('data-nav', mobile ? 'closed' : 'open');
+			})();
+
+			/*
+			 * Voile de chargement : rien de la page n'est vu tant que la page
+			 * (load) et ses polices ne sont pas prêtes — plafond 3 s pour ne
+			 * jamais bloquer le visiteur. À la levée : événement `mpp:pret`, que
+			 * les animations d'entrée attendent (Hero.astro), puis retrait de
+			 * l'attribut après le fondu. Posé en JS : sans JS, aucun voile.
+			 */
+			(function () {
+				var html = document.documentElement;
+				html.setAttribute('data-chargement', 'on');
+				var leve = false;
+				var lever = function () {
+					if (leve) return;
+					leve = true;
+					window.__mppPret = true;
+					html.setAttribute('data-chargement', 'sortie');
+					window.dispatchEvent(new Event('mpp:pret'));
+					setTimeout(function () {
+						html.removeAttribute('data-chargement');
+					}, 520);
+				};
+				window.addEventListener('load', function () {
+					var polices = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
+					polices.then(lever, lever);
+				});
+				setTimeout(lever, 3000);
+			})();
+		</script><link rel="stylesheet" href="../_astro/PageContenu.BSAwCErU.css"></head><body class="bg-fond text-texte flex flex-col"><button type="button" id="mpp-menu-badge" class="mpp-menu-badge" aria-controls="mpp-navbar" aria-expanded="false" aria-label="Ouvrir le menu"><img class="mpp-menu-badge__feet" src="/mpp/empreintes.png" alt=""><span class="mpp-menu-badge__label">MENU</span></button><nav id="mpp-navbar" class="mpp-navbar"><div class="mpp-navbar__inner"><div class="mpp-navbar__gauche"><button type="button" id="mpp-nav-close" class="mpp-nav-close" aria-controls="mpp-navbar" aria-label="Fermer le menu"><svg class="mpp-nav-close__arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 19V5M12 5l-6.5 6.5M12 5l6.5 6.5"></path></svg><span class="mpp-nav-close__label">Fermer</span></button><a href="/" class="mpp-navbar__logo"><img src="/mpp/logo-trim.png" alt="Mes Premiers Pas" width="964" height="752" loading="eager"></a><a href="/" class="mpp-navbar__link" data-page-id="page-accueil"><span class="mpp-navbar__roll" data-text="Accueil">Accueil</span></a><a href="#" class="mpp-navbar__link" data-nav-dropdown="creches"><span class="mpp-navbar__roll" data-text="Nos crèches">Nos crèches</span><span class="mpp-navbar__fleche" aria-hidden="true">▾</span></a><a href="/a-propos/" class="mpp-navbar__link" data-page-id="page-a-propos"><span class="mpp-navbar__roll" data-text="Nos valeurs">Nos valeurs</span></a><a href="/journee-type/" class="mpp-navbar__link" data-page-id="page-journee-type"><span class="mpp-navbar__roll" data-text="Journée type">Journée type</span></a><a href="/recrutement/" class="mpp-navbar__link" data-page-id="page-recrutement"><span class="mpp-navbar__roll" data-text="Recrutement">Recrutement</span></a></div><div class="mpp-navbar__droite"><div class="mpp-navbar__tel-bloc"><a href="tel:+33450839994" class="mpp-navbar__tel">+33 4 50 83 99 94</a></div><a href="https://www.labulledespetitspas.com/_files/ugd/2ab568_b72a1b0fc9e649818590a7ef41905c2d.pdf" class="mpp-navbar__cta survol-bouton">Pré-inscription</a></div></div></nav><div id="mpp-dropdown-creches" class="mpp-dropdown-panel" role="menu"><a href="/vers-foret/" role="menuitem" data-creche="foret">La p&#39;tite forêt</a><a href="/vers-montagne/" role="menuitem" data-creche="montagne">Les p&#39;tits montagnards</a><a href="/vers-ocean/" role="menuitem" data-creche="ocean">Les p&#39;tis cœurs de l&#39;Ocean</a><a href="/vers-savane/" role="menuitem" data-creche="savane">La p&#39;tite savane</a></div><main class="flex flex-col relative"><div style="margin-top:0px" data-creche="foret"><section class="@container" data-archetype="accroche" data-section-id="page-creche-foret-hero"><script>(function(){const declenchement = "chargement";
+
+		(() => {
+			const racine = document.currentScript && document.currentScript.closest('[data-archetype="accroche"]');
+			if (!racine) return;
+			const reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+			if (reduit || declenchement === 'chargement' || !('IntersectionObserver' in window)) return;
+			racine.classList.add('anim-pending');
+			const observateur = new IntersectionObserver(
+				(entrees) => {
+					entrees.forEach((entree) => {
+						if (entree.isIntersecting) {
+							racine.classList.remove('anim-pending');
+							observateur.disconnect();
+						}
+					});
+				},
+				{ threshold: 0.25 },
+			);
+			observateur.observe(racine);
+		})();
+	})();</script><!--
+		Gabarit interne (correction T2/T3, rapport-correction-accroche-20260822.md ;
+		étendue cause 3, CONSTAT-ECARTS.md) : porte la hauteur, le fond ET la
+		disposition — pas la <section> elle-même. Une container query (et, plus
+		largement, tout ce qui doit répondre à une variante de conteneur) ne
+		s'applique jamais à l'élément qui établit son propre @container (seuls ses
+		descendants sont des cibles valides — skill astro-frontend, règle n°10).
+		L'échelle h-hero-* posée directement sur la <section> ne gagnait donc jamais
+		(mesure T2 : hauteur constante à toute largeur) ; le même défaut touchait le
+		background-position (mesure cause 3 : 50% 50% figé aux 3 viewports au lieu de
+		basculer à 50% 100% dès 992px). Fond + px-lg déplacés ici avec la hauteur :
+		background-origin reste padding-box par défaut, donc le fond continue de
+		peindre en plein bord malgré le px-lg posé sur ce même élément (padding ≠
+		inset du fond) — aucun écart de bleed horizontal introduit.
+		Structure reprise telle quelle de mpp-blocs-creche.md, Bloc Accroche §
+		Structure : .hero-section > .div-tampon (vide) + lien totem + .div-footer
+		(.div-tampon vide + <h1>). Zero position:absolute dans la source pour ce bloc
+		(verifie) : la disposition (totem a mi-hauteur, titre en bas-droite) vient
+		uniquement de justify-content:space-between, imbrique dans deux flex locaux a
+		la section — aucun ancrage fenetre.
+	--><div class="flex flex-col items-center justify-between px-lg @min-[768px]:px-0 bg-cover bg-no-repeat [background-image:var(--url-creche-fond-hero)] [background-position:center] @min-[975px]:[background-position:50%_100%] h-hero-mobile-sm @min-[480px]:h-hero-mobile @min-[768px]:h-hero-tablet @min-[975px]:h-hero"><!-- .div-tampon (1/2) : aucune regle CSS pour cette classe dans la source —
+		     div vide, sert de repere pour justify-content:space-between. --><div aria-hidden="true"></div><!-- Bouton d'invitation à la visite (T1/T3, v3) : libellé et état actif lus
+		     du schéma (contenuAttendu.libelleBoutonVisite, parametres.
+		     boutonVisiteActif) — plus de chrome fixe en dur. Totem + libellé en
+		     ligne (flex/gap) : la source positionne le totem en hors-flux à
+		     l'intérieur du bouton, mais l'offset de base (avant le seuil 479px)
+		     n'est pas attesté par le relevé — écart consigné, rapport T3. --><a href="/videos/visite-foret.mp4" data-visite-bouton data-visite-video="/videos/visite-foret.mp4" class="hero-anim-entree group relative inline-flex items-center gap-xs @min-[768px]:gap-0 @min-[768px]:min-h-[44px] rounded-full shadow-[0_2px_5px_rgba(0,0,0,0.2)] hover:shadow-[0_2px_5px_3px_rgba(0,0,0,0.2)] bg-creche-accent text-creche-contraste font-fuzzybubbles font-bold text-hero-bouton-mobile-sm @min-[480px]:text-hero-bouton-mobile @min-[768px]:text-hero-bouton px-hero-bouton-x-mobile-sm py-hero-bouton-y-mobile-sm @min-[480px]:px-hero-bouton-x-mobile @min-[480px]:py-hero-bouton-y-mobile @min-[768px]:px-hero-bouton-x @min-[768px]:py-hero-bouton-y @min-[768px]:pt-[12px] @min-[768px]:pr-[30px] @min-[768px]:pb-[12px] @min-[768px]:pl-[46px] @min-[975px]:text-[0.8rem] @min-[1423px]:text-[1.2rem] @min-[1903px]:text-[1.5rem] survol-bouton hover:bg-creche-accent-fonce hover:text-white focus-visible:bg-creche-accent-fonce focus-visible:text-white focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-creche-accent-fonce animate-hero-bouton motion-reduce:animate-none motion-reduce:opacity-100"><img src="../_astro/totem-foret_1mlprj.webp" alt aria-hidden="true" loading="lazy" decoding="async" width="1024" height="1024" class="size-hero-totem-mobile-sm @min-[480px]:size-hero-totem rounded-full object-cover @min-[768px]:absolute @min-[768px]:-top-[14px] @min-[768px]:-left-[18px] @min-[768px]:[filter:drop-shadow(0_8px_16px_rgba(27,27,27,0.18))] transition-transform duration-[250ms] [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] group-hover:rotate-[-8deg] group-hover:scale-[1.06] group-focus-visible:rotate-[-8deg] group-focus-visible:scale-[1.06] motion-reduce:transition-none motion-reduce:group-hover:rotate-none motion-reduce:group-hover:scale-none motion-reduce:group-focus-visible:rotate-none motion-reduce:group-focus-visible:scale-none"><span>Visite Virtuelle</span></a><!-- .div-footer : flex row, justify-content:space-between +
+		     align-items:center comme la source — avec .div-tampon (2/2, vide)
+		     en premier enfant, pousse le titre en flex-end (a droite), pas au
+		     centre (confirme sur la reference servie localement : distances
+		     mesurees 18px du bas / 90px de la droite a 900px de haut, soit
+		     exactement 2vh/10vh — mesure-reference.mjs). padding-bottom/
+		     padding-right de la source (2vh/10vh) interdits en dur (regle
+		     d'isolation n3) : convertis en tokens fixes, meme methode deja
+		     appliquee aux tokens --spacing-footer-scene-* de ce fichier —
+		     valeur evaluee aux deux hauteurs de test de la page de comparaison
+		     (844px mobile / 1024px desktop), palier au meme seuil que
+		     ContactAnime.astro (@min-[768px] ≙ @3xl). --><div class="w-full flex items-center justify-between pb-hero-titre-bas-mobile pr-hero-titre-droite-mobile @min-[768px]:pb-hero-titre-bas-desktop @min-[768px]:pr-hero-titre-droite-desktop"><div aria-hidden="true"></div><!-- Titre (T1/T3, v3) : toujours visible, aucune animation (opacity:1
+			     !important, clip-path:none !important dans la source — etat
+			     final retenu apres l'historique de correctifs cite par
+			     theme-creche.css). Fragments à mise en valeur ("normal"/"accent")
+			     — la source scinde "VERS FORÊT" en deux styles ("VERS " blanc,
+			     "FORÊT" coloré via .text-span-15, confirmé sur
+			     nos-creche-vers-foret.html : `<h1 class="heading-7">VERS
+			     <span class="text-span-15">FORÊT</span></h1>`). "accent" prend
+			     la couleur du thème (text-creche-accent, cf. [data-creche] sur
+			     l'ancêtre) ; "normal" reste blanc (text-white de base sur le
+			     h1). Contour d'encre (-webkit-text-stroke) posé sur le h1, hérité
+			     par les deux fragments — meme valeur #1b1b1b que l'encre relevee
+			     (--color-creche-contraste, aucun doublon cree). text-center
+			     retire : non attestee par le releve (aucun text-align sur
+			     .heading-7), et sans effet utile puisque le titre n'est plus
+			     etire (flex-end au lieu de justify-center). --><h1 class="text-hero-titre-mobile-sm @min-[480px]:text-hero-titre-mobile @min-[480px]:tracking-[2px] @min-[768px]:text-hero-titre-tablet @min-[768px]:tracking-normal @min-[975px]:text-hero-titre @min-[1583px]:text-hero-titre-large @min-[1983px]:text-hero-titre-xl leading-[1.15] font-raleway font-medium italic text-white [-webkit-text-stroke:1px_var(--color-creche-contraste)]"><span class="text-creche-accent">La p&#39;tite forêt</span></h1></div></div></section><script type="module">var e=document.querySelector(`[data-visite-bouton]`),t=document.documentElement,n=window.matchMedia(`(prefers-reduced-motion: reduce)`).matches,r=`cubic-bezier(0.22, 1, 0.36, 1)`,i=()=>{let e=Math.min(window.innerHeight*.88,(window.innerWidth-32)*16/9),t=e*9/16;return{left:(window.innerWidth-t)/2,top:(window.innerHeight-e)/2,width:t,height:e}},a=e=>({left:`${e.left}px`,top:`${e.top}px`,width:`${e.width}px`,height:`${e.height}px`}),o=e=>`${Math.min(e.width,e.height)/2}px`,s=!1,c=e=>{if(s)return;s=!0;let c=e.getBoundingClientRect(),l=getComputedStyle(e).backgroundColor,u=document.createElement(`div`);u.className=`visite-calque`,u.setAttribute(`role`,`dialog`),u.setAttribute(`aria-modal`,`true`),u.setAttribute(`aria-label`,`Visite virtuelle`),u.style.setProperty(`--visite-accent`,l),u.innerHTML=`<div class="visite-fond"></div><div class="visite-cadre"><video playsinline controls preload="none"></video><button type="button" class="visite-fermer" aria-label="Fermer la visite">×</button></div>`,document.body.appendChild(u);let d=u.querySelector(`.visite-fond`),f=u.querySelector(`.visite-cadre`),p=u.querySelector(`video`),m=u.querySelector(`.visite-fermer`),h=window.innerWidth-t.clientWidth;window.lenis?.stop(),t.style.overflow=`hidden`,h>0&&(document.body.style.paddingRight=`${h}px`);let g=e=>n?0:e,_=i();Object.assign(f.style,a(_),{borderRadius:`24px`}),p.style.opacity=`0`,m.style.opacity=`0`,t.setAttribute(`data-visite`,`ouverte`),e.style.visibility=`hidden`,d.animate([{opacity:0},{opacity:1}],{duration:g(450),easing:`ease`,fill:`both`});let v=f.animate([{...a(c),borderRadius:o(c)},{...a(_),borderRadius:`24px`}],{duration:g(750),delay:g(280),easing:r,fill:`both`});v.finished.then(()=>{p.src=e.dataset.visiteVideo||``,p.play().catch(()=>{}),p.animate([{opacity:0},{opacity:1}],{duration:g(350),fill:`forwards`}),m.animate([{opacity:0},{opacity:1}],{duration:g(350),fill:`forwards`}),m.focus()});let y=()=>{!b&&v.playState===`finished`&&(v.cancel(),Object.assign(f.style,a(i())))};window.addEventListener(`resize`,y);let b=!1,x=()=>{if(b)return;b=!0,p.pause();let n=e.getBoundingClientRect(),i=f.getBoundingClientRect();p.animate([{opacity:1},{opacity:0}],{duration:g(200),fill:`forwards`}),m.animate([{opacity:1},{opacity:0}],{duration:g(200),fill:`forwards`});let c=f.animate([{...a(i),borderRadius:`24px`},{...a(n),borderRadius:o(n)}],{duration:g(550),easing:r,fill:`both`});d.animate([{opacity:1},{opacity:0}],{duration:g(550),delay:g(100),easing:`ease`,fill:`both`}),t.removeAttribute(`data-visite`),c.finished.then(()=>{window.removeEventListener(`resize`,y),document.removeEventListener(`keydown`,S),e.style.visibility=``,u.remove(),t.style.overflow=``,document.body.style.paddingRight=``,window.lenis?.start(),s=!1,e.focus({preventScroll:!0})})},S=e=>{e.key===`Escape`?x():e.key===`Tab`&&!u.contains(document.activeElement)&&(e.preventDefault(),m.focus())};document.addEventListener(`keydown`,S),d.addEventListener(`click`,x),m.addEventListener(`click`,x)};e?.addEventListener(`click`,t=>{e.getAttribute(`aria-disabled`)!==`true`&&(t.preventDefault(),c(e))});</script></div><div style="margin-top:0px" data-creche="foret"><section class="@container flex flex-col gap-md" data-archetype="pratique" data-section-id="page-creche-foret-pratique"><div class="grid grid-cols-1 @min-[975px]:grid-cols-2 gap-md w-[calc(100%-80px)] mx-auto @min-[975px]:gap-0 @min-[975px]:w-[90vw] @min-[975px]:h-[90vh] @min-[975px]:my-[5vh] @min-[975px]:mx-auto @min-[1583px]:max-w-[1500px] @min-[1983px]:max-w-[1800px] @min-[975px]:bg-[#ebe6d4] @min-[975px]:rounded-[3vh] @min-[975px]:shadow-[0_0_20px_11px_rgba(0,0,0,0.2)]"><div class="order-2 @min-[975px]:order-1 w-full aspect-pratique-video overflow-hidden rounded-[27px] bg-bordure @min-[975px]:aspect-auto @min-[975px]:h-full @min-[975px]:rounded-[20px] @min-[975px]:bg-transparent @min-[975px]:opacity-[0.63]"><video class="w-full h-full object-cover @min-[975px]:rounded-[3vh]" width="1280" height="720" muted loop playsinline autoplay aria-hidden="true"><source src="https://pub-b62969cb28c74eaa82f2cc05d4ae9428.r2.dev/mpp/video/site-presentation-vers-foret.mp4" type="video/mp4"></video></div><div class="relative order-1 @min-[975px]:order-2 flex flex-col items-center gap-sm @min-[975px]:pt-[5vh] @min-[975px]:pb-[150px] @min-[975px]:overflow-hidden"><div class="flex items-center gap-[2rem]"><a href="#" role="button" aria-disabled="true" data-role="bouton-pratique" data-onglet-id="infos" data-cote="gauche" data-texte="[location] Localisation : Située à Maisonneuve, sur la commune de Vers.
+[road-alt] Accessibilité : Accès très facile depuis les axes reliant Viry, Saint-Julien-en-Genevois et le bassin genevois.
+[field] Environnement : Cadre calme et naturel avec une vue dégagée sur les montagnes.
+[room] Espaces : Salle de vie lumineuse et apaisante, propice au bien-être des tout-petits." data-active="true" class="inline-flex items-center justify-center whitespace-nowrap rounded-full bg-creche-accent text-creche-contraste px-[14px] py-[8px] @min-[975px]:py-[2vh] @min-[975px]:px-[4vh] @min-[975px]:leading-[20px] font-raleway font-bold text-[12px] @min-[975px]:text-[0.8rem] @min-[1423px]:text-[1.2rem] @min-[1903px]:text-[1.5rem] shadow-[0_2px_5px_rgba(0,0,0,0.2)] hover:shadow-[0_2px_5px_3px_rgba(0,0,0,0.2)] survol-bouton aria-disabled:opacity-55 aria-disabled:pointer-events-none hover:bg-creche-accent-fonce hover:text-white focus-visible:bg-creche-accent-fonce focus-visible:text-white focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-creche-accent-fonce data-[active=true]:bg-creche-accent-fonce data-[active=true]:text-white data-[active=true]:hover:bg-creche-accent-fonce">Infos pratique</a><a href="#" role="button" aria-disabled="true" data-role="bouton-pratique" data-onglet-id="projet" data-cote="droite" data-texte="[theme-decoratif] Thème décoratif : “La p’tite forêt”, une ambiance douce, chaleureuse et rassurante inspirée de la nature.
+[sorties-parc] Sorties &amp; Éveil extérieur : Proximité immédiate (à environ 5 minutes à pied) du parc et de la bibliothèque municipale pour des sorties régulières et variées." data-active="false" class="inline-flex items-center justify-center whitespace-nowrap rounded-full bg-creche-accent text-creche-contraste px-[14px] py-[8px] @min-[975px]:py-[2vh] @min-[975px]:px-[4vh] @min-[975px]:leading-[20px] font-raleway font-bold text-[12px] @min-[975px]:text-[0.8rem] @min-[1423px]:text-[1.2rem] @min-[1903px]:text-[1.5rem] shadow-[0_2px_5px_rgba(0,0,0,0.2)] hover:shadow-[0_2px_5px_3px_rgba(0,0,0,0.2)] survol-bouton aria-disabled:opacity-55 aria-disabled:pointer-events-none hover:bg-creche-accent-fonce hover:text-white focus-visible:bg-creche-accent-fonce focus-visible:text-white focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-creche-accent-fonce data-[active=true]:bg-creche-accent-fonce data-[active=true]:text-white data-[active=true]:hover:bg-creche-accent-fonce">Projet pédagogique</a></div><div data-role="texte-pratique" data-icones="{&quot;field&quot;:&quot;data:image/svg+xml,%3c!DOCTYPE%20svg%20PUBLIC%20'-//W3C//DTD%20SVG%201.1//EN'%20'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3e%3c!--%20Uploaded%20to:%20SVG%20Repo,%20www.svgrepo.com,%20Transformed%20by:%20SVG%20Repo%20Mixer%20Tools%20--%3e%3csvg%20fill='%23d9dd7e'%20height='800px'%20width='800px'%20version='1.1'%20id='Layer_1'%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20viewBox='0%200%20511.999%20511.999'%20xml:space='preserve'%3e%3cg%20id='SVGRepo_bgCarrier'%20stroke-width='0'/%3e%3cg%20id='SVGRepo_tracerCarrier'%20stroke-linecap='round'%20stroke-linejoin='round'/%3e%3cg%20id='SVGRepo_iconCarrier'%3e%3cg%3e%3cg%3e%3cpath%20d='M501.548,212.327c-81.454,0-159.763,24.439-226.462,70.675c-24.265,16.821-46.39,36.077-66.106,57.413v-57.74%20c42.908-5.18,76.277-41.791,76.277-86.074c0-47.821-38.904-86.725-86.725-86.725c-47.821,0-86.725,38.904-86.725,86.725%20c0,44.282,33.368,80.894,76.277,86.074v82.301c-22.072,28.171-40.323,59.308-54.211,92.767H97.177v-31.841%20c42.908-5.18,76.277-41.791,76.277-86.073c0-47.821-38.904-86.725-86.725-86.725c-47.821,0-86.725,38.904-86.725,86.725%20c0,44.282,33.368,80.894,76.277,86.073v31.841H10.452c-5.77,0-10.449,4.678-10.449,10.449c0,5.771,4.678,10.449,10.449,10.449%20h491.096c5.77,0,10.449-4.678,10.449-10.449V222.776C511.997,217.005,507.318,212.327,501.548,212.327z%20M72.892,360.864%20c-4.079-4.08-10.693-4.08-14.778,0c-4.08,4.08-4.08,10.697,0,14.777l18.164,18.165v11.013%20c-31.348-5.024-55.378-32.249-55.378-64.991c0-36.297,29.531-65.828,65.828-65.828c36.297,0,65.828,29.531,65.828,65.828%20c0,32.741-24.03,59.967-55.379,64.99v-11.013l30.027-30.028c4.08-4.08,4.08-10.696,0-14.777c-4.081-4.08-10.695-4.08-14.778,0.001%20l-25.699,25.699L72.892,360.864z%20M169.917,232.413l18.164,18.165v11.013c-31.348-5.023-55.378-32.248-55.378-64.99%20c0-36.297,29.531-65.828,65.828-65.828c36.297,0,65.828,29.531,65.828,65.828c0,32.741-24.03,59.967-55.379,64.99v-11.013%20l30.027-30.028c4.08-4.08,4.08-10.696,0-14.777c-4.081-4.08-10.695-4.08-14.778,0.001l-25.699,25.699l-13.835-13.836%20c-4.08-4.08-10.694-4.08-14.778-0.001C165.837,221.716,165.837,228.332,169.917,232.413z%20M156.597,457.742%20c12.976-29.407,29.338-56.537,48.526-81.015c1.155-0.94,2.098-2.127,2.766-3.475c52.076-64.848,124.209-110.541,205.698-129.808%20c-16.192,11.196-32.325,25.32-48.162,42.275c-40.823,43.703-77.045,103.071-105.006,172.024H156.597z%20M283.029,457.743%20c47.466-113.118,116.529-194.77,181.981-217.867c-17.41,20.805-35.482,49.967-48.864,75.044%20c-13.705,25.682-44.668,88.75-49.778,142.823H283.029z%20M491.099,457.742H387.392v0c3.891-35.376,21.055-84.007,47.191-132.985%20c21.038-39.424,42.176-68.386,56.516-82.495V457.742z'/%3e%3c/g%3e%3c/g%3e%3cg%3e%3cg%3e%3cpath%20d='M504.561,65.31c-5.527-1.662-11.354,1.466-13.018,6.991c-0.102,0.339-10.501,34.196-35.809,60.3%20c-4.018,4.143-3.914,10.758,0.229,14.775c2.029,1.969,4.652,2.948,7.272,2.948c2.728,0,5.454-1.063,7.503-3.175%20c28.809-29.717,40.338-67.237,40.814-68.82C513.217,72.803,510.087,66.975,504.561,65.31z'/%3e%3c/g%3e%3c/g%3e%3cg%3e%3cg%3e%3cpath%20d='M444.261,156.497c-2.696-5.102-9.015-7.055-14.12-4.358c-3.693,1.951-7.527,3.636-11.396,5.009%20c-5.439,1.93-8.283,7.904-6.352,13.342c1.519,4.282,5.546,6.956,9.846,6.956c1.159,0,2.34-0.194,3.495-0.605%20c4.817-1.709,9.584-3.804,14.168-6.224C445.005,167.921,446.957,161.6,444.261,156.497z'/%3e%3c/g%3e%3c/g%3e%3cg%3e%3cg%3e%3cpath%20d='M387.636,162.008c-34.053-1.046-63.291-27.937-94.247-56.408c-36.815-33.862-78.544-72.241-136.432-72.241%20c-45.185,0-86.658,23.708-119.93,68.564C12.484,135.006,1.049,167.705,0.575,169.08c-1.883,5.455,1.013,11.404,6.468,13.287%20c1.13,0.39,2.279,0.575,3.41,0.575c4.332,0,8.383-2.718,9.876-7.044c0.419-1.216,43.06-121.641,136.627-121.641%20c49.74,0,86.619,33.92,122.285,66.724c33.9,31.18,65.922,60.632,107.753,61.915c0.11,0.003,0.217,0.005,0.327,0.005%20c5.622,0,10.264-4.47,10.437-10.128C397.936,167.005,393.403,162.186,387.636,162.008z'/%3e%3c/g%3e%3c/g%3e%3c/g%3e%3c/svg%3e&quot;,&quot;location&quot;:&quot;data:image/svg+xml,%3c!DOCTYPE%20svg%20PUBLIC%20'-//W3C//DTD%20SVG%201.1//EN'%20'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3e%3c!--%20Uploaded%20to:%20SVG%20Repo,%20www.svgrepo.com,%20Transformed%20by:%20SVG%20Repo%20Mixer%20Tools%20--%3e%3csvg%20width='800px'%20height='800px'%20viewBox='0%200%201024%201024'%20class='icon'%20version='1.1'%20xmlns='http://www.w3.org/2000/svg'%20fill='%23d9dd7e'%3e%3cg%20id='SVGRepo_bgCarrier'%20stroke-width='0'/%3e%3cg%20id='SVGRepo_tracerCarrier'%20stroke-linecap='round'%20stroke-linejoin='round'/%3e%3cg%20id='SVGRepo_iconCarrier'%3e%3cpath%20d='M522.24%2081.984a308.288%20308.288%200%200%200-308.352%20308.352c0%20224.96%20308.352%20461.632%20308.352%20461.632s85.056-65.6%20165.888-160.256a22.4%2022.4%200%200%200-15.744-38.4%2022.016%2022.016%200%200%200-17.152%208.512l-0.064-0.064%2074.496-109.376%203.52%202.176a21.568%2021.568%200%200%200-3.968%2011.968%2022.4%2022.4%200%200%200%2022.4%2022.464%2022.272%2022.272%200%200%200%2020.992-15.36c33.92-58.56%2057.92-121.216%2057.92-183.232A308.224%20308.224%200%200%200%20522.24%2081.984z'%20fill=''/%3e%3cpath%20d='M716.864%20620.416m-22.4%200a22.4%2022.4%200%201%200%2044.8%200%2022.4%2022.4%200%201%200-44.8%200Z'%20fill=''/%3e%3cpath%20d='M522.24%20126.784a263.808%20263.808%200%200%200-263.552%20263.552c0%20163.008%20191.168%20341.824%20263.552%20403.648%2072.384-61.824%20263.552-240.64%20263.552-403.648A263.872%20263.872%200%200%200%20522.24%20126.784z%20m0%20432.576a172.032%20172.032%200%201%201%200-344.064%20172.032%20172.032%200%200%201%200%20344.064z'%20fill='%23d9dd7e'/%3e%3cpath%20d='M522.24%20387.328m-127.168%200a127.168%20127.168%200%201%200%20254.336%200%20127.168%20127.168%200%201%200-254.336%200Z'%20fill='%23FFFFFF'/%3e%3cpath%20d='M186.304%20936.384m-22.4%200a22.4%2022.4%200%201%200%2044.8%200%2022.4%2022.4%200%201%200-44.8%200Z'%20fill=''/%3e%3cpath%20d='M263.04%20913.984a22.464%2022.464%200%200%200-22.4%2022.4v0.064c0%2012.288%2010.112%2022.4%2022.4%2022.4h595.2c12.288%200%2022.4-10.048%2022.4-22.4v-0.064a22.464%2022.464%200%200%200-22.4-22.4h-595.2z'%20fill=''/%3e%3cpath%20d='M292.8%20359.36a16%2016%200%200%201-15.744-18.816c25.6-144%20153.28-183.616%20158.656-185.216a16%2016%200%200%201%209.152%2030.656c-4.672%201.408-114.24%2035.968-136.384%20160.192a16%2016%200%200%201-15.68%2013.184z'%20fill='%23FFFFFF'/%3e%3c/g%3e%3c/svg%3e&quot;,&quot;road-alt&quot;:&quot;data:image/svg+xml,%3c!DOCTYPE%20svg%20PUBLIC%20'-//W3C//DTD%20SVG%201.1//EN'%20'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3e%3c!--%20Uploaded%20to:%20SVG%20Repo,%20www.svgrepo.com,%20Transformed%20by:%20SVG%20Repo%20Mixer%20Tools%20--%3e%3csvg%20width='800px'%20height='800px'%20viewBox='0%200%2024%2024'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cg%20id='SVGRepo_bgCarrier'%20stroke-width='0'/%3e%3cg%20id='SVGRepo_tracerCarrier'%20stroke-linecap='round'%20stroke-linejoin='round'/%3e%3cg%20id='SVGRepo_iconCarrier'%3e%3cpath%20d='M8.57385%2020.3523L11.9553%2013.5894C11.9737%2013.5526%2012.0263%2013.5526%2012.0447%2013.5894L15.4261%2020.3523C15.4483%2020.3965%2015.3996%2020.4426%2015.3566%2020.4181L12.0248%2018.5142C12.0094%2018.5054%2011.9906%2018.5054%2011.9752%2018.5142L8.64338%2020.4181C8.60043%2020.4426%208.55173%2020.3965%208.57385%2020.3523Z'%20stroke='%23d9dd7e'%20stroke-linecap='round'/%3e%3cpath%20d='M20.5%2018.5L16.5%203.5'%20stroke='%23d9dd7e'%20stroke-linecap='round'/%3e%3cpath%20d='M3.5%2018.5L7.5%203.5'%20stroke='%23d9dd7e'%20stroke-linecap='round'/%3e%3cpath%20d='M12%2010.5V8.5'%20stroke='%23d9dd7e'%20stroke-linecap='round'/%3e%3cpath%20d='M12%205.5V3.5'%20stroke='%23d9dd7e'%20stroke-linecap='round'/%3e%3c/g%3e%3c/svg%3e&quot;,&quot;room&quot;:&quot;data:image/svg+xml,%3c!DOCTYPE%20svg%20PUBLIC%20'-//W3C//DTD%20SVG%201.1//EN'%20'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3e%3c!--%20Uploaded%20to:%20SVG%20Repo,%20www.svgrepo.com,%20Transformed%20by:%20SVG%20Repo%20Mixer%20Tools%20--%3e%3csvg%20fill='%23d9dd7e'%20width='800px'%20height='800px'%20viewBox='0%20-6.75%20122.88%20122.88'%20version='1.1'%20id='Layer_1'%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20style='enable-background:new%200%200%20122.88%20109.37'%20xml:space='preserve'%3e%3cg%20id='SVGRepo_bgCarrier'%20stroke-width='0'/%3e%3cg%20id='SVGRepo_tracerCarrier'%20stroke-linecap='round'%20stroke-linejoin='round'/%3e%3cg%20id='SVGRepo_iconCarrier'%3e%3cstyle%20type='text/css'%3e%20.st0{fill-rule:evenodd;clip-rule:evenodd;}%20%3c/style%3e%3cg%3e%3cpath%20class='st0'%20d='M112.28,107.53c0,1.01-0.82,1.84-1.84,1.84H11.93c-1.01,0-1.84-0.82-1.84-1.84V51.67%20c-2.06,0.79-3.97,0.8-5.57,0.27c-1.25-0.42-2.3-1.17-3.07-2.15c-0.77-0.97-1.26-2.16-1.41-3.46C-0.18,44.3,0.43,42,2.15,39.85l0,0%20c0.09-0.11,0.19-0.21,0.3-0.3l57.6-39.07c0.65-0.6,1.65-0.66,2.37-0.1l57.7,38.99l0,0c0.08,0.06,0.15,0.13,0.22,0.2%20c2.32,2.5,2.9,5.27,2.34,7.62c-0.28,1.15-0.83,2.2-1.59,3.05c-0.76,0.86-1.73,1.52-2.84,1.92c-1.76,0.64-3.84,0.61-5.96-0.39%20C112.28,67.37,112.28,91.94,112.28,107.53L112.28,107.53L112.28,107.53z%20M45.33,36.35h32.21v21.69H45.33V36.35L45.33,36.35%20L45.33,36.35z%20M56.28,42.24c0.93,0,1.69,0.76,1.69,1.69s-0.76,1.69-1.69,1.69c-0.93,0-1.69-0.76-1.69-1.69%20C54.59,42.99,55.34,42.24,56.28,42.24L56.28,42.24L56.28,42.24z%20M63.39,49.49l3.8-5.84l3.59,9.08h-17.6V51.6l1.41-0.07L56,48.08%20l1.12,2.47h2.11l1.83-4.72L63.39,49.49L63.39,49.49L63.39,49.49z%20M47.27,38.58h28.35v17.23H47.27V38.58L47.27,38.58z%20M60.93,74.68%20c0.04,0.01,0.09,0,0.13-0.04c2.16-1.69,5.33-0.98,6.78,2.56h-0.03c-2.86,2.43-4.91,5.07-5.65,8.02h-4.14L60.93,74.68L60.93,74.68%20L60.93,74.68z%20M75.35,81.43c0.35,3-2.73,5.59-5.44,4.77c-0.38,0.66-0.67,1.49-0.9,2.49c-0.51,2.33-0.36,1.62-0.14,3.88%20c0.3,3.01-0.02,5.06-1.96,5.94v1.16H27.73v-1.16c-1.51-0.54-2.16-2.02-1.93-4.45c0.5-4.58,0.19-6.01-0.96-7.74%20c-2.02,0.07-3.48-0.41-4.39-1.43c-1.86-2.07-1.29-5.1,1.03-6.55c0.48-0.3,1.04-0.53,1.69-0.67c4.98-1.05,7.73,4.05,9.05,8.07%20l13.07,0.35c0.89,0.12,1.46,0.52,1.84,1.06c0.35-0.53,0.86-0.93,1.64-1.11c4.07-0.18,6.98,0.36,9.95,0.36h3.46%20c0.71,0,1.08-0.31,1.2-0.88c0.88-2.68,4-8.06,7.27-7.96C72.66,77.63,74.85,79.01,75.35,81.43L75.35,81.43L75.35,81.43z%20M27.14,76.88L27.14,76.88c1.32-2.94,3.38-3.67,6.19-2.69l3.01,10.35h-3.25C31.58,81.46,30.58,78.33,27.14,76.88L27.14,76.88%20L27.14,76.88z%20M34.6,74.27c0.04-0.02,0.07-0.05,0.09-0.1c1.11-2.56,4.17-3.28,6.67-2.18c0-0.01,0.01-0.01,0.01-0.01l0.68,13.18%20h-4.33L34.6,74.27L34.6,74.27L34.6,74.27z%20M42.7,71.71c0.81-3.37,8.49-2.68,9.2-0.36c0.1-0.01-0.8,12.44-0.86,13.82H49.9%20c-1.8,0-3.39,0-5.17,0h-1.44l-0.56-13.46L42.7,71.71L42.7,71.71L42.7,71.71z%20M52.9,72.28c0.02,0,0.05-0.01,0.08-0.02%20c2.78-1.48,6.65-0.4,7.02,1.53l-0.19,0.07l-3.05,11.3h-4.51L52.9,72.28L52.9,72.28L52.9,72.28z%20M92.83,77.9v18.35h3.7%20c0.57,0,1.03,0.67,1.03,1.24c0,0.57-0.46,1.24-1.03,1.24H86.28c-0.57,0-1.03-0.67-1.03-1.24c0-0.57,0.46-1.24,1.03-1.24h3.7V77.9%20H92.83L92.83,77.9z%20M86.09,64h10.6l3.11,12.27h-16.8L86.09,64L86.09,64L86.09,64z%20M107.66,104.74V49.62c0-0.12,0.01-0.24,0.03-0.35%20L61.62,18.58l-46.96,30.7c0.04,0.15,0.06,0.31,0.06,0.47v54.99C45.7,104.74,76.68,104.74,107.66,104.74L107.66,104.74%20L107.66,104.74z'/%3e%3c/g%3e%3c/g%3e%3c/svg%3e&quot;}" class="flex flex-col gap-[1em] font-nunito font-semibold text-[13px] @min-[400px]:text-[14px] @min-[688px]:text-[15px] @min-[912px]:text-[17.6px] @min-[1583px]:text-[18px] leading-relaxed @min-[975px]:leading-[1.7] @min-[975px]:p-[10vh] text-[#333333]"><div class="flex items-start gap-[0.75em]"><span data-icone="location" aria-hidden="true" class="shrink-0 size-[2em] p-[0.3em] rounded-full bg-white/50"><img src="data:image/svg+xml,%3c!DOCTYPE%20svg%20PUBLIC%20'-//W3C//DTD%20SVG%201.1//EN'%20'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3e%3c!--%20Uploaded%20to:%20SVG%20Repo,%20www.svgrepo.com,%20Transformed%20by:%20SVG%20Repo%20Mixer%20Tools%20--%3e%3csvg%20width='800px'%20height='800px'%20viewBox='0%200%201024%201024'%20class='icon'%20version='1.1'%20xmlns='http://www.w3.org/2000/svg'%20fill='%23d9dd7e'%3e%3cg%20id='SVGRepo_bgCarrier'%20stroke-width='0'/%3e%3cg%20id='SVGRepo_tracerCarrier'%20stroke-linecap='round'%20stroke-linejoin='round'/%3e%3cg%20id='SVGRepo_iconCarrier'%3e%3cpath%20d='M522.24%2081.984a308.288%20308.288%200%200%200-308.352%20308.352c0%20224.96%20308.352%20461.632%20308.352%20461.632s85.056-65.6%20165.888-160.256a22.4%2022.4%200%200%200-15.744-38.4%2022.016%2022.016%200%200%200-17.152%208.512l-0.064-0.064%2074.496-109.376%203.52%202.176a21.568%2021.568%200%200%200-3.968%2011.968%2022.4%2022.4%200%200%200%2022.4%2022.464%2022.272%2022.272%200%200%200%2020.992-15.36c33.92-58.56%2057.92-121.216%2057.92-183.232A308.224%20308.224%200%200%200%20522.24%2081.984z'%20fill=''/%3e%3cpath%20d='M716.864%20620.416m-22.4%200a22.4%2022.4%200%201%200%2044.8%200%2022.4%2022.4%200%201%200-44.8%200Z'%20fill=''/%3e%3cpath%20d='M522.24%20126.784a263.808%20263.808%200%200%200-263.552%20263.552c0%20163.008%20191.168%20341.824%20263.552%20403.648%2072.384-61.824%20263.552-240.64%20263.552-403.648A263.872%20263.872%200%200%200%20522.24%20126.784z%20m0%20432.576a172.032%20172.032%200%201%201%200-344.064%20172.032%20172.032%200%200%201%200%20344.064z'%20fill='%23d9dd7e'/%3e%3cpath%20d='M522.24%20387.328m-127.168%200a127.168%20127.168%200%201%200%20254.336%200%20127.168%20127.168%200%201%200-254.336%200Z'%20fill='%23FFFFFF'/%3e%3cpath%20d='M186.304%20936.384m-22.4%200a22.4%2022.4%200%201%200%2044.8%200%2022.4%2022.4%200%201%200-44.8%200Z'%20fill=''/%3e%3cpath%20d='M263.04%20913.984a22.464%2022.464%200%200%200-22.4%2022.4v0.064c0%2012.288%2010.112%2022.4%2022.4%2022.4h595.2c12.288%200%2022.4-10.048%2022.4-22.4v-0.064a22.464%2022.464%200%200%200-22.4-22.4h-595.2z'%20fill=''/%3e%3cpath%20d='M292.8%20359.36a16%2016%200%200%201-15.744-18.816c25.6-144%20153.28-183.616%20158.656-185.216a16%2016%200%200%201%209.152%2030.656c-4.672%201.408-114.24%2035.968-136.384%20160.192a16%2016%200%200%201-15.68%2013.184z'%20fill='%23FFFFFF'/%3e%3c/g%3e%3c/svg%3e" alt="" class="size-full"></span><span>Localisation : Située à Maisonneuve, sur la commune de Vers.</span></div><div class="flex items-start gap-[0.75em]"><span data-icone="road-alt" aria-hidden="true" class="shrink-0 size-[2em] p-[0.3em] rounded-full bg-white/50"><img src="data:image/svg+xml,%3c!DOCTYPE%20svg%20PUBLIC%20'-//W3C//DTD%20SVG%201.1//EN'%20'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3e%3c!--%20Uploaded%20to:%20SVG%20Repo,%20www.svgrepo.com,%20Transformed%20by:%20SVG%20Repo%20Mixer%20Tools%20--%3e%3csvg%20width='800px'%20height='800px'%20viewBox='0%200%2024%2024'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cg%20id='SVGRepo_bgCarrier'%20stroke-width='0'/%3e%3cg%20id='SVGRepo_tracerCarrier'%20stroke-linecap='round'%20stroke-linejoin='round'/%3e%3cg%20id='SVGRepo_iconCarrier'%3e%3cpath%20d='M8.57385%2020.3523L11.9553%2013.5894C11.9737%2013.5526%2012.0263%2013.5526%2012.0447%2013.5894L15.4261%2020.3523C15.4483%2020.3965%2015.3996%2020.4426%2015.3566%2020.4181L12.0248%2018.5142C12.0094%2018.5054%2011.9906%2018.5054%2011.9752%2018.5142L8.64338%2020.4181C8.60043%2020.4426%208.55173%2020.3965%208.57385%2020.3523Z'%20stroke='%23d9dd7e'%20stroke-linecap='round'/%3e%3cpath%20d='M20.5%2018.5L16.5%203.5'%20stroke='%23d9dd7e'%20stroke-linecap='round'/%3e%3cpath%20d='M3.5%2018.5L7.5%203.5'%20stroke='%23d9dd7e'%20stroke-linecap='round'/%3e%3cpath%20d='M12%2010.5V8.5'%20stroke='%23d9dd7e'%20stroke-linecap='round'/%3e%3cpath%20d='M12%205.5V3.5'%20stroke='%23d9dd7e'%20stroke-linecap='round'/%3e%3c/g%3e%3c/svg%3e" alt="" class="size-full"></span><span>Accessibilité : Accès très facile depuis les axes reliant Viry, Saint-Julien-en-Genevois et le bassin genevois.</span></div><div class="flex items-start gap-[0.75em]"><span data-icone="field" aria-hidden="true" class="shrink-0 size-[2em] p-[0.3em] rounded-full bg-white/50"><img src="data:image/svg+xml,%3c!DOCTYPE%20svg%20PUBLIC%20'-//W3C//DTD%20SVG%201.1//EN'%20'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3e%3c!--%20Uploaded%20to:%20SVG%20Repo,%20www.svgrepo.com,%20Transformed%20by:%20SVG%20Repo%20Mixer%20Tools%20--%3e%3csvg%20fill='%23d9dd7e'%20height='800px'%20width='800px'%20version='1.1'%20id='Layer_1'%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20viewBox='0%200%20511.999%20511.999'%20xml:space='preserve'%3e%3cg%20id='SVGRepo_bgCarrier'%20stroke-width='0'/%3e%3cg%20id='SVGRepo_tracerCarrier'%20stroke-linecap='round'%20stroke-linejoin='round'/%3e%3cg%20id='SVGRepo_iconCarrier'%3e%3cg%3e%3cg%3e%3cpath%20d='M501.548,212.327c-81.454,0-159.763,24.439-226.462,70.675c-24.265,16.821-46.39,36.077-66.106,57.413v-57.74%20c42.908-5.18,76.277-41.791,76.277-86.074c0-47.821-38.904-86.725-86.725-86.725c-47.821,0-86.725,38.904-86.725,86.725%20c0,44.282,33.368,80.894,76.277,86.074v82.301c-22.072,28.171-40.323,59.308-54.211,92.767H97.177v-31.841%20c42.908-5.18,76.277-41.791,76.277-86.073c0-47.821-38.904-86.725-86.725-86.725c-47.821,0-86.725,38.904-86.725,86.725%20c0,44.282,33.368,80.894,76.277,86.073v31.841H10.452c-5.77,0-10.449,4.678-10.449,10.449c0,5.771,4.678,10.449,10.449,10.449%20h491.096c5.77,0,10.449-4.678,10.449-10.449V222.776C511.997,217.005,507.318,212.327,501.548,212.327z%20M72.892,360.864%20c-4.079-4.08-10.693-4.08-14.778,0c-4.08,4.08-4.08,10.697,0,14.777l18.164,18.165v11.013%20c-31.348-5.024-55.378-32.249-55.378-64.991c0-36.297,29.531-65.828,65.828-65.828c36.297,0,65.828,29.531,65.828,65.828%20c0,32.741-24.03,59.967-55.379,64.99v-11.013l30.027-30.028c4.08-4.08,4.08-10.696,0-14.777c-4.081-4.08-10.695-4.08-14.778,0.001%20l-25.699,25.699L72.892,360.864z%20M169.917,232.413l18.164,18.165v11.013c-31.348-5.023-55.378-32.248-55.378-64.99%20c0-36.297,29.531-65.828,65.828-65.828c36.297,0,65.828,29.531,65.828,65.828c0,32.741-24.03,59.967-55.379,64.99v-11.013%20l30.027-30.028c4.08-4.08,4.08-10.696,0-14.777c-4.081-4.08-10.695-4.08-14.778,0.001l-25.699,25.699l-13.835-13.836%20c-4.08-4.08-10.694-4.08-14.778-0.001C165.837,221.716,165.837,228.332,169.917,232.413z%20M156.597,457.742%20c12.976-29.407,29.338-56.537,48.526-81.015c1.155-0.94,2.098-2.127,2.766-3.475c52.076-64.848,124.209-110.541,205.698-129.808%20c-16.192,11.196-32.325,25.32-48.162,42.275c-40.823,43.703-77.045,103.071-105.006,172.024H156.597z%20M283.029,457.743%20c47.466-113.118,116.529-194.77,181.981-217.867c-17.41,20.805-35.482,49.967-48.864,75.044%20c-13.705,25.682-44.668,88.75-49.778,142.823H283.029z%20M491.099,457.742H387.392v0c3.891-35.376,21.055-84.007,47.191-132.985%20c21.038-39.424,42.176-68.386,56.516-82.495V457.742z'/%3e%3c/g%3e%3c/g%3e%3cg%3e%3cg%3e%3cpath%20d='M504.561,65.31c-5.527-1.662-11.354,1.466-13.018,6.991c-0.102,0.339-10.501,34.196-35.809,60.3%20c-4.018,4.143-3.914,10.758,0.229,14.775c2.029,1.969,4.652,2.948,7.272,2.948c2.728,0,5.454-1.063,7.503-3.175%20c28.809-29.717,40.338-67.237,40.814-68.82C513.217,72.803,510.087,66.975,504.561,65.31z'/%3e%3c/g%3e%3c/g%3e%3cg%3e%3cg%3e%3cpath%20d='M444.261,156.497c-2.696-5.102-9.015-7.055-14.12-4.358c-3.693,1.951-7.527,3.636-11.396,5.009%20c-5.439,1.93-8.283,7.904-6.352,13.342c1.519,4.282,5.546,6.956,9.846,6.956c1.159,0,2.34-0.194,3.495-0.605%20c4.817-1.709,9.584-3.804,14.168-6.224C445.005,167.921,446.957,161.6,444.261,156.497z'/%3e%3c/g%3e%3c/g%3e%3cg%3e%3cg%3e%3cpath%20d='M387.636,162.008c-34.053-1.046-63.291-27.937-94.247-56.408c-36.815-33.862-78.544-72.241-136.432-72.241%20c-45.185,0-86.658,23.708-119.93,68.564C12.484,135.006,1.049,167.705,0.575,169.08c-1.883,5.455,1.013,11.404,6.468,13.287%20c1.13,0.39,2.279,0.575,3.41,0.575c4.332,0,8.383-2.718,9.876-7.044c0.419-1.216,43.06-121.641,136.627-121.641%20c49.74,0,86.619,33.92,122.285,66.724c33.9,31.18,65.922,60.632,107.753,61.915c0.11,0.003,0.217,0.005,0.327,0.005%20c5.622,0,10.264-4.47,10.437-10.128C397.936,167.005,393.403,162.186,387.636,162.008z'/%3e%3c/g%3e%3c/g%3e%3c/g%3e%3c/svg%3e" alt="" class="size-full"></span><span>Environnement : Cadre calme et naturel avec une vue dégagée sur les montagnes.</span></div><div class="flex items-start gap-[0.75em]"><span data-icone="room" aria-hidden="true" class="shrink-0 size-[2em] p-[0.3em] rounded-full bg-white/50"><img src="data:image/svg+xml,%3c!DOCTYPE%20svg%20PUBLIC%20'-//W3C//DTD%20SVG%201.1//EN'%20'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3e%3c!--%20Uploaded%20to:%20SVG%20Repo,%20www.svgrepo.com,%20Transformed%20by:%20SVG%20Repo%20Mixer%20Tools%20--%3e%3csvg%20fill='%23d9dd7e'%20width='800px'%20height='800px'%20viewBox='0%20-6.75%20122.88%20122.88'%20version='1.1'%20id='Layer_1'%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20style='enable-background:new%200%200%20122.88%20109.37'%20xml:space='preserve'%3e%3cg%20id='SVGRepo_bgCarrier'%20stroke-width='0'/%3e%3cg%20id='SVGRepo_tracerCarrier'%20stroke-linecap='round'%20stroke-linejoin='round'/%3e%3cg%20id='SVGRepo_iconCarrier'%3e%3cstyle%20type='text/css'%3e%20.st0{fill-rule:evenodd;clip-rule:evenodd;}%20%3c/style%3e%3cg%3e%3cpath%20class='st0'%20d='M112.28,107.53c0,1.01-0.82,1.84-1.84,1.84H11.93c-1.01,0-1.84-0.82-1.84-1.84V51.67%20c-2.06,0.79-3.97,0.8-5.57,0.27c-1.25-0.42-2.3-1.17-3.07-2.15c-0.77-0.97-1.26-2.16-1.41-3.46C-0.18,44.3,0.43,42,2.15,39.85l0,0%20c0.09-0.11,0.19-0.21,0.3-0.3l57.6-39.07c0.65-0.6,1.65-0.66,2.37-0.1l57.7,38.99l0,0c0.08,0.06,0.15,0.13,0.22,0.2%20c2.32,2.5,2.9,5.27,2.34,7.62c-0.28,1.15-0.83,2.2-1.59,3.05c-0.76,0.86-1.73,1.52-2.84,1.92c-1.76,0.64-3.84,0.61-5.96-0.39%20C112.28,67.37,112.28,91.94,112.28,107.53L112.28,107.53L112.28,107.53z%20M45.33,36.35h32.21v21.69H45.33V36.35L45.33,36.35%20L45.33,36.35z%20M56.28,42.24c0.93,0,1.69,0.76,1.69,1.69s-0.76,1.69-1.69,1.69c-0.93,0-1.69-0.76-1.69-1.69%20C54.59,42.99,55.34,42.24,56.28,42.24L56.28,42.24L56.28,42.24z%20M63.39,49.49l3.8-5.84l3.59,9.08h-17.6V51.6l1.41-0.07L56,48.08%20l1.12,2.47h2.11l1.83-4.72L63.39,49.49L63.39,49.49L63.39,49.49z%20M47.27,38.58h28.35v17.23H47.27V38.58L47.27,38.58z%20M60.93,74.68%20c0.04,0.01,0.09,0,0.13-0.04c2.16-1.69,5.33-0.98,6.78,2.56h-0.03c-2.86,2.43-4.91,5.07-5.65,8.02h-4.14L60.93,74.68L60.93,74.68%20L60.93,74.68z%20M75.35,81.43c0.35,3-2.73,5.59-5.44,4.77c-0.38,0.66-0.67,1.49-0.9,2.49c-0.51,2.33-0.36,1.62-0.14,3.88%20c0.3,3.01-0.02,5.06-1.96,5.94v1.16H27.73v-1.16c-1.51-0.54-2.16-2.02-1.93-4.45c0.5-4.58,0.19-6.01-0.96-7.74%20c-2.02,0.07-3.48-0.41-4.39-1.43c-1.86-2.07-1.29-5.1,1.03-6.55c0.48-0.3,1.04-0.53,1.69-0.67c4.98-1.05,7.73,4.05,9.05,8.07%20l13.07,0.35c0.89,0.12,1.46,0.52,1.84,1.06c0.35-0.53,0.86-0.93,1.64-1.11c4.07-0.18,6.98,0.36,9.95,0.36h3.46%20c0.71,0,1.08-0.31,1.2-0.88c0.88-2.68,4-8.06,7.27-7.96C72.66,77.63,74.85,79.01,75.35,81.43L75.35,81.43L75.35,81.43z%20M27.14,76.88L27.14,76.88c1.32-2.94,3.38-3.67,6.19-2.69l3.01,10.35h-3.25C31.58,81.46,30.58,78.33,27.14,76.88L27.14,76.88%20L27.14,76.88z%20M34.6,74.27c0.04-0.02,0.07-0.05,0.09-0.1c1.11-2.56,4.17-3.28,6.67-2.18c0-0.01,0.01-0.01,0.01-0.01l0.68,13.18%20h-4.33L34.6,74.27L34.6,74.27L34.6,74.27z%20M42.7,71.71c0.81-3.37,8.49-2.68,9.2-0.36c0.1-0.01-0.8,12.44-0.86,13.82H49.9%20c-1.8,0-3.39,0-5.17,0h-1.44l-0.56-13.46L42.7,71.71L42.7,71.71L42.7,71.71z%20M52.9,72.28c0.02,0,0.05-0.01,0.08-0.02%20c2.78-1.48,6.65-0.4,7.02,1.53l-0.19,0.07l-3.05,11.3h-4.51L52.9,72.28L52.9,72.28L52.9,72.28z%20M92.83,77.9v18.35h3.7%20c0.57,0,1.03,0.67,1.03,1.24c0,0.57-0.46,1.24-1.03,1.24H86.28c-0.57,0-1.03-0.67-1.03-1.24c0-0.57,0.46-1.24,1.03-1.24h3.7V77.9%20H92.83L92.83,77.9z%20M86.09,64h10.6l3.11,12.27h-16.8L86.09,64L86.09,64L86.09,64z%20M107.66,104.74V49.62c0-0.12,0.01-0.24,0.03-0.35%20L61.62,18.58l-46.96,30.7c0.04,0.15,0.06,0.31,0.06,0.47v54.99C45.7,104.74,76.68,104.74,107.66,104.74L107.66,104.74%20L107.66,104.74z'/%3e%3c/g%3e%3c/g%3e%3c/svg%3e" alt="" class="size-full"></span><span>Espaces : Salle de vie lumineuse et apaisante, propice au bien-être des tout-petits.</span></div></div><img src="../_astro/totem-foret_1mlprj.webp" data-role="totem-pratique" data-cote="gauche" alt aria-hidden="true" loading="lazy" decoding="async" width="1024" height="1024" class="hidden @min-[975px]:block absolute bottom-[20px] left-0 size-[120px] object-contain transition-[left,rotate] duration-[1200ms] ease-in-out data-[cote=droite]:left-[calc(100%-120px)] data-[cote=droite]:rotate-[720deg] motion-reduce:transition-none"></div></div><script>
+		(() => {
+			const racine = document.currentScript && document.currentScript.closest('[data-archetype="pratique"]');
+			if (!racine) return;
+			const totem = racine.querySelector('[data-role="totem-pratique"]');
+			const texte = racine.querySelector('[data-role="texte-pratique"]');
+			if (!totem || !texte) return;
+			const icones = JSON.parse(texte.dataset.icones || '{}');
+			const boutons = racine.querySelectorAll('[data-role="bouton-pratique"]');
+			boutons.forEach((bouton) => {
+				bouton.removeAttribute('aria-disabled');
+				bouton.addEventListener('click', (evenement) => {
+					evenement.preventDefault();
+					boutons.forEach((autre) => {
+						autre.dataset.active = String(autre === bouton);
+					});
+					totem.dataset.cote = bouton.dataset.cote;
+					texte.style.transition = 'none';
+					texte.style.opacity = '0';
+					texte.style.transform = 'translateY(10px)';
+					texte.replaceChildren();
+					bouton.dataset.texte.split('\n').filter((l) => l.trim()).forEach((l) => {
+						const m = l.match(/^\[([a-z0-9-]+)\]\s*(.*)$/);
+						const sous = !m && l.startsWith('- ');
+						const ligne = document.createElement('div');
+						ligne.className = sous ? 'flex items-start gap-[0.75em] ml-[2.35em] -mt-[0.5em]' : 'flex items-start gap-[0.75em]';
+						if (m) {
+							const pastille = document.createElement('span');
+							pastille.dataset.icone = m[1];
+							pastille.setAttribute('aria-hidden', 'true');
+							pastille.className = 'shrink-0 size-[2em] p-[0.3em] rounded-full bg-white/50';
+							if (icones[m[1]]) {
+								const image = document.createElement('img');
+								image.src = icones[m[1]];
+								image.alt = '';
+								image.className = 'size-full';
+								pastille.append(image);
+							}
+							ligne.append(pastille);
+						}
+						if (sous) {
+							const puce = document.createElement('span');
+							puce.setAttribute('aria-hidden', 'true');
+							puce.textContent = '•';
+							ligne.append(puce);
+						}
+						const corps = document.createElement('span');
+						corps.textContent = m ? m[2] : sous ? l.slice(2) : l;
+						ligne.append(corps);
+						texte.append(ligne);
+					});
+					void texte.offsetWidth;
+					texte.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+					texte.style.opacity = '1';
+					texte.style.transform = 'translateY(0)';
+				});
+			});
+
+			// Entrée (nos-creche-vers-*.html:1677-1723) : au premier passage à
+			// 30 % dans l'écran, bouton 1 à +200 ms, bouton 2 à +600 ms (opacité
+			// immédiate, translateY 8px → 0 en 0.2s ease — la transition !important
+			// de theme-creche.css:190-193 ne liste pas l'opacité), totem à +1000 ms
+			// (opacité + translate, 1s ease). Mouvement réduit : rien de masqué.
+			const reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+			if (reduit || !('IntersectionObserver' in window)) return;
+			const cibles = [...boutons, totem];
+			cibles.forEach((el) => {
+				el.style.opacity = '0';
+				el.style.transform = 'translateY(8px)';
+			});
+			const reveler = (el, delai, transition) => {
+				setTimeout(() => {
+					el.style.transition = transition;
+					el.style.opacity = '1';
+					el.style.transform = 'translateY(0)';
+					// Rend la main aux transitions de classe (survol commun) après l'entrée.
+					setTimeout(() => {
+						el.style.transition = '';
+						el.style.transform = '';
+					}, 1100);
+				}, delai);
+			};
+			const observateur = new IntersectionObserver(
+				(entrees) => {
+					if (!entrees.some((e) => e.isIntersecting)) return;
+					observateur.disconnect();
+					if (boutons[0]) reveler(boutons[0], 200, 'transform 0.2s ease');
+					if (boutons[1]) reveler(boutons[1], 600, 'transform 0.2s ease');
+					reveler(totem, 1000, 'opacity 1s ease, transform 1s ease');
+				},
+				{ threshold: 0.3 },
+			);
+			observateur.observe(racine);
+		})();
+	</script></section></div><div style="margin-top:0px" data-creche="foret"><section class="@container flex items-center justify-center bg-creche-accent min-h-[var(--height-pleine)] overflow-hidden" data-archetype="equipe" data-section-id="page-creche-foret-equipe"><div class="flex items-center gap-sm w-[calc(100%-80px)] py-[40px] px-[20px] max-w-[1200px] @min-[1583px]:max-w-[1400px] @min-[1983px]:max-w-[1700px]"><button type="button" class="hidden shrink-0 size-equipe-fleche items-center justify-center rounded-full border-2 border-white/45 bg-white/18 backdrop-blur-xs cursor-pointer text-white/70 hover:text-white survol-bouton hover:bg-white/45 hover:border-white/80 hover:shadow-[0_4px_16px_rgba(0,0,0,0.1)]" data-role="precedent" aria-label="Membre de l'équipe précédent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="size-5"><polyline points="15 18 9 12 15 6"></polyline></svg></button><div class="flex-1 min-w-0 rounded-equipe-piste" data-role="piste-vue"><ul class="flex flex-wrap gap-[12px] @min-[601px]:gap-sm @min-[821px]:gap-md transition-transform duration-[550ms] [transition-timing-function:cubic-bezier(0.4,0,0.15,1)] motion-reduce:transition-none" data-role="piste"><li class="group flex flex-col basis-full shrink-0 bg-equipe-carte-fond rounded-equipe-carte shadow-equipe-carte overflow-hidden equipe-anim-entree animate-equipe-carte-in motion-reduce:animate-none motion-reduce:opacity-100 transition-[box-shadow,transform] duration-[350ms] hover:shadow-[0_8px_32px_rgba(0,0,0,0.13),0_2px_8px_rgba(0,0,0,0.06)] motion-reduce:transition-none" data-membre-id="lea" style="animation-delay:200ms"><div class="aspect-equipe-photo overflow-hidden bg-equipe-photo-fond"><img src="../_astro/lea.D5pimtWB_2e5TGY.jpg" alt="Léa" loading="lazy" decoding="async" width="800" height="1067" class="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:group-hover:scale-100"></div><div class="flex flex-1 flex-col gap-xs pt-[22px] px-[22px] pb-[14px]"><p class="font-nunito text-[14.5px] @min-[1583px]:text-[15.5px] text-equipe-encre leading-[1.6]">L&#39;éducatrice de jeunes enfants conçoit et anime des projets pédagogiques stimulants. Elle observe chaque enfant pour adapter les activités à ses besoins et favoriser son développement global.</p></div><p class="text-center font-raleway font-bold text-equipe-titre text-[19px] @min-[601px]:text-[22px] @min-[821px]:text-[26px] @min-[1583px]:text-[28px] @min-[1903px]:leading-[17px] tracking-[0.02em] pt-[14px] px-[22px] pb-[22px]">Léa</p></li><li class="group flex flex-col basis-full shrink-0 bg-equipe-carte-fond rounded-equipe-carte shadow-equipe-carte overflow-hidden equipe-anim-entree animate-equipe-carte-in motion-reduce:animate-none motion-reduce:opacity-100 transition-[box-shadow,transform] duration-[350ms] hover:shadow-[0_8px_32px_rgba(0,0,0,0.13),0_2px_8px_rgba(0,0,0,0.06)] motion-reduce:transition-none" data-membre-id="aurelie" style="animation-delay:450ms"><div class="aspect-equipe-photo overflow-hidden bg-equipe-photo-fond"><img src="../_astro/femme.cX-JroGn_2eTUYn.svg" alt="Aurélie" loading="lazy" decoding="async" width="800" height="1067" class="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:group-hover:scale-100"></div><div class="flex flex-1 flex-col gap-xs pt-[22px] px-[22px] pb-[14px]"><p class="font-nunito text-[14.5px] @min-[1583px]:text-[15.5px] text-equipe-encre leading-[1.6]">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p></div><p class="text-center font-raleway font-bold text-equipe-titre text-[19px] @min-[601px]:text-[22px] @min-[821px]:text-[26px] @min-[1583px]:text-[28px] @min-[1903px]:leading-[17px] tracking-[0.02em] pt-[14px] px-[22px] pb-[22px]">Aurélie</p></li><li class="group flex flex-col basis-full shrink-0 bg-equipe-carte-fond rounded-equipe-carte shadow-equipe-carte overflow-hidden equipe-anim-entree animate-equipe-carte-in motion-reduce:animate-none motion-reduce:opacity-100 transition-[box-shadow,transform] duration-[350ms] hover:shadow-[0_8px_32px_rgba(0,0,0,0.13),0_2px_8px_rgba(0,0,0,0.06)] motion-reduce:transition-none" data-membre-id="sarala" style="animation-delay:700ms"><div class="aspect-equipe-photo overflow-hidden bg-equipe-photo-fond"><img src="../_astro/femme.cX-JroGn_2eTUYn.svg" alt="Sarala" loading="lazy" decoding="async" width="800" height="1067" class="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:group-hover:scale-100"></div><div class="flex flex-1 flex-col gap-xs pt-[22px] px-[22px] pb-[14px]"><p class="font-nunito text-[14.5px] @min-[1583px]:text-[15.5px] text-equipe-encre leading-[1.6]">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p></div><p class="text-center font-raleway font-bold text-equipe-titre text-[19px] @min-[601px]:text-[22px] @min-[821px]:text-[26px] @min-[1583px]:text-[28px] @min-[1903px]:leading-[17px] tracking-[0.02em] pt-[14px] px-[22px] pb-[22px]">Sarala</p></li><li class="group flex flex-col basis-full shrink-0 bg-equipe-carte-fond rounded-equipe-carte shadow-equipe-carte overflow-hidden equipe-anim-entree animate-equipe-carte-in motion-reduce:animate-none motion-reduce:opacity-100 transition-[box-shadow,transform] duration-[350ms] hover:shadow-[0_8px_32px_rgba(0,0,0,0.13),0_2px_8px_rgba(0,0,0,0.06)] motion-reduce:transition-none" data-membre-id="loreilei" style="animation-delay:950ms"><div class="aspect-equipe-photo overflow-hidden bg-equipe-photo-fond"><img src="../_astro/loreilei.B_MKEtgO_1sDMRx.jpg" alt="Loreilei" loading="lazy" decoding="async" width="800" height="1067" class="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:group-hover:scale-100"></div><div class="flex flex-1 flex-col gap-xs pt-[22px] px-[22px] pb-[14px]"><p class="font-nunito text-[14.5px] @min-[1583px]:text-[15.5px] text-equipe-encre leading-[1.6]">L&#39;animatrice d&#39;éveil accompagne les enfants dans leurs découvertes quotidiennes à travers des activités adaptées à leur âge. Attentive et bienveillante, elle favorise leur épanouissement et leur autonomie.</p></div><p class="text-center font-raleway font-bold text-equipe-titre text-[19px] @min-[601px]:text-[22px] @min-[821px]:text-[26px] @min-[1583px]:text-[28px] @min-[1903px]:leading-[17px] tracking-[0.02em] pt-[14px] px-[22px] pb-[22px]">Loreilei</p></li><li class="group flex flex-col basis-full shrink-0 bg-equipe-carte-fond rounded-equipe-carte shadow-equipe-carte overflow-hidden equipe-anim-entree animate-equipe-carte-in motion-reduce:animate-none motion-reduce:opacity-100 transition-[box-shadow,transform] duration-[350ms] hover:shadow-[0_8px_32px_rgba(0,0,0,0.13),0_2px_8px_rgba(0,0,0,0.06)] motion-reduce:transition-none" data-membre-id="senerile" style="animation-delay:1200ms"><div class="aspect-equipe-photo overflow-hidden bg-equipe-photo-fond"><img src="../_astro/femme.cX-JroGn_2eTUYn.svg" alt="Senerile" loading="lazy" decoding="async" width="800" height="1067" class="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:group-hover:scale-100"></div><div class="flex flex-1 flex-col gap-xs pt-[22px] px-[22px] pb-[14px]"><p class="font-nunito text-[14.5px] @min-[1583px]:text-[15.5px] text-equipe-encre leading-[1.6]">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p></div><p class="text-center font-raleway font-bold text-equipe-titre text-[19px] @min-[601px]:text-[22px] @min-[821px]:text-[26px] @min-[1583px]:text-[28px] @min-[1903px]:leading-[17px] tracking-[0.02em] pt-[14px] px-[22px] pb-[22px]">Senerile</p></li></ul></div><button type="button" class="hidden shrink-0 size-equipe-fleche items-center justify-center rounded-full border-2 border-white/45 bg-white/18 backdrop-blur-xs cursor-pointer text-white/70 hover:text-white survol-bouton hover:bg-white/45 hover:border-white/80 hover:shadow-[0_4px_16px_rgba(0,0,0,0.1)]" data-role="suivant" aria-label="Membre de l'équipe suivant"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="size-5"><polyline points="9 6 15 12 9 18"></polyline></svg></button></div><script>(function(){const declenchement = "scroll";
+const cartesVisibles = 3;
+
+		(() => {
+			const racine = document.currentScript && document.currentScript.closest('[data-archetype="equipe"]');
+			if (!racine) return;
+			const reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+			if (!reduit && declenchement === 'scroll' && 'IntersectionObserver' in window) {
+				racine.classList.add('anim-pending');
+				const observateurEntree = new IntersectionObserver(
+					(entrees) => {
+						entrees.forEach((entree) => {
+							if (entree.isIntersecting) {
+								racine.classList.remove('anim-pending');
+								observateurEntree.disconnect();
+							}
+						});
+					},
+					{ threshold: 0.2 },
+				);
+				observateurEntree.observe(racine);
+			}
+
+			const vue = racine.querySelector('[data-role="piste-vue"]');
+			const piste = racine.querySelector('[data-role="piste"]');
+			const cartes = piste ? Array.from(piste.children) : [];
+			const boutonPrecedent = racine.querySelector('[data-role="precedent"]');
+			const boutonSuivant = racine.querySelector('[data-role="suivant"]');
+			if (!vue || !piste || cartes.length === 0) return;
+
+			piste.classList.remove('flex-wrap');
+			piste.classList.add('flex-nowrap');
+			vue.classList.add('overflow-hidden');
+			[boutonPrecedent, boutonSuivant].forEach((bouton) => {
+				if (!bouton) return;
+				bouton.classList.remove('hidden');
+				bouton.classList.add('flex');
+			});
+
+			let courant = 0;
+
+			function visiblesActuelles() {
+				return vue.getBoundingClientRect().width <= 680 ? 1 : cartesVisibles;
+			}
+
+			function indexMax() {
+				return Math.max(0, cartes.length - visiblesActuelles());
+			}
+
+			function mettreAJour() {
+				const visibles = visiblesActuelles();
+				const gap = parseFloat(getComputedStyle(piste).columnGap) || 0;
+				cartes.forEach((carte) => {
+					carte.style.flexBasis = 'calc((100% - ' + gap * (visibles - 1) + 'px) / ' + visibles + ')';
+				});
+				const largeurCarte = cartes[0].getBoundingClientRect().width;
+				const decalage = courant * (largeurCarte + gap);
+				piste.style.transform = 'translateX(-' + decalage + 'px)';
+				if (boutonPrecedent) {
+					boutonPrecedent.classList.toggle('opacity-0', courant === 0);
+					boutonPrecedent.classList.toggle('scale-[0.6]', courant === 0);
+					boutonPrecedent.classList.toggle('pointer-events-none', courant === 0);
+				}
+				if (boutonSuivant) {
+					const fin = courant >= indexMax();
+					boutonSuivant.classList.toggle('opacity-0', fin);
+					boutonSuivant.classList.toggle('scale-[0.6]', fin);
+					boutonSuivant.classList.toggle('pointer-events-none', fin);
+				}
+			}
+
+			if (boutonPrecedent) {
+				boutonPrecedent.addEventListener('click', () => {
+					if (courant > 0) {
+						courant--;
+						mettreAJour();
+					}
+				});
+			}
+			if (boutonSuivant) {
+				boutonSuivant.addEventListener('click', () => {
+					if (courant < indexMax()) {
+						courant++;
+						mettreAJour();
+					}
+				});
+			}
+			window.addEventListener('resize', () => {
+				courant = Math.min(courant, indexMax());
+				mettreAJour();
+			});
+
+			mettreAJour();
+		})();
+	})();</script></section></div><div style="margin-top:0px" data-creche="foret"><section class="@container flex flex-col gap-md font-nunito h-pleine justify-center" data-archetype="localisation" data-section-id="page-creche-foret-localisation"><!-- mx-auto (cause 7, CONSTAT-ECARTS.md) : la référence pose
+	     .location { display:flex; justify-content:center } — absent côté
+	     porté, la carte à largeur réduite (@lg:w-[70%]) restait calée à
+	     gauche. Centrage posé directement sur la carte (plutôt que
+	     items-center sur la <section>) pour ne pas étirer la ligne
+	     adresse+itinéraire ci-dessous, qui dépend du stretch flex par
+	     défaut pour occuper toute la largeur. --><!-- Bloc carte + adresse : même largeur (70vw, max 1400 dès 2000), comme
+	     l'embed de la référence (élément flex dimensionné par son contenu :
+	     la ligne adresse ne dépasse jamais la carte). Carte 500 / 550 (≥1600)
+	     / 600 (≥2000), écart 28 px (nos-creche-vers-*.html:908-929, 532, 542). --><div class="flex flex-col gap-sm @lg:gap-[28px] w-[calc(100%-80px)] mx-auto @lg:w-[70vw] @min-[1983px]:max-w-[1400px]"><div class="w-full h-carte-compacte @lg:h-carte @min-[1583px]:h-[550px] @min-[1983px]:h-[600px] rounded-carte-compacte @lg:rounded-carte shadow-carte overflow-hidden"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2633.536475448707!2d6.020749275972221!3d46.09427639117951!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x478c7e56ae461f9b%3A0x2c6160b81b2dd858!2s307%20Rte%20de%20Viry%2C%2074160%20Vers%2C%20France!5e1!3m2!1sfr!2ssg!4v1774450997493!5m2!1sfr!2ssg" class="w-full h-full border-0" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Carte — 307 Route de Viry, Maisonneuve, 74160 Vers"></iframe></div><div class="flex flex-col @lg:flex-row @lg:items-center @lg:justify-between flex-wrap gap-sm @lg:gap-[20px] @lg:px-[8px]"><div class="flex items-center gap-4"><div class="flex items-center justify-center size-pin-compacte @lg:size-pin rounded-full bg-mpn-pin shadow-pin animate-pin-rebond shrink-0"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none" class="size-5 @lg:size-6 text-white"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"></path></svg></div><div class="flex flex-col gap-0.5"><div class="font-caveat font-semibold text-xl @lg:text-rue @min-[1583px]:text-rue-spacieuse @lg:leading-[1.2] text-mpn-encre">307 Route de Viry</div><div class="text-xs @lg:text-ville text-mpn-ville tracking-ville">Maisonneuve, 74160 Vers</div></div></div><a class="group inline-flex items-center justify-center gap-2 self-stretch @lg:self-auto px-5 py-2.5 @lg:px-7 @lg:py-3 rounded-full bg-mpn-encre text-white text-xs @lg:text-sm font-semibold survol-bouton hover:bg-mpn-pin hover:shadow-btn-survol" href="https://www.google.com/maps/place/307%20Route%20de%20Viry%2C%20Maisonneuve%2C%2074160%20Vers" target="_blank" rel="noopener">Itinéraire<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transition-transform duration-300 ease-[ease] group-hover:translate-x-[3px]"><path d="M5 12h14"></path><path d="M12 5l7 7-7 7"></path></svg></a></div></div></section></div><div style="margin-top:0px" data-creche="foret"><footer class="@container flex flex-col justify-between pt-[9px] min-h-[var(--height-pleine)] min-h-[400px] overflow-hidden font-nunito bg-mpn-footer-bg" style="--color-mpn-footer-bg:#626339" data-archetype="contact" data-section-id="page-creche-foret-footer"><script>(function(){const declenchement = "scroll";
+
+		(() => {
+			const racine = document.currentScript && document.currentScript.closest('[data-archetype="contact"]');
+			if (!racine) return;
+			const reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+			if (reduit || declenchement === 'chargement' || !('IntersectionObserver' in window)) return;
+			racine.classList.add('anim-pending');
+			const observateur = new IntersectionObserver(
+				(entrees) => {
+					entrees.forEach((entree) => {
+						if (entree.isIntersecting) {
+							racine.classList.remove('anim-pending');
+							observateur.disconnect();
+						}
+					});
+				},
+				{ threshold: 0.25 },
+			);
+			observateur.observe(racine);
+		})();
+	})();</script><div class="[--e:cubic-bezier(0.22,1,0.36,1)] mb-lg my-auto self-center relative flex flex-row items-center justify-start gap-[12px] @3xl:gap-footer-scene-gap-tablet @7xl:gap-footer-scene-gap-desktop py-[32px] @3xl:py-footer-scene-y-desktop pl-[64px] pr-[16px] @3xl:px-footer-scene-x-tablet @7xl:px-footer-scene-x-desktop @3xl:min-h-footer-scene-desktop"><!-- Téléphone : parent positionné réel des totems et des boutons réseaux
+		     (mpp/footer.css:124, .footer-phone { position: relative }). Dans la
+		     source, totems ET boutons sociaux sont des ENFANTS de .footer-phone,
+		     pas des frères — piège déjà mesuré (session antérieure) où les
+		     mêmes pourcentages, posés en frère, rendaient faux. Reproduit ici
+		     avec l'imbrication réelle. Disposition fixe : ni le nombre
+		     d'emplacements ni leur position ne sont des paramètres. --><div class="mpn-anim-entree relative shrink-0 aspect-[320/660] h-[clamp(220px,72cqw,300px)] @3xl:h-footer-phone-desktop animate-mpn-footer-phone motion-reduce:animate-none motion-reduce:opacity-100"><img src="../_astro/totem-foret_1mlprj.webp" alt loading="lazy" decoding="async" style="--totem-duree:7.5s;--totem-delai:0s" aria-hidden="true" width="1024" height="1024" class="absolute h-auto opacity-55 pointer-events-none object-contain [filter:drop-shadow(0_8px_16px_rgba(27,27,27,0.15))] animate-mpn-totem motion-reduce:animate-none motion-reduce:[transform:rotate(var(--rot))] top-[-8%] left-[-28%] w-[42%] [--rot:-6deg]"><img src="../_astro/totem-savane_Z1R2ySv.webp" alt loading="lazy" decoding="async" style="--totem-duree:8.5s;--totem-delai:-1.2s" aria-hidden="true" width="1024" height="1024" class="absolute h-auto opacity-55 pointer-events-none object-contain [filter:drop-shadow(0_8px_16px_rgba(27,27,27,0.15))] animate-mpn-totem motion-reduce:animate-none motion-reduce:[transform:rotate(var(--rot))] top-[-11%] right-[-19%] w-[38%] [--rot:5deg]"><img src="../_astro/totem-ocean_Z26hwVJ.webp" alt loading="lazy" decoding="async" style="--totem-duree:9s;--totem-delai:-2.4s" aria-hidden="true" width="1024" height="1024" class="absolute h-auto opacity-55 pointer-events-none object-contain [filter:drop-shadow(0_8px_16px_rgba(27,27,27,0.15))] animate-mpn-totem motion-reduce:animate-none motion-reduce:[transform:rotate(var(--rot))] bottom-[3%] left-[-26%] w-[40%] [--rot:4deg]"><img src="../_astro/totem-montagne_2otHSY.webp" alt loading="lazy" decoding="async" style="--totem-duree:8s;--totem-delai:-0.6s" aria-hidden="true" width="1024" height="1024" class="absolute h-auto opacity-55 pointer-events-none object-contain [filter:drop-shadow(0_8px_16px_rgba(27,27,27,0.15))] animate-mpn-totem motion-reduce:animate-none motion-reduce:[transform:rotate(var(--rot))] bottom-[-9%] left-[30%] w-[39%] [--rot:-5deg]"><svg class="absolute inset-0 w-full h-full block z-[1] [filter:drop-shadow(0_18px_40px_rgba(27,27,27,0.28))]" viewBox="0 0 320 660" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Téléphone présentant les réseaux sociaux de la crèche"><rect x="3" y="150" width="4" height="34" rx="2" fill="var(--color-mpn-footer-ink)"></rect><rect x="3" y="196" width="4" height="54" rx="2" fill="var(--color-mpn-footer-ink)"></rect><rect x="313" y="180" width="4" height="66" rx="2" fill="var(--color-mpn-footer-ink)"></rect><rect x="8" y="8" width="304" height="644" rx="54" ry="54" fill="var(--color-mpn-footer-cream)" stroke="var(--color-mpn-footer-ink)" stroke-width="3"></rect><rect x="20" y="20" width="280" height="620" rx="44" ry="44" fill="var(--color-mpn-footer-cream)" stroke="var(--color-mpn-footer-ink)" stroke-width="1" stroke-opacity="0.45"></rect></svg><div class="@container absolute left-[6.9%] top-[3.35%] w-[86.25%] h-[93.3%] overflow-hidden bg-mpn-footer-cream flex flex-col isolate z-[2] [border-radius:13%/6.4%]"><div class="absolute top-[2.2%] left-1/2 -translate-x-1/2 w-[32%] h-[2.5%] min-h-[14px] bg-mpn-footer-ink rounded-full z-[3]" aria-hidden="true"></div><div class="flex-none flex items-center justify-between px-[8%] pt-[3.5%] pb-[1.5%] text-mpn-footer-ink font-nunito font-bold text-[5.55cqw] z-[2]"><span>9:41</span><span class="inline-flex items-center gap-[5px]" aria-hidden="true"><svg viewBox="0 0 18 12" fill="currentColor" class="block h-[0.9em] w-auto"><rect x="0" y="8" width="3" height="4" rx="1"></rect><rect x="5" y="5" width="3" height="7" rx="1"></rect><rect x="10" y="2.5" width="3" height="9.5" rx="1"></rect><rect x="15" y="0" width="3" height="12" rx="1"></rect></svg><svg viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" class="block h-[0.9em] w-auto"><path d="M1 4.2A10 10 0 0 1 15 4.2"></path><path d="M3.4 6.8A6.4 6.4 0 0 1 12.6 6.8"></path><path d="M5.8 9.3A2.9 2.9 0 0 1 10.2 9.3"></path></svg><svg viewBox="0 0 26 12" fill="none" class="block h-[0.9em] w-auto"><rect x="0.7" y="0.7" width="21" height="10.6" rx="3" stroke="currentColor" stroke-width="1.2"></rect><rect x="2.4" y="2.4" width="16" height="7.2" rx="1.6" fill="currentColor"></rect><rect x="23" y="4" width="2.4" height="4" rx="1.2" fill="currentColor"></rect></svg></span></div><!-- Zone Insta/FB (cause 1, CONSTAT-ECARTS.md) : la prémisse « aucune
+							     structure équivalente n'existe » était fausse — il ne manquait qu'un
+							     remplissage de ce <div>. Alternance pilotée par script (fin de
+							     section, après ses cibles) : deux vues empilées (data-reseau), fondu
+							     par opacité, vidéos R2 en dur (mpp/footer.js:29-32, pas sous mpp/),
+							     dérive Ken Burns par vue via transform (posé en JS, jamais de classe
+							     de translation Tailwind ici — piège composition translate/transform). --><div class="relative flex-1 overflow-hidden bg-mpn-footer-cream" data-fp-viewport><div class="fp-view absolute inset-0 flex flex-col justify-between opacity-100 z-10 transition-opacity duration-800" data-reseau="instagram"><video class="absolute inset-0 w-full h-full object-cover" src="https://pub-b62969cb28c74eaa82f2cc05d4ae9428.r2.dev/insta-web.mp4" autoplay loop muted playsinline preload="metadata" aria-hidden="true"></video><div class="relative z-10 flex items-center gap-[3.4cqw] px-[8%] pt-[6%] pb-[4%] text-white [background:linear-gradient(to_bottom,rgba(27,27,27,0.45),transparent)]"><span class="grid place-items-center size-[13.7cqw] rounded-full shrink-0 [background:linear-gradient(45deg,#f9ce34,#ee2a7b_45%,#6228d7)]"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" class="w-[55%] h-[55%]"><rect x="3" y="3" width="18" height="18" rx="5.5"></rect><circle cx="12" cy="12" r="4.2"></circle><circle cx="17.3" cy="6.7" r="1.2" fill="#fff" stroke="none"></circle></svg></span><span class="flex flex-col leading-tight"><span class="font-nunito font-bold text-[5.55cqw]">mes_premierspas</span><span class="font-nunito text-[4.7cqw] text-white/80">Mes Premiers Pas</span></span></div><div class="relative z-10 flex items-center gap-[4cqw] px-[8%] pb-[5%] pt-[8%] text-white [background:linear-gradient(to_top,rgba(27,27,27,0.5),transparent)]"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="size-[10.3cqw]"><path d="M20.8 8.6c0 4.6-8.8 9.4-8.8 9.4s-8.8-4.8-8.8-9.4A4.3 4.3 0 0 1 12 6.9a4.3 4.3 0 0 1 8.8 1.7Z"></path></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="size-[10.3cqw]"><path d="M21 11.5a8.5 8.5 0 0 1-11.9 7.8L3 21l1.7-6.1A8.5 8.5 0 1 1 21 11.5Z"></path></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="size-[10.3cqw]"><path d="M22 2 11 13"></path><path d="M22 2 15 22l-4-9-9-4 20-7Z"></path></svg><span class="flex-1"></span><span class="font-nunito text-[4.6cqw] font-semibold whitespace-nowrap">@mes_premierspas</span></div></div><div class="fp-view absolute inset-0 flex flex-col justify-between opacity-0 z-0 transition-opacity duration-800" data-reseau="facebook"><video class="absolute inset-0 w-full h-full object-cover" src="https://pub-b62969cb28c74eaa82f2cc05d4ae9428.r2.dev/facebook-web.mp4" autoplay loop muted playsinline preload="metadata" aria-hidden="true"></video><div class="relative z-10 flex items-center gap-[3.4cqw] px-[8%] pt-[6%] pb-[4%] text-white [background:linear-gradient(to_bottom,rgba(27,27,27,0.45),transparent)]"><span class="grid place-items-center size-[13.7cqw] rounded-full shrink-0 bg-[#1877f2]"><svg viewBox="0 0 24 24" fill="#fff" class="w-[55%] h-[55%]"><path d="M15.4 8.4h-2V6.9c0-.6.4-.8.7-.8h1.3V3.6l-1.9-.1c-2.1 0-3.1 1.3-3.1 3.1v1.8H8.6v2.6h1.8V21h2.9v-7h2l.4-2.6z"></path></svg></span><span class="flex flex-col leading-tight"><span class="font-nunito font-bold text-[5.55cqw]">Mes Premiers Pas</span><span class="font-nunito text-[4.7cqw] text-white/80">Crèche associative</span></span></div><div class="relative z-10 flex items-center gap-[4cqw] px-[8%] pb-[5%] pt-[8%] text-white [background:linear-gradient(to_top,rgba(27,27,27,0.5),transparent)]"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="size-[10.3cqw]"><path d="M7 10v9H4v-9h3Zm0 0 3.5-6.5c.8 0 1.5.7 1.5 1.5V8h5.2c.9 0 1.6.9 1.4 1.8l-1.3 6c-.2.7-.8 1.2-1.5 1.2H7"></path></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="size-[10.3cqw]"><path d="M21 11.5a8.5 8.5 0 0 1-11.9 7.8L3 21l1.7-6.1A8.5 8.5 0 1 1 21 11.5Z"></path></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="size-[10.3cqw]"><path d="M4 12a8 8 0 1 0 8-8"></path><path d="M4 12h8V4"></path></svg><span class="flex-1"></span><span class="font-nunito text-[4.6cqw] font-semibold whitespace-nowrap">Mes Premiers Pas</span></div></div></div></div><!-- Boutons réseaux (cause 12, CONSTAT-ECARTS.md) : la référence charge
+			     mpp/img/reseau-instagram-footer.svg / reseau-facebook-footer.svg —
+			     ton olive avec contour, couleur portée par le fichier SVG lui-même
+			     (footer.css:343-362, .fsoc ne fait que dimensionner/positionner),
+			     pas par une classe CSS. Fichiers copiés depuis la référence dans
+			     src/assets/footer-icons/, importés comme n'importe quel autre asset
+			     du gabarit plutôt que redessinés en SVG inline. --><div class="absolute right-full top-1/2 -translate-y-1/2 mr-[8px] flex flex-col gap-[12px] @3xl:gap-footer-social-gap-desktop @3xl:mr-footer-social-margin-tablet @7xl:mr-footer-social-margin-desktop z-[4]"><a class="size-[44px] @3xl:size-footer-social-desktop grid place-items-center rounded-full survol-bouton data-[actif=true]:bg-[#ebe6d4] data-[actif=true]:shadow-[0_8px_20px_rgba(27,27,27,0.22)] data-[actif=true]:scale-[1.09] focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-[#ebe6d4] focus-visible:outline-offset-3" data-actif="false" href="https://www.instagram.com/mes_premierspas/" target="_blank" rel="noopener" aria-label="Instagram — Mes Premiers Pas" data-net="instagram"><img src="../_astro/reseau-instagram-footer.Dcw2UOvi.svg" alt="" aria-hidden="true" class="w-2/3 h-2/3 object-contain"></a><a class="size-[44px] @3xl:size-footer-social-desktop grid place-items-center rounded-full survol-bouton data-[actif=true]:bg-[#ebe6d4] data-[actif=true]:shadow-[0_8px_20px_rgba(27,27,27,0.22)] data-[actif=true]:scale-[1.09] focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-[#ebe6d4] focus-visible:outline-offset-3" data-actif="false" href="https://www.facebook.com/mes.premierpas.52/about?locale=fr_FR" target="_blank" rel="noopener" aria-label="Facebook — Mes Premiers Pas" data-net="facebook"><img src="../_astro/reseau-facebook-footer.Be73HyOB.svg" alt="" aria-hidden="true" class="w-2/3 h-2/3 object-contain"></a></div></div><script>
+			(() => {
+				const racine = document.currentScript && document.currentScript.closest('[data-archetype="contact"]');
+				if (!racine) return;
+				const viewport = racine.querySelector('[data-fp-viewport]');
+				if (!viewport) return;
+
+				const RESEAUX = ['instagram', 'facebook'];
+				const vues = {};
+				const videos = {};
+				RESEAUX.forEach((r) => {
+					vues[r] = viewport.querySelector('[data-reseau="' + r + '"]');
+					videos[r] = vues[r] && vues[r].querySelector('video');
+				});
+				if (!vues.instagram || !vues.facebook || !videos.instagram || !videos.facebook) return;
+
+				const reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+				// L'attribut autoplay démarre la lecture côté navigateur avant que ce
+				// script ne s'exécute — mpp/footer.js:159 coupe donc les DEUX vidéos
+				// dès l'init sous reduced-motion, pas seulement l'inactive (montrer()
+				// ne met en pause que l'autre réseau).
+				if (reduit) {
+					videos.instagram.pause();
+					videos.facebook.pause();
+				}
+				let actif = 'instagram';
+				let verrou = null;
+				let timer = null;
+
+				const montrer = (reseau) => {
+					RESEAUX.forEach((r) => {
+						const active = r === reseau;
+						vues[r].classList.toggle('opacity-100', active);
+						vues[r].classList.toggle('z-10', active);
+						vues[r].classList.toggle('opacity-0', !active);
+						vues[r].classList.toggle('z-0', !active);
+						const vid = videos[r];
+						if (active) { if (!reduit) vid.play().catch(() => {}); }
+						else vid.pause();
+					});
+					// Pastille active synchronisée avec l'écran (mpp/footer.js:173-176,
+					// .fsoc.is-active de footer.css:356-360) : disque crème + ombre +
+					// scale(1.09) sur le bouton du réseau affiché, y compris au survol.
+					racine.querySelectorAll('[data-net]').forEach((b) => {
+						b.dataset.actif = String(b.dataset.net === reseau);
+					});
+					actif = reseau;
+				};
+
+				const tick = () => {
+					if (verrou) return;
+					montrer(actif === 'instagram' ? 'facebook' : 'instagram');
+				};
+				const relancer = () => {
+					clearInterval(timer);
+					if (!reduit) timer = setInterval(tick, 5000);
+				};
+
+				// Verrou au survol/focus d'un bouton réseau (data-net, cause 12) —
+				// quatre écouteurs, mêmes événements que mpp/footer.js:168-171.
+				racine.querySelectorAll('[data-net]').forEach((b) => {
+					const net = b.dataset.net;
+					if (!RESEAUX.includes(net)) return;
+					const verrouiller = () => {
+						verrou = net;
+						montrer(net);
+					};
+					const deverrouiller = () => {
+						verrou = null;
+						relancer();
+					};
+					b.addEventListener('mouseenter', verrouiller);
+					b.addEventListener('mouseleave', deverrouiller);
+					b.addEventListener('focus', verrouiller);
+					b.addEventListener('blur', deverrouiller);
+				});
+
+				montrer('instagram');
+				if (!reduit) relancer();
+
+				// Dérive Ken Burns (rAF), phases aléatoires par vidéo — mpp/footer.js:112-131.
+				if (!reduit) {
+					const phases = new WeakMap();
+					RESEAUX.forEach((r) => {
+						phases.set(videos[r], {
+							ax: Math.random() * 6.28,
+							bx: Math.random() * 6.28,
+							ay: Math.random() * 6.28,
+							by: Math.random() * 6.28,
+							s: Math.random() * 6.28,
+						});
+					});
+					const driver = (now) => {
+						const t = now / 1000;
+						RESEAUX.forEach((r) => {
+							const el = videos[r];
+							const p = phases.get(el);
+							if (!p) return;
+							const dx = Math.sin(t * 0.061 + p.ax) * 3.2 + Math.sin(t * 0.027 + p.bx) * 2.0;
+							const dy = Math.cos(t * 0.052 + p.ay) * 3.2 + Math.sin(t * 0.019 + p.by) * 2.0;
+							const sc = 1.14 + Math.sin(t * 0.037 + p.s) * 0.035;
+							el.style.transform = 'translate(' + dx.toFixed(2) + '%,' + dy.toFixed(2) + '%) scale(' + sc.toFixed(3) + ')';
+						});
+						requestAnimationFrame(driver);
+					};
+					requestAnimationFrame(driver);
+				}
+			})();
+		</script><!-- Bloc CONTACT (mpp/footer.css:44-79, ÉTAPE 5). Titre + liste en colonne
+		     avec gap (plutôt que le margin-bottom du titre côté source) — règle
+		     d'isolation « gap plutôt que des marges entre enfants ». --><div class="flex-1 min-w-0 @3xl:flex-none flex flex-col gap-[16px] @3xl:gap-footer-titre-mb-desktop w-auto max-w-full @3xl:max-w-[min(48%,480px)] text-mpn-footer-texte text-left"><h2 class="mpn-anim-entree font-fuzzy-bubbles font-bold text-[2rem] @3xl:text-footer-titre-mobile @7xl:text-footer-titre-desktop leading-none text-mpn-footer-texte animate-mpn-footer-titre motion-reduce:animate-none motion-reduce:opacity-100 [--mpn-footer-titre-depart:translateX(-40px)] @3xl:[--mpn-footer-titre-depart:translateX(-72px)]">Contact</h2><ul class="list-none m-0 p-0 flex flex-col items-start gap-[12px] @3xl:gap-footer-liste-gap-desktop font-nunito" aria-label="Coordonnées"><li class="mpn-anim-entree text-[13px] [overflow-wrap:anywhere] @3xl:text-footer-ligne-desktop font-semibold text-mpn-footer-texte animate-mpn-footer-ligne motion-reduce:animate-none motion-reduce:opacity-100 [animation-delay:var(--d)]" style="--d:1.15s"><a class="text-mpn-footer-texte no-underline border-b border-mpn-footer-texte/40 transition-colors duration-200 hover:text-white hover:border-white" href="mailto:info.mespremierspas@gmail.com">info.mespremierspas@<wbr>gmail.com</a></li><li class="mpn-anim-entree text-[13px] [overflow-wrap:anywhere] @3xl:text-footer-ligne-desktop font-semibold text-mpn-footer-texte animate-mpn-footer-ligne motion-reduce:animate-none motion-reduce:opacity-100 [animation-delay:var(--d)]" style="--d:1.2999999999999998s"><span class="text-mpn-footer-texte/72 font-bold mr-[0.35em]">Vers :</span><a class="text-mpn-footer-texte no-underline border-b border-mpn-footer-texte/40 transition-colors duration-200 hover:text-white hover:border-white" href="tel:+33450161929">04 50 16 19 29</a></li><li class="mpn-anim-entree text-[13px] [overflow-wrap:anywhere] @3xl:text-footer-ligne-desktop font-semibold text-mpn-footer-texte animate-mpn-footer-ligne motion-reduce:animate-none motion-reduce:opacity-100 [animation-delay:var(--d)]" style="--d:1.45s"><span class="text-mpn-footer-texte/72 font-bold mr-[0.35em]">Valleiry (siège social) :</span><a class="text-mpn-footer-texte no-underline border-b border-mpn-footer-texte/40 transition-colors duration-200 hover:text-white hover:border-white" href="tel:+33450839994">04 50 83 99 94</a></li></ul></div></div><!-- Ligne d'infos (mpp/footer.css:396-404 + Webflow .informations-complementaire,
+	     assets/.../mes-premier-pas.webflow.shared.*.css:3356) : display:flex +
+	     justify-content:space-between hérités de la base Webflow, footer.css
+	     ne surcharge que le padding/l'alignement du texte — reproduit ici. --><div class="flex flex-col @3xl:flex-row items-center justify-between gap-sm px-5 pb-footer-titre-mb-mobile @3xl:pb-footer-titre-mb-desktop text-center"><div class="text-mpn-footer-texte text-sm">310 Rue du Riondet, 74520 Valleiry, France</div><div class="text-mpn-footer-texte text-sm">© Mes premier pas 2026</div><div class="text-mpn-footer-texte text-sm">Site Designé par Brian Robert</div></div></footer></div></main><script type="module" src="../_astro/Layout.astro_astro_type_script_index_0_lang.BpV43paj.js"></script><script type="module">var e=document.querySelectorAll(`[data-invitation-glisse]`),t=window.matchMedia(`(prefers-reduced-motion: reduce)`).matches,n=window.matchMedia(`(max-width: 767px)`);if(e.length&&!t&&`IntersectionObserver`in window){let t=e=>{let t=e.querySelector(`[data-invitation-piste]`);if(!t||!n.matches||!t.animate)return;let r=document.createElement(`div`);r.setAttribute(`aria-hidden`,`true`),r.style.cssText=`position:absolute;left:50%;top:55%;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;background:rgba(255,255,255,0.78);box-shadow:0 4px 14px rgba(0,0,0,0.22);pointer-events:none;z-index:20;opacity:0`,e.appendChild(r);let i={duration:1500,delay:150,iterations:2,easing:`ease-in-out`},a=t.animate([{transform:`translateX(0)`},{transform:`translateX(-36px)`,offset:.55},{transform:`translateX(0)`}],{...i,composite:`add`}),o=r.animate([{opacity:0,transform:`translateX(44px) scale(0.8)`},{opacity:1,transform:`translateX(34px) scale(1)`,offset:.15},{opacity:1,transform:`translateX(-46px) scale(1)`,offset:.55},{opacity:0,transform:`translateX(-56px) scale(0.9)`}],i),s=()=>{a.cancel(),o.cancel(),r.remove()};o.onfinish=s,e.addEventListener(`touchstart`,s,{once:!0,passive:!0})},r=new IntersectionObserver(e=>{e.forEach(e=>{e.isIntersecting&&(r.unobserve(e.target),setTimeout(()=>t(e.target),1e3))})},{threshold:.6});e.forEach(e=>r.observe(e))}</script><script type="module">(()=>{let e=()=>window.innerHeight*.9,t=window.matchMedia(`(prefers-reduced-motion: reduce)`).matches,n=()=>{if(document.getElementById(`mpp-haut-style`))return;let e=document.createElement(`style`);e.id=`mpp-haut-style`,e.textContent=`
+						.mpp-haut {
+							position: fixed;
+							right: 24px;
+							bottom: 24px;
+							z-index: 9999;
+							width: 44px;
+							height: 44px;
+							display: flex;
+							align-items: center;
+							justify-content: center;
+							border: none;
+							border-radius: 999px;
+							background: color-mix(in srgb, var(--color-fond, #e1dccc) 82%, transparent);
+							backdrop-filter: blur(6px);
+							-webkit-backdrop-filter: blur(6px);
+							box-shadow: 0 0 18px rgba(120, 100, 60, 0.18);
+							cursor: pointer;
+							padding: 0;
+							opacity: 0;
+							transform: translateY(8px);
+							pointer-events: none;
+							transition: opacity 0.35s ease, transform 0.35s ease, background 0.2s ease, box-shadow 0.2s ease;
+						}
+						.mpp-haut.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+						.mpp-haut:hover {
+							background: color-mix(in srgb, var(--color-fond, #e1dccc) 96%, transparent);
+							box-shadow: 0 0 22px rgba(120, 100, 60, 0.24);
+						}
+						.mpp-haut:focus-visible { outline: 3px solid var(--color-mpn-pin, #e8a248); outline-offset: 2px; }
+						.mpp-haut svg { width: 20px; height: 20px; display: block; stroke: var(--color-texte, #1a1a1a); }
+						@media (max-width: 479px) { .mpp-haut { right: 16px; bottom: 16px; } }
+						@media (prefers-reduced-motion: reduce) { .mpp-haut { transition: none; } }
+					`,(document.head||document.documentElement).appendChild(e)},r=()=>{let e=document.createElement(`button`);return e.type=`button`,e.className=`mpp-haut`,e.setAttribute(`aria-label`,`Retour en haut de la page`),e.innerHTML=`<svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5"/><path d="M6 11l6-6 6 6"/></svg>`,e.addEventListener(`click`,()=>{let e=window;e.lenis&&typeof e.lenis.scrollTo==`function`?e.lenis.scrollTo(0):window.scrollTo({top:0,behavior:t?`auto`:`smooth`})}),e},i=()=>{n();let t=r();document.body.appendChild(t);let i=()=>{let n=window,r=n.lenis?n.lenis.scroll:window.scrollY;t.classList.toggle(`visible`,r>e())};window.addEventListener(`scroll`,i,{passive:!0}),window.addEventListener(`resize`,i,{passive:!0}),i()};document.body?i():document.addEventListener(`DOMContentLoaded`,i)})();</script><script type="module">(()=>{let e=document.documentElement,t=document.getElementById(`mpp-menu-badge`),n=document.getElementById(`mpp-nav-close`),r=document.getElementById(`mpp-navbar`);if(!t||!n||!r)return;let i=()=>window.matchMedia(`(max-width: 820px)`).matches,a=()=>e.getAttribute(`data-nav`)===`open`,o=()=>{if(e.setAttribute(`data-nav`,`open`),t.setAttribute(`aria-expanded`,`true`),t.setAttribute(`aria-label`,`Fermer le menu`),i())document.body.style.overflow=`hidden`;else{let e=r.querySelector(`.mpp-navbar__link`);e instanceof HTMLElement&&e.focus({preventScroll:!0})}},s=(n=!0)=>{e.setAttribute(`data-nav`,`closed`),t.setAttribute(`aria-expanded`,`false`),t.setAttribute(`aria-label`,`Ouvrir le menu`),document.body.style.overflow=``,n&&t.focus({preventScroll:!0})};t.setAttribute(`aria-expanded`,String(a())),t.setAttribute(`aria-label`,a()?`Fermer le menu`:`Ouvrir le menu`),t.addEventListener(`click`,()=>a()?s():o()),n.addEventListener(`click`,()=>s()),document.addEventListener(`keydown`,e=>{e.key===`Escape`&&a()&&s()});let c=window.scrollY;window.addEventListener(`scroll`,()=>{let e=window.scrollY;e>c&&e>60&&a()&&!i()&&s(!1),c=e},{passive:!0}),r.addEventListener(`click`,e=>{let t=e.target;i()&&t instanceof Element&&t.closest(`.mpp-navbar__link`)&&s(!1)})})();</script><script type="module">(()=>{let e=document.querySelector(`[data-nav-dropdown="creches"]`),t=document.getElementById(`mpp-dropdown-creches`);if(!e||!t)return;let n=()=>t.classList.contains(`open`),r=()=>{let n=e.getBoundingClientRect(),r=t.offsetWidth||200,i=n.left+n.width/2-r/2;i=Math.max(8,Math.min(i,window.innerWidth-r-8)),t.style.left=`${i}px`},i=()=>{r(),t.classList.add(`open`),e.setAttribute(`aria-expanded`,`true`)},a=()=>{t.classList.remove(`open`),e.setAttribute(`aria-expanded`,`false`)};e.setAttribute(`aria-haspopup`,`true`),e.setAttribute(`aria-expanded`,`false`),e.setAttribute(`aria-controls`,`mpp-dropdown-creches`),e.addEventListener(`click`,e=>{e.preventDefault(),e.stopPropagation(),n()?a():i()}),document.addEventListener(`click`,n=>{n.target instanceof Node&&!e.contains(n.target)&&!t.contains(n.target)&&a()}),document.addEventListener(`keydown`,e=>{e.key===`Escape`&&a()}),window.addEventListener(`resize`,()=>{n()&&r()},{passive:!0})})();</script><script type="module" src="../_astro/Layout.astro_astro_type_script_index_5_lang.U6WShQWq.js"></script></body></html>

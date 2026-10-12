@@ -1,0 +1,505 @@
+<!DOCTYPE html><html lang="fr" data-theme="mpp" style="--mpp-accent-page:#e8a248;--voile-chargement:#e8a248"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v7.2.8"><title>à propos de nous — Mes Premiers Pas</title><link rel="canonical" href="/a-propos/"><meta property="og:type" content="website"><script type="application/ld+json">{"@context":"https://schema.org","@type":"ChildCare","name":"Mes Premiers Pas","address":"310 Rue du Riondet, 74520 Valleiry, France","telephone":["04 50 16 19 29","04 50 83 99 94"],"openingHours":"7h15 – 18h15"}</script><script>
+			/*
+			 * Pose data-nav AVANT le premier rendu (bloquant, dans <head>) — sans
+			 * quoi le CSS keyed sur html[data-nav] s'applique après un flash dans
+			 * l'état non stylé. Repliée en mobile, déployée en desktop, comme la
+			 * référence (overrides.js) — pas de mémorisation d'un chargement au
+			 * suivant.
+			 */
+			(function () {
+				var mobile = window.matchMedia('(max-width: 820px)').matches;
+				document.documentElement.setAttribute('data-nav', mobile ? 'closed' : 'open');
+			})();
+
+			/*
+			 * Voile de chargement : rien de la page n'est vu tant que la page
+			 * (load) et ses polices ne sont pas prêtes — plafond 3 s pour ne
+			 * jamais bloquer le visiteur. À la levée : événement `mpp:pret`, que
+			 * les animations d'entrée attendent (Hero.astro), puis retrait de
+			 * l'attribut après le fondu. Posé en JS : sans JS, aucun voile.
+			 */
+			(function () {
+				var html = document.documentElement;
+				html.setAttribute('data-chargement', 'on');
+				var leve = false;
+				var lever = function () {
+					if (leve) return;
+					leve = true;
+					window.__mppPret = true;
+					html.setAttribute('data-chargement', 'sortie');
+					window.dispatchEvent(new Event('mpp:pret'));
+					setTimeout(function () {
+						html.removeAttribute('data-chargement');
+					}, 520);
+				};
+				window.addEventListener('load', function () {
+					var polices = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
+					polices.then(lever, lever);
+				});
+				setTimeout(lever, 3000);
+			})();
+		</script><link rel="stylesheet" href="../_astro/PageContenu.BSAwCErU.css"></head><body class="bg-fond text-texte flex flex-col"><button type="button" id="mpp-menu-badge" class="mpp-menu-badge" aria-controls="mpp-navbar" aria-expanded="false" aria-label="Ouvrir le menu"><img class="mpp-menu-badge__feet" src="/mpp/empreintes.png" alt=""><span class="mpp-menu-badge__label">MENU</span></button><nav id="mpp-navbar" class="mpp-navbar"><div class="mpp-navbar__inner"><div class="mpp-navbar__gauche"><button type="button" id="mpp-nav-close" class="mpp-nav-close" aria-controls="mpp-navbar" aria-label="Fermer le menu"><svg class="mpp-nav-close__arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 19V5M12 5l-6.5 6.5M12 5l6.5 6.5"></path></svg><span class="mpp-nav-close__label">Fermer</span></button><a href="/" class="mpp-navbar__logo"><img src="/mpp/logo-trim.png" alt="Mes Premiers Pas" width="964" height="752" loading="eager"></a><a href="/" class="mpp-navbar__link" data-page-id="page-accueil"><span class="mpp-navbar__roll" data-text="Accueil">Accueil</span></a><a href="#" class="mpp-navbar__link" data-nav-dropdown="creches"><span class="mpp-navbar__roll" data-text="Nos crèches">Nos crèches</span><span class="mpp-navbar__fleche" aria-hidden="true">▾</span></a><a href="/a-propos/" class="mpp-navbar__link" data-page-id="page-a-propos" aria-current="page"><span class="mpp-navbar__roll" data-text="Nos valeurs">Nos valeurs</span></a><a href="/journee-type/" class="mpp-navbar__link" data-page-id="page-journee-type"><span class="mpp-navbar__roll" data-text="Journée type">Journée type</span></a><a href="/recrutement/" class="mpp-navbar__link" data-page-id="page-recrutement"><span class="mpp-navbar__roll" data-text="Recrutement">Recrutement</span></a></div><div class="mpp-navbar__droite"><div class="mpp-navbar__tel-bloc"><a href="tel:+33450839994" class="mpp-navbar__tel">+33 4 50 83 99 94</a></div><a href="https://www.labulledespetitspas.com/_files/ugd/2ab568_b72a1b0fc9e649818590a7ef41905c2d.pdf" class="mpp-navbar__cta survol-bouton">Pré-inscription</a></div></div></nav><div id="mpp-dropdown-creches" class="mpp-dropdown-panel" role="menu"><a href="/vers-foret/" role="menuitem" data-creche="foret">La p&#39;tite forêt</a><a href="/vers-montagne/" role="menuitem" data-creche="montagne">Les p&#39;tits montagnards</a><a href="/vers-ocean/" role="menuitem" data-creche="ocean">Les p&#39;tis cœurs de l&#39;Ocean</a><a href="/vers-savane/" role="menuitem" data-creche="savane">La p&#39;tite savane</a></div><main class="flex flex-col relative"><div style="margin-top:0px"><section class="@container relative h-hero-collage font-raleway text-[#333] overflow-visible" data-archetype="accroche" data-section-id="a-propos-hero" style="background-color:#e8a248"><div class="relative w-full h-full"><img src="../_astro/a-propos-photo-1.tmlZ0424_Z1BjXLx.jpg" alt loading="lazy" data-role="visuel" data-index="0" data-delai="300" data-duree="900" decoding="async" width="1200" height="1600" class="hero-collage-cible opacity-0 object-cover rounded-[7%] absolute h-[30vh] w-auto left-1/2 -translate-x-1/2 top-[22vh] @min-[480px]:top-[26.5vh] z-[2]"><img src="../_astro/a-propos-vecteur.CqbG6h39.svg" alt="" loading="lazy" class="hero-collage-cible opacity-0 absolute h-[8vh] w-auto top-[42vh] left-[57%] @min-[480px]:top-[48vh] @min-[480px]:left-[49%] @min-[768px]:h-[127px] @min-[768px]:top-[calc(54.5vh-63.5px)] @min-[768px]:left-[calc(36%+22.5vh)] z-[1]" style="transform:scale(0.5) rotate(0deg)" data-role="visuel" data-index="1" data-delai="600" data-duree="700" data-rotation="0deg"><img src="../_astro/a-propos-photo-2.B0Jqooo2_D0Fc6.jpg" alt loading="lazy" data-role="visuel" data-index="2" data-delai="850" data-duree="900" decoding="async" width="1600" height="1200" class="hero-collage-cible opacity-0 object-cover rounded-[7%] hidden @min-[768px]:block absolute h-[33vh] w-auto top-[42vh] left-[calc(46%+22.5vh+140px)] z-[1]"><h1 class="hero-collage-cible opacity-0 absolute inset-x-0 bottom-[3vh] text-center m-0 px-[1.5rem] text-white font-normal z-0
+						text-[length:var(--tt-mobile)] leading-[1] @min-[768px]:text-hero-collage-titre @min-[768px]:leading-[10vh]
+						@min-[768px]:right-auto @min-[768px]:w-full @min-[768px]:top-[70vh] @min-[768px]:bottom-auto @min-[768px]:text-left @min-[768px]:px-0 @min-[768px]:whitespace-nowrap @min-[768px]:left-[5vw]" data-delai="1150" style="--tt-mobile:5vh;transform:translateY(20px)" data-role="titre">à propos de nous</h1></div><script>(function(){const nbVisuels = 3;
+
+				(() => {
+					const racine = document.currentScript && document.currentScript.closest('[data-archetype="accroche"]');
+					if (!racine) return;
+					const reduitMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+					const visuels = Array.from(racine.querySelectorAll('[data-role="visuel"]'));
+					const titreEl = racine.querySelector('[data-role="titre"]');
+					const elements = [...visuels, titreEl].filter(Boolean);
+
+					// CTA de défilement (même logique que le hero d'accueil, M9) : cible
+					// résolue AU CLIC, repli natif si Lenis n'est pas chargé.
+					const cta = racine.querySelector('[data-role="cta"]');
+					if (cta) {
+						const aller = () => {
+							const cible = document.querySelector('[data-section-id="' + cta.dataset.cible + '"]');
+							if (!cible) return;
+							if (window.lenis && typeof window.lenis.scrollTo === 'function') {
+								window.lenis.scrollTo(cible, { offset: -20 });
+							} else {
+								cible.scrollIntoView({ behavior: reduitMotion ? 'auto' : 'smooth', block: 'start' });
+							}
+						};
+						cta.addEventListener('click', aller);
+						cta.addEventListener('keydown', (e) => {
+							if (e.key === 'Enter' || e.key === ' ') {
+								e.preventDefault();
+								aller();
+							}
+						});
+					}
+
+					if (reduitMotion) {
+						elements.forEach((el) => {
+							el.style.opacity = '1';
+							el.style.transform = 'none';
+						});
+						return;
+					}
+
+					// Séquence d'apparition — mesurée en direct (about.html:1330-1408,
+					// journee-type.html:1330-1424) : photos en fondu pur, vecteurs en
+					// échelle + rotation, titre en dernier avec un léger glissement.
+					// Délai/durée lus par visuel (data-delai/data-duree, relevés dans
+					// la référence), jamais déduits de l'index.
+					const sequence = visuels.map((el) => ({
+						el,
+						delai: Number(el.dataset.delai) || 300,
+						duree: Number(el.dataset.duree) || 900,
+						depart: el.dataset.rotation ? 'scale(0.5) rotate(' + el.dataset.rotation + ')' : null,
+						arrivee: el.dataset.rotation ? 'scale(1) rotate(0deg)' : null,
+					}));
+					sequence.push({
+						el: titreEl,
+						delai: titreEl ? Number(titreEl.dataset.delai) || 1100 : 1100,
+						duree: 800,
+						depart: 'translateY(20px)',
+						arrivee: 'translateY(0)',
+					});
+
+					const jouer = () => setTimeout(() => {
+						sequence.forEach((cfg) => {
+							if (!cfg.el) return;
+							setTimeout(() => {
+								const props = cfg.depart
+									? 'opacity ' + cfg.duree + 'ms cubic-bezier(0.16, 1, 0.3, 1), transform ' + cfg.duree + 'ms cubic-bezier(0.16, 1, 0.3, 1)'
+									: 'opacity ' + cfg.duree + 'ms cubic-bezier(0.16, 1, 0.3, 1)';
+								cfg.el.style.transition = props;
+								cfg.el.style.opacity = '1';
+								if (cfg.arrivee) cfg.el.style.transform = cfg.arrivee;
+							}, cfg.delai);
+						});
+					}, 150);
+					// Démarre à la levée du voile de chargement (Layout.astro, mpp:pret).
+					if (window.__mppPret || !document.documentElement.hasAttribute('data-chargement')) jouer();
+					else window.addEventListener('mpp:pret', jouer, { once: true });
+
+					// Parallaxe des photos (journee-type.html:1559-1578, GSAP) : yPercent
+					// -5 et scale 1.04 sur la traversée « top bottom » → « bottom top »
+					// du conteneur ; scrub:1 approché par interpolation (0.09/image,
+					// comme la parallaxe du hero d'accueil).
+					const photosPar = visuels.filter((el) => el.dataset.parallaxe === 'true');
+					const declencheur = racine.querySelector('[data-role="collage-wrapper"]');
+					if (photosPar.length && declencheur) {
+						const mobile = window.innerWidth <= 767;
+						const Y = mobile ? -3 : -5;
+						const S = mobile ? 0.02 : 0.04;
+						const progression = () => {
+							const r = declencheur.getBoundingClientRect();
+							const h = window.innerHeight;
+							return Math.max(0, Math.min(1, (h - r.top) / (h + r.height)));
+						};
+						let actuel = progression();
+						let boucle = null;
+						const peindre = () => {
+							photosPar.forEach((el) => {
+								el.style.transform = 'translateY(' + (actuel * Y).toFixed(3) + '%) scale(' + (1 + actuel * S).toFixed(4) + ')';
+							});
+						};
+						const tick = () => {
+							const cible = progression();
+							actuel += (cible - actuel) * 0.09;
+							peindre();
+							boucle = Math.abs(cible - actuel) > 0.0005 ? requestAnimationFrame(tick) : null;
+						};
+						peindre();
+						window.addEventListener('scroll', () => { if (!boucle) boucle = requestAnimationFrame(tick); }, { passive: true });
+					}
+				})();
+			})();</script></section></div><div style="margin-top:0px"><section class="@container" data-archetype="valeurs" data-section-id="a-propos-valeurs"><div class="flex flex-col items-center gap-[5dvh] px-[16px] @min-[768px]:px-[10vw] @min-[768px]:py-[5vh] @min-[975px]:px-[15vw] @min-[1423px]:pt-[15vh]"><h1 class="m-0 text-center font-fuzzybubbles text-[2.1rem] font-light text-[#8195c2] opacity-0 transition-[opacity,transform] duration-700 ease-[ease-out] [transform:translateY(25px)] @min-[480px]:text-[3rem] @min-[768px]:pt-[20px] @min-[768px]:pb-[10px] mb-[4dvh] @min-[768px]:mb-[10dvh]" data-role="valeurs-titre">Nos valeurs</h1><div class="flex h-[var(--height-valeurs-carte)] w-full flex-col items-center gap-[12px] py-[5dvh] @min-[768px]:flex-row @min-[768px]:items-center @min-[768px]:justify-between @min-[768px]:gap-[1.6rem] @min-[768px]:py-0" data-role="valeurs-bloc"><div class="order-1 w-[80vw] max-w-[80vw] text-center opacity-0 transition-[opacity,transform] duration-[600ms] ease-[ease-out] @min-[768px]:w-[82%] @min-[768px]:max-w-none @min-[768px]:text-left @min-[768px]:order-none [transform:translateX(-30px)]" data-role="valeurs-texte"><h3 class="m-0 mb-[8px] font-fuzzybubbles text-[22px] leading-[1.3] font-normal text-[#1b1b1b] @min-[768px]:text-[24px] @min-[768px]:font-bold @min-[768px]:pt-[20px] @min-[768px]:mb-[10px] @min-[768px]:leading-[30px]">L&#39;enfant au coeur de priorité</h3><p class="m-0 font-nunito text-[14px] leading-[1.6] text-[#1b1b1b] @min-[768px]:text-[1.5rem] @min-[768px]:leading-[1.2] @min-[768px]:mb-[10px]">Dans nos établissements, ce n&#39;est pas à l&#39;enfant de s&#39;adapter à l&#39;adulte et à ses contraintes, mais aux adultes de tout mettre en oeuvre pour soutenir le développement de chaque enfant.</p></div><div class="order-2 flex w-auto max-w-[150px] items-center justify-center opacity-0 transition-[opacity,transform] duration-[600ms] ease-[ease-out] @min-[768px]:max-w-none @min-[768px]:order-none [transform:translateX(30px)]" data-role="valeurs-image"><div class="relative" data-role="valeurs-cadre"><img src="../_astro/valeur-1.D0ueP8ci.webp" alt="" width="1259" height="1167" loading="lazy" decoding="async" class="block h-auto max-w-full" data-role="valeurs-photo"></div></div></div><div class="flex h-[var(--height-valeurs-carte)] w-full flex-col items-center gap-[12px] py-[5dvh] @min-[768px]:flex-row @min-[768px]:items-center @min-[768px]:justify-between @min-[768px]:gap-[1.6rem] @min-[768px]:py-0" data-role="valeurs-bloc"><div class="order-1 w-[80vw] max-w-[80vw] text-center opacity-0 transition-[opacity,transform] duration-[600ms] ease-[ease-out] @min-[768px]:w-[82%] @min-[768px]:max-w-none @min-[768px]:text-left @min-[768px]:order-2 @min-[768px]:w-[80%] @min-[768px]:text-right [transform:translateX(-30px)]" data-role="valeurs-texte"><h3 class="m-0 mb-[8px] font-fuzzybubbles text-[22px] leading-[1.3] font-normal text-[#1b1b1b] @min-[768px]:text-[24px] @min-[768px]:font-bold @min-[768px]:pt-[20px] @min-[768px]:mb-[10px] @min-[768px]:leading-[30px] @min-[768px]:text-right">Le respect de l&#39;être humain</h3><p class="m-0 font-nunito text-[14px] leading-[1.6] text-[#1b1b1b] @min-[768px]:text-[1.5rem] @min-[768px]:leading-[1.2] @min-[768px]:mb-[10px] @min-[768px]:text-[1.3rem]">Chez Mes Premiers Pas, nous souhaitons profondément respecter l&#39;être humain. En effet, chaque personne (familles, professionnels de terrain et professionnels de bureau, intervenants, partenaires...) ont leur propre histoire et perception du monde.</p></div><div class="order-2 flex w-auto max-w-[150px] items-center justify-center opacity-0 transition-[opacity,transform] duration-[600ms] ease-[ease-out] @min-[768px]:max-w-none @min-[768px]:order-1 [transform:translateX(30px)]" data-role="valeurs-image"><div class="relative" data-role="valeurs-cadre"><img src="../_astro/valeur-2.DrRzio7A.webp" alt="" width="1119" height="1362" loading="lazy" decoding="async" class="block h-auto max-w-full" data-role="valeurs-photo"></div></div></div><div class="flex h-[var(--height-valeurs-carte)] w-full flex-col items-center gap-[12px] py-[5dvh] @min-[768px]:flex-row @min-[768px]:items-center @min-[768px]:justify-between @min-[768px]:gap-[1.6rem] @min-[768px]:py-0" data-role="valeurs-bloc"><div class="order-1 w-[80vw] max-w-[80vw] text-center opacity-0 transition-[opacity,transform] duration-[600ms] ease-[ease-out] @min-[768px]:w-[82%] @min-[768px]:max-w-none @min-[768px]:text-left @min-[768px]:order-none [transform:translateX(-30px)]" data-role="valeurs-texte"><h3 class="m-0 mb-[8px] font-fuzzybubbles text-[22px] leading-[1.3] font-normal text-[#1b1b1b] @min-[768px]:text-[24px] @min-[768px]:font-bold @min-[768px]:pt-[20px] @min-[768px]:mb-[10px] @min-[768px]:leading-[30px]">Communication</h3><p class="m-0 font-nunito text-[14px] leading-[1.6] text-[#1b1b1b] @min-[768px]:text-[1.5rem] @min-[768px]:leading-[1.2] @min-[768px]:mb-[10px]">Nous souhaitons mettre au coeur de chaque relations humaines une communication positive, bienveillante et transparente. Effectivement, nous souhaitons des relations fluides pour le bien être de tous.</p></div><div class="order-2 flex w-auto max-w-[150px] items-center justify-center opacity-0 transition-[opacity,transform] duration-[600ms] ease-[ease-out] @min-[768px]:max-w-none @min-[768px]:order-none [transform:translateX(30px)]" data-role="valeurs-image"><div class="relative" data-role="valeurs-cadre"><img src="../_astro/valeur-3.Ddn_mjxW.webp" alt="" width="1207" height="627" loading="lazy" decoding="async" class="block h-auto max-w-full" data-role="valeurs-photo"></div></div></div><div class="flex h-[var(--height-valeurs-carte)] w-full flex-col items-center gap-[12px] py-[5dvh] @min-[768px]:flex-row @min-[768px]:items-center @min-[768px]:justify-between @min-[768px]:gap-[1.6rem] @min-[768px]:py-0" data-role="valeurs-bloc"><div class="order-1 w-[80vw] max-w-[80vw] text-center opacity-0 transition-[opacity,transform] duration-[600ms] ease-[ease-out] @min-[768px]:w-[82%] @min-[768px]:max-w-none @min-[768px]:text-left @min-[768px]:order-2 @min-[768px]:w-[80%] @min-[768px]:text-right [transform:translateX(-30px)]" data-role="valeurs-texte"><h3 class="m-0 mb-[8px] font-fuzzybubbles text-[22px] leading-[1.3] font-normal text-[#1b1b1b] @min-[768px]:text-[24px] @min-[768px]:font-bold @min-[768px]:pt-[20px] @min-[768px]:mb-[10px] @min-[768px]:leading-[30px] @min-[768px]:text-right">La bienveillance</h3><p class="m-0 font-nunito text-[14px] leading-[1.6] text-[#1b1b1b] @min-[768px]:text-[1.5rem] @min-[768px]:leading-[1.2] @min-[768px]:mb-[10px] @min-[768px]:text-[1.3rem]">Nous souhaitons mettre au coeur de chaque relations humaines une communication positive, bienveillante et transparente. Effectivement, nous souhaitons des relations fluides pour le bien être de tous.La bienveillance peut être définie comme &quot;La qualité d&#39;une volonté qui vise le bien et le bonheur d&#39;autrui&quot;. Ainsi, chez Mes Premiers Pas, notre volonté est de viser le bien pour le bonheur des enfants, parents et collaborateurs.</p></div><div class="order-2 flex w-auto max-w-[150px] items-center justify-center opacity-0 transition-[opacity,transform] duration-[600ms] ease-[ease-out] @min-[768px]:max-w-none @min-[768px]:order-1 [transform:translateX(30px)]" data-role="valeurs-image"><div class="relative" data-role="valeurs-cadre"><img src="../_astro/valeur-4.l3i77Y-y.webp" alt="" width="1117" height="1263" loading="lazy" decoding="async" class="block h-auto max-w-full" data-role="valeurs-photo"></div></div></div><div class="flex h-[var(--height-valeurs-carte)] w-full flex-col items-center gap-[12px] py-[5dvh] @min-[768px]:flex-row @min-[768px]:items-center @min-[768px]:justify-between @min-[768px]:gap-[1.6rem] @min-[768px]:py-0" data-role="valeurs-bloc"><div class="order-1 w-[80vw] max-w-[80vw] text-center opacity-0 transition-[opacity,transform] duration-[600ms] ease-[ease-out] @min-[768px]:w-[82%] @min-[768px]:max-w-none @min-[768px]:text-left @min-[768px]:order-none [transform:translateX(-30px)]" data-role="valeurs-texte"><h3 class="m-0 mb-[8px] font-fuzzybubbles text-[22px] leading-[1.3] font-normal text-[#1b1b1b] @min-[768px]:text-[24px] @min-[768px]:font-bold @min-[768px]:pt-[20px] @min-[768px]:mb-[10px] @min-[768px]:leading-[30px]">Le respect de l&#39;environnment</h3><p class="m-0 font-nunito text-[14px] leading-[1.6] text-[#1b1b1b] @min-[768px]:text-[1.5rem] @min-[768px]:leading-[1.2] @min-[768px]:mb-[10px]">Nous souhaitons respecter l&#39;environnement dans nos pratiques. Par exemple, nos surchaussures, nos charlottes, nos masques sont réutilisables et lavables. Nous utilisons également la vapeur et le vinaigre pour nettoyer et désinfecter.</p></div><div class="order-2 flex w-auto max-w-[150px] items-center justify-center opacity-0 transition-[opacity,transform] duration-[600ms] ease-[ease-out] @min-[768px]:max-w-none @min-[768px]:order-none [transform:translateX(30px)]" data-role="valeurs-image"><div class="relative" data-role="valeurs-cadre"><img src="../_astro/valeur-5.DXRPv0l1.webp" alt="" width="704" height="736" loading="lazy" decoding="async" class="block h-auto max-w-full" data-role="valeurs-photo"></div></div></div></div><script>
+					(() => {
+						const racine = document.currentScript && document.currentScript.closest('[data-archetype="valeurs"]');
+						if (!racine) return;
+						const titre = racine.querySelector('[data-role="valeurs-titre"]');
+						const blocs = racine.querySelectorAll('[data-role="valeurs-bloc"]');
+						if (!titre && !blocs.length) return;
+
+						const observer = new IntersectionObserver(
+							(entrees) => {
+								entrees.forEach((entree) => {
+									if (!entree.isIntersecting) return;
+									const el = entree.target;
+									if (el === titre) {
+										el.style.opacity = '1';
+										el.style.transform = 'translateY(0)';
+										observer.unobserve(el);
+										return;
+									}
+									const texte = el.querySelector('[data-role="valeurs-texte"]');
+									const image = el.querySelector('[data-role="valeurs-image"]');
+									if (texte) {
+										texte.style.opacity = '1';
+										texte.style.transform = 'translateX(0)';
+									}
+									if (image) {
+										setTimeout(() => {
+											image.style.opacity = '1';
+											image.style.transform = 'translateX(0)';
+										}, 150);
+									}
+									observer.unobserve(el);
+								});
+							},
+							{ threshold: 0.2, rootMargin: '0px 0px -50px 0px' },
+						);
+
+						// Parallaxe — même mécanique que le hero de l'accueil (Hero.astro) :
+						// amortissement par interpolation, course proportionnelle à la
+						// hauteur du cadre (4 %, plafonnée à 22 px).
+						if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+							const cadres = Array.from(racine.querySelectorAll('[data-role="valeurs-cadre"]'))
+								.map((cadre) => ({ cadre, img: cadre.querySelector('[data-role="valeurs-photo"]'), actuel: 0 }))
+								.filter((c) => c.img);
+							const viser = (cadre) => {
+								const h = window.innerHeight;
+								const r = cadre.getBoundingClientRect();
+								const p = (h / 2 - (r.top + r.height / 2)) / (h / 2 + r.height / 2);
+								return Math.max(-1, Math.min(1, p)) * Math.min(22, r.height * 0.04);
+							};
+							const poser = (c) => {
+								c.img.style.transform = 'translateY(' + c.actuel.toFixed(2) + 'px)';
+							};
+							let boucle = null;
+							const tick = () => {
+								let bouge = false;
+								const h = window.innerHeight;
+								for (const c of cadres) {
+									const r = c.cadre.getBoundingClientRect();
+									if (r.bottom < -150 || r.top > h + 150) continue;
+									const cible = viser(c.cadre);
+									c.actuel += (cible - c.actuel) * 0.09;
+									if (Math.abs(cible - c.actuel) > 0.05) bouge = true;
+									poser(c);
+								}
+								boucle = bouge ? requestAnimationFrame(tick) : null;
+							};
+							const reveiller = () => {
+								if (!boucle) boucle = requestAnimationFrame(tick);
+							};
+							cadres.forEach((c) => {
+								c.actuel = viser(c.cadre);
+								poser(c);
+							});
+							window.addEventListener('scroll', reveiller, { passive: true });
+							window.addEventListener('resize', reveiller, { passive: true });
+						}
+
+						if (titre) observer.observe(titre);
+						blocs.forEach((bloc) => observer.observe(bloc));
+					})();
+				</script></section></div><div style="margin-top:0px"><section class="@container mt-[5vh]" data-archetype="onglets-carrousel" data-section-id="a-propos-projet-pedagogique"><div class="relative flex flex-col overflow-hidden bg-mpn-pin @min-[1008px]:h-[var(--height-projet-pedagogique)] @min-[1008px]:flex-row"><div class="relative flex flex-col overflow-hidden @min-[1008px]:flex-1 @min-[1008px]:basis-1/2"><div class="shrink-0 px-[30px] pt-[30px] pb-[15px] @min-[1008px]:px-[50px] @min-[1008px]:pt-[40px] @min-[1008px]:pb-[25px] @min-[1583px]:px-[60px] @min-[1583px]:pt-[50px] @min-[1583px]:pb-[30px]"><h2 class="m-0 font-fuzzy-bubbles text-[38px] leading-[36px] font-normal text-[#2A3444] italic @min-[1008px]:text-[46px] @min-[1583px]:text-[52px]">Le projet d'établissement</h2></div><div class="hidden relative flex-1 overflow-y-auto px-[50px] pb-[60px] @min-[1008px]:block @min-[1583px]:px-[60px]"><div data-role="panneau-projet" data-onglet="principes-de-base" data-active="true" class="absolute inset-x-[50px] top-0 bottom-[60px] @min-[1583px]:inset-x-[60px] overflow-y-auto font-nunito text-[16px] leading-[1.85] text-[#2A3444] opacity-0 [transform:translateY(10px)] transition-[opacity,transform] duration-300 ease-[ease] data-[active=true]:opacity-100 data-[active=true]:[transform:translateY(0)] data-[active=false]:pointer-events-none @min-[1008px]:max-w-[450px] @min-[1583px]:max-w-[550px] @min-[1583px]:text-[18px]"><div class="mb-[14px] text-[22px] font-bold text-[#2A3444]">Principes de base</div><div class="mb-[18px]">L&#39;idée majeure du projet d&#39;établissement, est l&#39;adhésion de chacun autour d&#39;un projet commun.<br><br>Dans cette idée, nous souhaitons :</div><ul class="m-0 list-none p-0"><li class="relative mb-[14px] pl-[20px] text-[16px] leading-[1.7] @min-[1008px]:text-[15px] @min-[1583px]:text-[16px] before:absolute before:top-0 before:left-0 before:font-bold before:text-[#2A3444] before:content-['•']"><strong class="font-bold">Intergénération</strong> : nous souhaitons mettre au cœur de nos pratiques des activités intergénérationnelles (lien avec des EHPAD, des clubs du 3ème âge, etc).</li><li class="relative mb-[14px] pl-[20px] text-[16px] leading-[1.7] @min-[1008px]:text-[15px] @min-[1583px]:text-[16px] before:absolute before:top-0 before:left-0 before:font-bold before:text-[#2A3444] before:content-['•']"><strong class="font-bold">Faire participer les parents à la vie de la crèche</strong> : Décoration d&#39;objets pour la crèche, ateliers autour de la parentalité...</li><li class="relative mb-[14px] pl-[20px] text-[16px] leading-[1.7] @min-[1008px]:text-[15px] @min-[1583px]:text-[16px] before:absolute before:top-0 before:left-0 before:font-bold before:text-[#2A3444] before:content-['•']"><strong class="font-bold">Être ancré dans chaque localité</strong> : intergénération, bibliothèques municipales, écoles maternelles...</li><li class="relative mb-[14px] pl-[20px] text-[16px] leading-[1.7] @min-[1008px]:text-[15px] @min-[1583px]:text-[16px] before:absolute before:top-0 before:left-0 before:font-bold before:text-[#2A3444] before:content-['•']"><strong class="font-bold">Documenter la vie de la crèche</strong> : photos, exposition des œuvres d&#39;arts des enfants, citations des enfants, blog et page facebook...</li><li class="relative mb-[14px] pl-[20px] text-[16px] leading-[1.7] @min-[1008px]:text-[15px] @min-[1583px]:text-[16px] before:absolute before:top-0 before:left-0 before:font-bold before:text-[#2A3444] before:content-['•']"><strong class="font-bold">Améliorer continuellement notre pratique</strong> : nous souhaitons également nous documenter régulièrement : livres, articles...</li></ul></div><div data-role="panneau-projet" data-onglet="amenagement-espace" data-active="false" class="absolute inset-x-[50px] top-0 bottom-[60px] @min-[1583px]:inset-x-[60px] overflow-y-auto font-nunito text-[16px] leading-[1.85] text-[#2A3444] opacity-0 [transform:translateY(10px)] transition-[opacity,transform] duration-300 ease-[ease] data-[active=true]:opacity-100 data-[active=true]:[transform:translateY(0)] data-[active=false]:pointer-events-none @min-[1008px]:max-w-[450px] @min-[1583px]:max-w-[550px] @min-[1583px]:text-[18px]"><div class="mb-[14px] text-[22px] font-bold text-[#2A3444]">L&#39;aménagement de l&#39;espace</div><div class="mb-[18px]">Chaque crèche est composée des divers espaces suivants, permettant le développement et l&#39;éveil des enfants.</div><ul class="m-0 list-none p-0"><li class="relative mb-[14px] pl-[20px] text-[16px] leading-[1.7] @min-[1008px]:text-[15px] @min-[1583px]:text-[16px] before:absolute before:top-0 before:left-0 before:font-bold before:text-[#2A3444] before:content-['•']"><strong class="font-bold">Une salle de vie avec motricité et jeux libre</strong> : Chez Mes Premiers Pas, nous pensons qu&#39;un enfant libre de ses jeux et de sa motricité est un enfant acteur de sa journée et plus globalement de son développement.</li><li class="relative mb-[14px] pl-[20px] text-[16px] leading-[1.7] @min-[1008px]:text-[15px] @min-[1583px]:text-[16px] before:absolute before:top-0 before:left-0 before:font-bold before:text-[#2A3444] before:content-['•']"><strong class="font-bold">Des espaces dédiés à la nature</strong> : Dans la même dynamique que notre volonté de respecter l&#39;environnement, nous souhaitons que les enfants soient proches de la nature en leur proposant régulièrement de sortir, et nous souhaitons également leur proposer des activités en lien avec la nature (potager par exemple).</li><li class="relative mb-[14px] pl-[20px] text-[16px] leading-[1.7] @min-[1008px]:text-[15px] @min-[1583px]:text-[16px] before:absolute before:top-0 before:left-0 before:font-bold before:text-[#2A3444] before:content-['•']"><strong class="font-bold">Des espaces dédiés à la création</strong> : Nous souhaitons, avec des objets de récupération par les familles ou les collaborateurs, avoir des espaces pour créer de nouveaux objets destinés à la décoration ou aux activités.</li><li class="relative mb-[14px] pl-[20px] text-[16px] leading-[1.7] @min-[1008px]:text-[15px] @min-[1583px]:text-[16px] before:absolute before:top-0 before:left-0 before:font-bold before:text-[#2A3444] before:content-['•']"><strong class="font-bold">Des espaces dédiés à l&#39;imagination</strong> : Chez Mes Premiers Pas, nous affectionnons particulièrement lire des histoires. Lire des histoires est essentiel pour développer l&#39;imagination chez les plus petits.</li><li class="relative mb-[14px] pl-[20px] text-[16px] leading-[1.7] @min-[1008px]:text-[15px] @min-[1583px]:text-[16px] before:absolute before:top-0 before:left-0 before:font-bold before:text-[#2A3444] before:content-['•']"><strong class="font-bold">Des espaces dédiés à la détente</strong> : Entre les moments forts des petits, il est important de prendre le temps d&#39;avoir des moments cocooning et de détente pour calmer l&#39;excitation et rythmer la journée.</li><li class="relative mb-[14px] pl-[20px] text-[16px] leading-[1.7] @min-[1008px]:text-[15px] @min-[1583px]:text-[16px] before:absolute before:top-0 before:left-0 before:font-bold before:text-[#2A3444] before:content-['•']"><strong class="font-bold">Des espaces dédiés à la communication</strong> : En lien avec notre valeur de communication, nous souhaitons dédier des espaces pour favoriser une communication positive et non violente.</li></ul></div></div></div><div class="relative flex h-[var(--height-projet-pedagogique-mobile)] flex-none flex-col overflow-hidden bg-mpn-pin @min-[1008px]:h-auto @min-[1008px]:flex-1 @min-[1008px]:basis-1/2"><div class="relative z-10 flex h-[52px] w-full shrink-0 bg-mpn-pin" data-role="barre-onglets-projet"><button type="button" data-role="onglet-projet" data-onglet="principes-de-base" data-active="true" class="relative flex flex-1 cursor-pointer items-center justify-center gap-[10px] border-0 bg-transparent px-[16px] font-nunito text-[15px] font-semibold text-white/45 transition-colors duration-[400ms] ease-[ease] hover:text-white/80 data-[active=true]:text-white"><span class="inline-flex origin-center scale-x-[-1] text-[18px] leading-none transition-transform duration-[400ms] ease-[cubic-bezier(0.4,0,0.2,1)]">›</span><span>Principes de base</span></button><button type="button" data-role="onglet-projet" data-onglet="amenagement-espace" data-active="false" class="relative flex flex-1 cursor-pointer items-center justify-center gap-[10px] border-0 bg-transparent px-[16px] font-nunito text-[15px] font-semibold text-white/45 transition-colors duration-[400ms] ease-[ease] hover:text-white/80 data-[active=true]:text-white"><span>L&#39;aménagement de l&#39;espace</span><span class="inline-flex text-[18px] leading-none transition-transform duration-[400ms] ease-[cubic-bezier(0.4,0,0.2,1)]">›</span></button><span data-role="indicateur-projet" class="absolute bottom-0 h-[3px] rounded-t-[3px] bg-white transition-[left,width] duration-[400ms] ease-[cubic-bezier(0.4,0,0.2,1)]"></span></div><div class="relative z-[1] w-full flex-1 overflow-hidden"><div data-role="piste-projet" class="flex h-full transition-transform duration-[600ms] ease-[cubic-bezier(0.4,0,0.2,1)]"><div data-role="diapo-projet" data-onglet="principes-de-base" class="h-full w-full shrink-0 basis-full cursor-pointer bg-cover bg-center" style="background-image:url(../_astro/69bbd11893e81e4148aeec6e_bg-image-2.BQ4x5CCk.jpg)"></div><div data-role="diapo-projet" data-onglet="amenagement-espace" class="h-full w-full shrink-0 basis-full cursor-pointer bg-cover bg-center" style="background-image:url(../_astro/69bbf88b39255fdef8e07968_Vers.oycnAfYD.jpg)"></div></div></div></div></div><div class="flex justify-center bg-mpn-pin px-[16px] py-[16px] @min-[1008px]:hidden"><button type="button" data-role="bouton-mobile-projet" class="inline-block cursor-pointer rounded-[25px] bg-[#d4912e] px-[24px] py-[10px] font-nunito text-[14px] font-semibold text-[#2A3444] transition-colors duration-300 hover:bg-[#c4811e]">Voir le détail</button></div><div data-role="modal-projet" data-active="false" class="group/modal fixed inset-0 z-[100] flex items-center justify-center bg-transparent p-[20px] pointer-events-none transition-[background] duration-[400ms] data-[active=true]:pointer-events-auto data-[active=true]:bg-black/50"><div class="relative w-[calc(100%-40px)] max-w-[420px] max-h-[80vh] translate-y-[30px] scale-95 overflow-y-auto overflow-x-hidden rounded-[16px] bg-mpn-pin p-[30px] opacity-0 transition-all duration-[400ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] group-data-[active=true]/modal:translate-y-0 group-data-[active=true]/modal:scale-100 group-data-[active=true]/modal:opacity-100"><button type="button" data-role="fermer-modal-projet" aria-label="Fermer" class="absolute top-[15px] right-[15px] flex h-[36px] w-[36px] cursor-pointer items-center justify-center rounded-full bg-white/50 text-[20px] text-[#2A3444] survol-bouton hover:bg-white/80">×</button><div data-role="panneau-projet-modal" data-onglet="principes-de-base" data-active="true" class="font-nunito text-[#2A3444] data-[active=false]:hidden"><div class="mb-[14px] text-[22px] font-bold text-[#2A3444]">Principes de base</div><div class="mb-[16px] text-[15px] leading-[1.8]">L&#39;idée majeure du projet d&#39;établissement, est l&#39;adhésion de chacun autour d&#39;un projet commun.<br><br>Dans cette idée, nous souhaitons :</div><ul class="m-0 list-none p-0"><li class="relative mb-[12px] pl-[18px] text-[14px] leading-[1.7] before:absolute before:top-0 before:left-0 before:font-bold before:content-['•']"><strong class="font-bold">Intergénération</strong> : nous souhaitons mettre au cœur de nos pratiques des activités intergénérationnelles (lien avec des EHPAD, des clubs du 3ème âge, etc).</li><li class="relative mb-[12px] pl-[18px] text-[14px] leading-[1.7] before:absolute before:top-0 before:left-0 before:font-bold before:content-['•']"><strong class="font-bold">Faire participer les parents à la vie de la crèche</strong> : Décoration d&#39;objets pour la crèche, ateliers autour de la parentalité...</li><li class="relative mb-[12px] pl-[18px] text-[14px] leading-[1.7] before:absolute before:top-0 before:left-0 before:font-bold before:content-['•']"><strong class="font-bold">Être ancré dans chaque localité</strong> : intergénération, bibliothèques municipales, écoles maternelles...</li><li class="relative mb-[12px] pl-[18px] text-[14px] leading-[1.7] before:absolute before:top-0 before:left-0 before:font-bold before:content-['•']"><strong class="font-bold">Documenter la vie de la crèche</strong> : photos, exposition des œuvres d&#39;arts des enfants, citations des enfants, blog et page facebook...</li><li class="relative mb-[12px] pl-[18px] text-[14px] leading-[1.7] before:absolute before:top-0 before:left-0 before:font-bold before:content-['•']"><strong class="font-bold">Améliorer continuellement notre pratique</strong> : nous souhaitons également nous documenter régulièrement : livres, articles...</li></ul></div><div data-role="panneau-projet-modal" data-onglet="amenagement-espace" data-active="false" class="font-nunito text-[#2A3444] data-[active=false]:hidden"><div class="mb-[14px] text-[22px] font-bold text-[#2A3444]">L&#39;aménagement de l&#39;espace</div><div class="mb-[16px] text-[15px] leading-[1.8]">Chaque crèche est composée des divers espaces suivants, permettant le développement et l&#39;éveil des enfants.</div><ul class="m-0 list-none p-0"><li class="relative mb-[12px] pl-[18px] text-[14px] leading-[1.7] before:absolute before:top-0 before:left-0 before:font-bold before:content-['•']"><strong class="font-bold">Une salle de vie avec motricité et jeux libre</strong> : Chez Mes Premiers Pas, nous pensons qu&#39;un enfant libre de ses jeux et de sa motricité est un enfant acteur de sa journée et plus globalement de son développement.</li><li class="relative mb-[12px] pl-[18px] text-[14px] leading-[1.7] before:absolute before:top-0 before:left-0 before:font-bold before:content-['•']"><strong class="font-bold">Des espaces dédiés à la nature</strong> : Dans la même dynamique que notre volonté de respecter l&#39;environnement, nous souhaitons que les enfants soient proches de la nature en leur proposant régulièrement de sortir, et nous souhaitons également leur proposer des activités en lien avec la nature (potager par exemple).</li><li class="relative mb-[12px] pl-[18px] text-[14px] leading-[1.7] before:absolute before:top-0 before:left-0 before:font-bold before:content-['•']"><strong class="font-bold">Des espaces dédiés à la création</strong> : Nous souhaitons, avec des objets de récupération par les familles ou les collaborateurs, avoir des espaces pour créer de nouveaux objets destinés à la décoration ou aux activités.</li><li class="relative mb-[12px] pl-[18px] text-[14px] leading-[1.7] before:absolute before:top-0 before:left-0 before:font-bold before:content-['•']"><strong class="font-bold">Des espaces dédiés à l&#39;imagination</strong> : Chez Mes Premiers Pas, nous affectionnons particulièrement lire des histoires. Lire des histoires est essentiel pour développer l&#39;imagination chez les plus petits.</li><li class="relative mb-[12px] pl-[18px] text-[14px] leading-[1.7] before:absolute before:top-0 before:left-0 before:font-bold before:content-['•']"><strong class="font-bold">Des espaces dédiés à la détente</strong> : Entre les moments forts des petits, il est important de prendre le temps d&#39;avoir des moments cocooning et de détente pour calmer l&#39;excitation et rythmer la journée.</li><li class="relative mb-[12px] pl-[18px] text-[14px] leading-[1.7] before:absolute before:top-0 before:left-0 before:font-bold before:content-['•']"><strong class="font-bold">Des espaces dédiés à la communication</strong> : En lien avec notre valeur de communication, nous souhaitons dédier des espaces pour favoriser une communication positive et non violente.</li></ul></div></div></div><script>
+		(() => {
+			const racine = document.currentScript && document.currentScript.closest('[data-archetype="onglets-carrousel"]');
+			if (!racine) return;
+			const onglets = racine.querySelectorAll('[data-role="onglet-projet"]');
+			// Fondu réel (about.html:894-905) : panneau-projet (desktop) bascule
+			// data-active avec 250ms de retard, jamais instantanément — la
+			// modale mobile (panneau-projet-modal) n'a pas d'équivalent côté
+			// source (son contenu n'est peuplé qu'à l'ouverture, sans fondu),
+			// elle bascule donc toujours en instantané.
+			const panneaux = racine.querySelectorAll('[data-role="panneau-projet"]');
+			const panneauxModal = racine.querySelectorAll('[data-role="panneau-projet-modal"]');
+			const piste = racine.querySelector('[data-role="piste-projet"]');
+			const barre = racine.querySelector('[data-role="barre-onglets-projet"]');
+			const indicateur = racine.querySelector('[data-role="indicateur-projet"]');
+			const modal = racine.querySelector('[data-role="modal-projet"]');
+			const boutonMobile = racine.querySelector('[data-role="bouton-mobile-projet"]');
+			const fermerModal = racine.querySelector('[data-role="fermer-modal-projet"]');
+			if (!onglets.length || !piste || !barre || !indicateur) return;
+
+			const ordre = Array.from(onglets).map((o) => o.dataset.onglet);
+			let index = 0;
+
+			function majIndicateur() {
+				const actif = onglets[index];
+				const rectBarre = barre.getBoundingClientRect();
+				const rectOnglet = actif.getBoundingClientRect();
+				indicateur.style.left = rectOnglet.left - rectBarre.left + 'px';
+				indicateur.style.width = rectOnglet.width + 'px';
+			}
+
+			function allerA(nouvelIndex) {
+				index = nouvelIndex;
+				const idOnglet = ordre[index];
+				onglets.forEach((o, i) => {
+					o.dataset.active = String(i === index);
+				});
+				// Fondu sortant immédiat, entrant à 250ms (source : opacity:0 posé
+				// au clic, contenu remplacé à 250ms sur une transition de 300ms —
+				// ici les deux panneaux existent déjà, donc seul le panneau
+				// sortant repasse à `false` tout de suite ; l'entrant ne repasse à
+				// `true` (déclenchant son propre fondu) qu'à 250ms, jamais
+				// simultanément (un fondu-croisé instantané ne reproduirait pas le
+				// même rythme que la source).
+				panneaux.forEach((p) => {
+					if (p.dataset.onglet !== idOnglet) p.dataset.active = 'false';
+				});
+				setTimeout(() => {
+					panneaux.forEach((p) => {
+						if (p.dataset.onglet === idOnglet) p.dataset.active = 'true';
+					});
+				}, 250);
+				panneauxModal.forEach((p) => {
+					p.dataset.active = String(p.dataset.onglet === idOnglet);
+				});
+				piste.style.transform = 'translateX(-' + index * 100 + '%)';
+				majIndicateur();
+			}
+
+			onglets.forEach((onglet, i) => {
+				onglet.addEventListener('click', () => allerA(i));
+			});
+
+			piste.addEventListener('click', () => allerA(index === 0 ? 1 : 0));
+
+			if (boutonMobile && modal) {
+				boutonMobile.addEventListener('click', () => {
+					modal.dataset.active = 'true';
+				});
+			}
+			if (fermerModal && modal) {
+				fermerModal.addEventListener('click', () => {
+					modal.dataset.active = 'false';
+				});
+			}
+			if (modal) {
+				modal.addEventListener('click', (evenement) => {
+					if (evenement.target === modal) modal.dataset.active = 'false';
+				});
+			}
+
+			window.addEventListener('resize', majIndicateur);
+
+			allerA(0);
+			requestAnimationFrame(majIndicateur);
+		})();
+	</script></section></div><div style="margin-top:0px"><footer class="@container flex flex-col justify-between pt-[9px] min-h-[var(--height-pleine)] min-h-[400px] overflow-hidden font-nunito bg-mpn-footer-bg" style="--color-mpn-footer-bg:#805928" data-archetype="contact" data-section-id="a-propos-footer"><script>(function(){const declenchement = "scroll";
+
+		(() => {
+			const racine = document.currentScript && document.currentScript.closest('[data-archetype="contact"]');
+			if (!racine) return;
+			const reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+			if (reduit || declenchement === 'chargement' || !('IntersectionObserver' in window)) return;
+			racine.classList.add('anim-pending');
+			const observateur = new IntersectionObserver(
+				(entrees) => {
+					entrees.forEach((entree) => {
+						if (entree.isIntersecting) {
+							racine.classList.remove('anim-pending');
+							observateur.disconnect();
+						}
+					});
+				},
+				{ threshold: 0.25 },
+			);
+			observateur.observe(racine);
+		})();
+	})();</script><div class="[--e:cubic-bezier(0.22,1,0.36,1)] mb-lg my-auto self-center relative flex flex-row items-center justify-start gap-[12px] @3xl:gap-footer-scene-gap-tablet @7xl:gap-footer-scene-gap-desktop py-[32px] @3xl:py-footer-scene-y-desktop pl-[64px] pr-[16px] @3xl:px-footer-scene-x-tablet @7xl:px-footer-scene-x-desktop @3xl:min-h-footer-scene-desktop"><!-- Téléphone : parent positionné réel des totems et des boutons réseaux
+		     (mpp/footer.css:124, .footer-phone { position: relative }). Dans la
+		     source, totems ET boutons sociaux sont des ENFANTS de .footer-phone,
+		     pas des frères — piège déjà mesuré (session antérieure) où les
+		     mêmes pourcentages, posés en frère, rendaient faux. Reproduit ici
+		     avec l'imbrication réelle. Disposition fixe : ni le nombre
+		     d'emplacements ni leur position ne sont des paramètres. --><div class="mpn-anim-entree relative shrink-0 aspect-[320/660] h-[clamp(220px,72cqw,300px)] @3xl:h-footer-phone-desktop animate-mpn-footer-phone motion-reduce:animate-none motion-reduce:opacity-100"><img src="../_astro/totem-foret_1mlprj.webp" alt loading="lazy" decoding="async" style="--totem-duree:7.5s;--totem-delai:0s" aria-hidden="true" width="1024" height="1024" class="absolute h-auto opacity-55 pointer-events-none object-contain [filter:drop-shadow(0_8px_16px_rgba(27,27,27,0.15))] animate-mpn-totem motion-reduce:animate-none motion-reduce:[transform:rotate(var(--rot))] top-[-8%] left-[-28%] w-[42%] [--rot:-6deg]"><img src="../_astro/totem-savane_Z1R2ySv.webp" alt loading="lazy" decoding="async" style="--totem-duree:8.5s;--totem-delai:-1.2s" aria-hidden="true" width="1024" height="1024" class="absolute h-auto opacity-55 pointer-events-none object-contain [filter:drop-shadow(0_8px_16px_rgba(27,27,27,0.15))] animate-mpn-totem motion-reduce:animate-none motion-reduce:[transform:rotate(var(--rot))] top-[-11%] right-[-19%] w-[38%] [--rot:5deg]"><img src="../_astro/totem-ocean_Z26hwVJ.webp" alt loading="lazy" decoding="async" style="--totem-duree:9s;--totem-delai:-2.4s" aria-hidden="true" width="1024" height="1024" class="absolute h-auto opacity-55 pointer-events-none object-contain [filter:drop-shadow(0_8px_16px_rgba(27,27,27,0.15))] animate-mpn-totem motion-reduce:animate-none motion-reduce:[transform:rotate(var(--rot))] bottom-[3%] left-[-26%] w-[40%] [--rot:4deg]"><img src="../_astro/totem-montagne_2otHSY.webp" alt loading="lazy" decoding="async" style="--totem-duree:8s;--totem-delai:-0.6s" aria-hidden="true" width="1024" height="1024" class="absolute h-auto opacity-55 pointer-events-none object-contain [filter:drop-shadow(0_8px_16px_rgba(27,27,27,0.15))] animate-mpn-totem motion-reduce:animate-none motion-reduce:[transform:rotate(var(--rot))] bottom-[-9%] left-[30%] w-[39%] [--rot:-5deg]"><svg class="absolute inset-0 w-full h-full block z-[1] [filter:drop-shadow(0_18px_40px_rgba(27,27,27,0.28))]" viewBox="0 0 320 660" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Téléphone présentant les réseaux sociaux de la crèche"><rect x="3" y="150" width="4" height="34" rx="2" fill="var(--color-mpn-footer-ink)"></rect><rect x="3" y="196" width="4" height="54" rx="2" fill="var(--color-mpn-footer-ink)"></rect><rect x="313" y="180" width="4" height="66" rx="2" fill="var(--color-mpn-footer-ink)"></rect><rect x="8" y="8" width="304" height="644" rx="54" ry="54" fill="var(--color-mpn-footer-cream)" stroke="var(--color-mpn-footer-ink)" stroke-width="3"></rect><rect x="20" y="20" width="280" height="620" rx="44" ry="44" fill="var(--color-mpn-footer-cream)" stroke="var(--color-mpn-footer-ink)" stroke-width="1" stroke-opacity="0.45"></rect></svg><div class="@container absolute left-[6.9%] top-[3.35%] w-[86.25%] h-[93.3%] overflow-hidden bg-mpn-footer-cream flex flex-col isolate z-[2] [border-radius:13%/6.4%]"><div class="absolute top-[2.2%] left-1/2 -translate-x-1/2 w-[32%] h-[2.5%] min-h-[14px] bg-mpn-footer-ink rounded-full z-[3]" aria-hidden="true"></div><div class="flex-none flex items-center justify-between px-[8%] pt-[3.5%] pb-[1.5%] text-mpn-footer-ink font-nunito font-bold text-[5.55cqw] z-[2]"><span>9:41</span><span class="inline-flex items-center gap-[5px]" aria-hidden="true"><svg viewBox="0 0 18 12" fill="currentColor" class="block h-[0.9em] w-auto"><rect x="0" y="8" width="3" height="4" rx="1"></rect><rect x="5" y="5" width="3" height="7" rx="1"></rect><rect x="10" y="2.5" width="3" height="9.5" rx="1"></rect><rect x="15" y="0" width="3" height="12" rx="1"></rect></svg><svg viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" class="block h-[0.9em] w-auto"><path d="M1 4.2A10 10 0 0 1 15 4.2"></path><path d="M3.4 6.8A6.4 6.4 0 0 1 12.6 6.8"></path><path d="M5.8 9.3A2.9 2.9 0 0 1 10.2 9.3"></path></svg><svg viewBox="0 0 26 12" fill="none" class="block h-[0.9em] w-auto"><rect x="0.7" y="0.7" width="21" height="10.6" rx="3" stroke="currentColor" stroke-width="1.2"></rect><rect x="2.4" y="2.4" width="16" height="7.2" rx="1.6" fill="currentColor"></rect><rect x="23" y="4" width="2.4" height="4" rx="1.2" fill="currentColor"></rect></svg></span></div><!-- Zone Insta/FB (cause 1, CONSTAT-ECARTS.md) : la prémisse « aucune
+							     structure équivalente n'existe » était fausse — il ne manquait qu'un
+							     remplissage de ce <div>. Alternance pilotée par script (fin de
+							     section, après ses cibles) : deux vues empilées (data-reseau), fondu
+							     par opacité, vidéos R2 en dur (mpp/footer.js:29-32, pas sous mpp/),
+							     dérive Ken Burns par vue via transform (posé en JS, jamais de classe
+							     de translation Tailwind ici — piège composition translate/transform). --><div class="relative flex-1 overflow-hidden bg-mpn-footer-cream" data-fp-viewport><div class="fp-view absolute inset-0 flex flex-col justify-between opacity-100 z-10 transition-opacity duration-800" data-reseau="instagram"><video class="absolute inset-0 w-full h-full object-cover" src="https://pub-b62969cb28c74eaa82f2cc05d4ae9428.r2.dev/insta-web.mp4" autoplay loop muted playsinline preload="metadata" aria-hidden="true"></video><div class="relative z-10 flex items-center gap-[3.4cqw] px-[8%] pt-[6%] pb-[4%] text-white [background:linear-gradient(to_bottom,rgba(27,27,27,0.45),transparent)]"><span class="grid place-items-center size-[13.7cqw] rounded-full shrink-0 [background:linear-gradient(45deg,#f9ce34,#ee2a7b_45%,#6228d7)]"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" class="w-[55%] h-[55%]"><rect x="3" y="3" width="18" height="18" rx="5.5"></rect><circle cx="12" cy="12" r="4.2"></circle><circle cx="17.3" cy="6.7" r="1.2" fill="#fff" stroke="none"></circle></svg></span><span class="flex flex-col leading-tight"><span class="font-nunito font-bold text-[5.55cqw]">mes_premierspas</span><span class="font-nunito text-[4.7cqw] text-white/80">Mes Premiers Pas</span></span></div><div class="relative z-10 flex items-center gap-[4cqw] px-[8%] pb-[5%] pt-[8%] text-white [background:linear-gradient(to_top,rgba(27,27,27,0.5),transparent)]"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="size-[10.3cqw]"><path d="M20.8 8.6c0 4.6-8.8 9.4-8.8 9.4s-8.8-4.8-8.8-9.4A4.3 4.3 0 0 1 12 6.9a4.3 4.3 0 0 1 8.8 1.7Z"></path></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="size-[10.3cqw]"><path d="M21 11.5a8.5 8.5 0 0 1-11.9 7.8L3 21l1.7-6.1A8.5 8.5 0 1 1 21 11.5Z"></path></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="size-[10.3cqw]"><path d="M22 2 11 13"></path><path d="M22 2 15 22l-4-9-9-4 20-7Z"></path></svg><span class="flex-1"></span><span class="font-nunito text-[4.6cqw] font-semibold whitespace-nowrap">@mes_premierspas</span></div></div><div class="fp-view absolute inset-0 flex flex-col justify-between opacity-0 z-0 transition-opacity duration-800" data-reseau="facebook"><video class="absolute inset-0 w-full h-full object-cover" src="https://pub-b62969cb28c74eaa82f2cc05d4ae9428.r2.dev/facebook-web.mp4" autoplay loop muted playsinline preload="metadata" aria-hidden="true"></video><div class="relative z-10 flex items-center gap-[3.4cqw] px-[8%] pt-[6%] pb-[4%] text-white [background:linear-gradient(to_bottom,rgba(27,27,27,0.45),transparent)]"><span class="grid place-items-center size-[13.7cqw] rounded-full shrink-0 bg-[#1877f2]"><svg viewBox="0 0 24 24" fill="#fff" class="w-[55%] h-[55%]"><path d="M15.4 8.4h-2V6.9c0-.6.4-.8.7-.8h1.3V3.6l-1.9-.1c-2.1 0-3.1 1.3-3.1 3.1v1.8H8.6v2.6h1.8V21h2.9v-7h2l.4-2.6z"></path></svg></span><span class="flex flex-col leading-tight"><span class="font-nunito font-bold text-[5.55cqw]">Mes Premiers Pas</span><span class="font-nunito text-[4.7cqw] text-white/80">Crèche associative</span></span></div><div class="relative z-10 flex items-center gap-[4cqw] px-[8%] pb-[5%] pt-[8%] text-white [background:linear-gradient(to_top,rgba(27,27,27,0.5),transparent)]"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="size-[10.3cqw]"><path d="M7 10v9H4v-9h3Zm0 0 3.5-6.5c.8 0 1.5.7 1.5 1.5V8h5.2c.9 0 1.6.9 1.4 1.8l-1.3 6c-.2.7-.8 1.2-1.5 1.2H7"></path></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="size-[10.3cqw]"><path d="M21 11.5a8.5 8.5 0 0 1-11.9 7.8L3 21l1.7-6.1A8.5 8.5 0 1 1 21 11.5Z"></path></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="size-[10.3cqw]"><path d="M4 12a8 8 0 1 0 8-8"></path><path d="M4 12h8V4"></path></svg><span class="flex-1"></span><span class="font-nunito text-[4.6cqw] font-semibold whitespace-nowrap">Mes Premiers Pas</span></div></div></div></div><!-- Boutons réseaux (cause 12, CONSTAT-ECARTS.md) : la référence charge
+			     mpp/img/reseau-instagram-footer.svg / reseau-facebook-footer.svg —
+			     ton olive avec contour, couleur portée par le fichier SVG lui-même
+			     (footer.css:343-362, .fsoc ne fait que dimensionner/positionner),
+			     pas par une classe CSS. Fichiers copiés depuis la référence dans
+			     src/assets/footer-icons/, importés comme n'importe quel autre asset
+			     du gabarit plutôt que redessinés en SVG inline. --><div class="absolute right-full top-1/2 -translate-y-1/2 mr-[8px] flex flex-col gap-[12px] @3xl:gap-footer-social-gap-desktop @3xl:mr-footer-social-margin-tablet @7xl:mr-footer-social-margin-desktop z-[4]"><a class="size-[44px] @3xl:size-footer-social-desktop grid place-items-center rounded-full survol-bouton data-[actif=true]:bg-[#ebe6d4] data-[actif=true]:shadow-[0_8px_20px_rgba(27,27,27,0.22)] data-[actif=true]:scale-[1.09] focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-[#ebe6d4] focus-visible:outline-offset-3" data-actif="false" href="https://www.instagram.com/mes_premierspas/" target="_blank" rel="noopener" aria-label="Instagram — Mes Premiers Pas" data-net="instagram"><img src="../_astro/reseau-instagram-footer.Dcw2UOvi.svg" alt="" aria-hidden="true" class="w-2/3 h-2/3 object-contain"></a><a class="size-[44px] @3xl:size-footer-social-desktop grid place-items-center rounded-full survol-bouton data-[actif=true]:bg-[#ebe6d4] data-[actif=true]:shadow-[0_8px_20px_rgba(27,27,27,0.22)] data-[actif=true]:scale-[1.09] focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-[#ebe6d4] focus-visible:outline-offset-3" data-actif="false" href="https://www.facebook.com/mes.premierpas.52/about?locale=fr_FR" target="_blank" rel="noopener" aria-label="Facebook — Mes Premiers Pas" data-net="facebook"><img src="../_astro/reseau-facebook-footer.Be73HyOB.svg" alt="" aria-hidden="true" class="w-2/3 h-2/3 object-contain"></a></div></div><script>
+			(() => {
+				const racine = document.currentScript && document.currentScript.closest('[data-archetype="contact"]');
+				if (!racine) return;
+				const viewport = racine.querySelector('[data-fp-viewport]');
+				if (!viewport) return;
+
+				const RESEAUX = ['instagram', 'facebook'];
+				const vues = {};
+				const videos = {};
+				RESEAUX.forEach((r) => {
+					vues[r] = viewport.querySelector('[data-reseau="' + r + '"]');
+					videos[r] = vues[r] && vues[r].querySelector('video');
+				});
+				if (!vues.instagram || !vues.facebook || !videos.instagram || !videos.facebook) return;
+
+				const reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+				// L'attribut autoplay démarre la lecture côté navigateur avant que ce
+				// script ne s'exécute — mpp/footer.js:159 coupe donc les DEUX vidéos
+				// dès l'init sous reduced-motion, pas seulement l'inactive (montrer()
+				// ne met en pause que l'autre réseau).
+				if (reduit) {
+					videos.instagram.pause();
+					videos.facebook.pause();
+				}
+				let actif = 'instagram';
+				let verrou = null;
+				let timer = null;
+
+				const montrer = (reseau) => {
+					RESEAUX.forEach((r) => {
+						const active = r === reseau;
+						vues[r].classList.toggle('opacity-100', active);
+						vues[r].classList.toggle('z-10', active);
+						vues[r].classList.toggle('opacity-0', !active);
+						vues[r].classList.toggle('z-0', !active);
+						const vid = videos[r];
+						if (active) { if (!reduit) vid.play().catch(() => {}); }
+						else vid.pause();
+					});
+					// Pastille active synchronisée avec l'écran (mpp/footer.js:173-176,
+					// .fsoc.is-active de footer.css:356-360) : disque crème + ombre +
+					// scale(1.09) sur le bouton du réseau affiché, y compris au survol.
+					racine.querySelectorAll('[data-net]').forEach((b) => {
+						b.dataset.actif = String(b.dataset.net === reseau);
+					});
+					actif = reseau;
+				};
+
+				const tick = () => {
+					if (verrou) return;
+					montrer(actif === 'instagram' ? 'facebook' : 'instagram');
+				};
+				const relancer = () => {
+					clearInterval(timer);
+					if (!reduit) timer = setInterval(tick, 5000);
+				};
+
+				// Verrou au survol/focus d'un bouton réseau (data-net, cause 12) —
+				// quatre écouteurs, mêmes événements que mpp/footer.js:168-171.
+				racine.querySelectorAll('[data-net]').forEach((b) => {
+					const net = b.dataset.net;
+					if (!RESEAUX.includes(net)) return;
+					const verrouiller = () => {
+						verrou = net;
+						montrer(net);
+					};
+					const deverrouiller = () => {
+						verrou = null;
+						relancer();
+					};
+					b.addEventListener('mouseenter', verrouiller);
+					b.addEventListener('mouseleave', deverrouiller);
+					b.addEventListener('focus', verrouiller);
+					b.addEventListener('blur', deverrouiller);
+				});
+
+				montrer('instagram');
+				if (!reduit) relancer();
+
+				// Dérive Ken Burns (rAF), phases aléatoires par vidéo — mpp/footer.js:112-131.
+				if (!reduit) {
+					const phases = new WeakMap();
+					RESEAUX.forEach((r) => {
+						phases.set(videos[r], {
+							ax: Math.random() * 6.28,
+							bx: Math.random() * 6.28,
+							ay: Math.random() * 6.28,
+							by: Math.random() * 6.28,
+							s: Math.random() * 6.28,
+						});
+					});
+					const driver = (now) => {
+						const t = now / 1000;
+						RESEAUX.forEach((r) => {
+							const el = videos[r];
+							const p = phases.get(el);
+							if (!p) return;
+							const dx = Math.sin(t * 0.061 + p.ax) * 3.2 + Math.sin(t * 0.027 + p.bx) * 2.0;
+							const dy = Math.cos(t * 0.052 + p.ay) * 3.2 + Math.sin(t * 0.019 + p.by) * 2.0;
+							const sc = 1.14 + Math.sin(t * 0.037 + p.s) * 0.035;
+							el.style.transform = 'translate(' + dx.toFixed(2) + '%,' + dy.toFixed(2) + '%) scale(' + sc.toFixed(3) + ')';
+						});
+						requestAnimationFrame(driver);
+					};
+					requestAnimationFrame(driver);
+				}
+			})();
+		</script><!-- Bloc CONTACT (mpp/footer.css:44-79, ÉTAPE 5). Titre + liste en colonne
+		     avec gap (plutôt que le margin-bottom du titre côté source) — règle
+		     d'isolation « gap plutôt que des marges entre enfants ». --><div class="flex-1 min-w-0 @3xl:flex-none flex flex-col gap-[16px] @3xl:gap-footer-titre-mb-desktop w-auto max-w-full @3xl:max-w-[min(48%,480px)] text-mpn-footer-texte text-left"><h2 class="mpn-anim-entree font-fuzzy-bubbles font-bold text-[2rem] @3xl:text-footer-titre-mobile @7xl:text-footer-titre-desktop leading-none text-mpn-footer-texte animate-mpn-footer-titre motion-reduce:animate-none motion-reduce:opacity-100 [--mpn-footer-titre-depart:translateX(-40px)] @3xl:[--mpn-footer-titre-depart:translateX(-72px)]">Contact</h2><ul class="list-none m-0 p-0 flex flex-col items-start gap-[12px] @3xl:gap-footer-liste-gap-desktop font-nunito" aria-label="Coordonnées"><li class="mpn-anim-entree text-[13px] [overflow-wrap:anywhere] @3xl:text-footer-ligne-desktop font-semibold text-mpn-footer-texte animate-mpn-footer-ligne motion-reduce:animate-none motion-reduce:opacity-100 [animation-delay:var(--d)]" style="--d:1.15s"><a class="text-mpn-footer-texte no-underline border-b border-mpn-footer-texte/40 transition-colors duration-200 hover:text-white hover:border-white" href="mailto:info.mespremierspas@gmail.com">info.mespremierspas@<wbr>gmail.com</a></li><li class="mpn-anim-entree text-[13px] [overflow-wrap:anywhere] @3xl:text-footer-ligne-desktop font-semibold text-mpn-footer-texte animate-mpn-footer-ligne motion-reduce:animate-none motion-reduce:opacity-100 [animation-delay:var(--d)]" style="--d:1.2999999999999998s"><span class="text-mpn-footer-texte/72 font-bold mr-[0.35em]">Vers :</span><a class="text-mpn-footer-texte no-underline border-b border-mpn-footer-texte/40 transition-colors duration-200 hover:text-white hover:border-white" href="tel:+33450161929">04 50 16 19 29</a></li><li class="mpn-anim-entree text-[13px] [overflow-wrap:anywhere] @3xl:text-footer-ligne-desktop font-semibold text-mpn-footer-texte animate-mpn-footer-ligne motion-reduce:animate-none motion-reduce:opacity-100 [animation-delay:var(--d)]" style="--d:1.45s"><span class="text-mpn-footer-texte/72 font-bold mr-[0.35em]">Valleiry (siège social) :</span><a class="text-mpn-footer-texte no-underline border-b border-mpn-footer-texte/40 transition-colors duration-200 hover:text-white hover:border-white" href="tel:+33450839994">04 50 83 99 94</a></li></ul></div></div><!-- Ligne d'infos (mpp/footer.css:396-404 + Webflow .informations-complementaire,
+	     assets/.../mes-premier-pas.webflow.shared.*.css:3356) : display:flex +
+	     justify-content:space-between hérités de la base Webflow, footer.css
+	     ne surcharge que le padding/l'alignement du texte — reproduit ici. --><div class="flex flex-col @3xl:flex-row items-center justify-between gap-sm px-5 pb-footer-titre-mb-mobile @3xl:pb-footer-titre-mb-desktop text-center"><div class="text-mpn-footer-texte text-sm">310 Rue du Riondet, 74520 Valleiry, France</div><div class="text-mpn-footer-texte text-sm">© Mes premier pas 2026</div><div class="text-mpn-footer-texte text-sm">Site Designé par Brian Robert</div></div></footer></div></main><script type="module" src="../_astro/Layout.astro_astro_type_script_index_0_lang.BpV43paj.js"></script><script type="module">var e=document.querySelectorAll(`[data-invitation-glisse]`),t=window.matchMedia(`(prefers-reduced-motion: reduce)`).matches,n=window.matchMedia(`(max-width: 767px)`);if(e.length&&!t&&`IntersectionObserver`in window){let t=e=>{let t=e.querySelector(`[data-invitation-piste]`);if(!t||!n.matches||!t.animate)return;let r=document.createElement(`div`);r.setAttribute(`aria-hidden`,`true`),r.style.cssText=`position:absolute;left:50%;top:55%;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;background:rgba(255,255,255,0.78);box-shadow:0 4px 14px rgba(0,0,0,0.22);pointer-events:none;z-index:20;opacity:0`,e.appendChild(r);let i={duration:1500,delay:150,iterations:2,easing:`ease-in-out`},a=t.animate([{transform:`translateX(0)`},{transform:`translateX(-36px)`,offset:.55},{transform:`translateX(0)`}],{...i,composite:`add`}),o=r.animate([{opacity:0,transform:`translateX(44px) scale(0.8)`},{opacity:1,transform:`translateX(34px) scale(1)`,offset:.15},{opacity:1,transform:`translateX(-46px) scale(1)`,offset:.55},{opacity:0,transform:`translateX(-56px) scale(0.9)`}],i),s=()=>{a.cancel(),o.cancel(),r.remove()};o.onfinish=s,e.addEventListener(`touchstart`,s,{once:!0,passive:!0})},r=new IntersectionObserver(e=>{e.forEach(e=>{e.isIntersecting&&(r.unobserve(e.target),setTimeout(()=>t(e.target),1e3))})},{threshold:.6});e.forEach(e=>r.observe(e))}</script><script type="module">(()=>{let e=()=>window.innerHeight*.9,t=window.matchMedia(`(prefers-reduced-motion: reduce)`).matches,n=()=>{if(document.getElementById(`mpp-haut-style`))return;let e=document.createElement(`style`);e.id=`mpp-haut-style`,e.textContent=`
+						.mpp-haut {
+							position: fixed;
+							right: 24px;
+							bottom: 24px;
+							z-index: 9999;
+							width: 44px;
+							height: 44px;
+							display: flex;
+							align-items: center;
+							justify-content: center;
+							border: none;
+							border-radius: 999px;
+							background: color-mix(in srgb, var(--color-fond, #e1dccc) 82%, transparent);
+							backdrop-filter: blur(6px);
+							-webkit-backdrop-filter: blur(6px);
+							box-shadow: 0 0 18px rgba(120, 100, 60, 0.18);
+							cursor: pointer;
+							padding: 0;
+							opacity: 0;
+							transform: translateY(8px);
+							pointer-events: none;
+							transition: opacity 0.35s ease, transform 0.35s ease, background 0.2s ease, box-shadow 0.2s ease;
+						}
+						.mpp-haut.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+						.mpp-haut:hover {
+							background: color-mix(in srgb, var(--color-fond, #e1dccc) 96%, transparent);
+							box-shadow: 0 0 22px rgba(120, 100, 60, 0.24);
+						}
+						.mpp-haut:focus-visible { outline: 3px solid var(--color-mpn-pin, #e8a248); outline-offset: 2px; }
+						.mpp-haut svg { width: 20px; height: 20px; display: block; stroke: var(--color-texte, #1a1a1a); }
+						@media (max-width: 479px) { .mpp-haut { right: 16px; bottom: 16px; } }
+						@media (prefers-reduced-motion: reduce) { .mpp-haut { transition: none; } }
+					`,(document.head||document.documentElement).appendChild(e)},r=()=>{let e=document.createElement(`button`);return e.type=`button`,e.className=`mpp-haut`,e.setAttribute(`aria-label`,`Retour en haut de la page`),e.innerHTML=`<svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5"/><path d="M6 11l6-6 6 6"/></svg>`,e.addEventListener(`click`,()=>{let e=window;e.lenis&&typeof e.lenis.scrollTo==`function`?e.lenis.scrollTo(0):window.scrollTo({top:0,behavior:t?`auto`:`smooth`})}),e},i=()=>{n();let t=r();document.body.appendChild(t);let i=()=>{let n=window,r=n.lenis?n.lenis.scroll:window.scrollY;t.classList.toggle(`visible`,r>e())};window.addEventListener(`scroll`,i,{passive:!0}),window.addEventListener(`resize`,i,{passive:!0}),i()};document.body?i():document.addEventListener(`DOMContentLoaded`,i)})();</script><script type="module">(()=>{let e=document.documentElement,t=document.getElementById(`mpp-menu-badge`),n=document.getElementById(`mpp-nav-close`),r=document.getElementById(`mpp-navbar`);if(!t||!n||!r)return;let i=()=>window.matchMedia(`(max-width: 820px)`).matches,a=()=>e.getAttribute(`data-nav`)===`open`,o=()=>{if(e.setAttribute(`data-nav`,`open`),t.setAttribute(`aria-expanded`,`true`),t.setAttribute(`aria-label`,`Fermer le menu`),i())document.body.style.overflow=`hidden`;else{let e=r.querySelector(`.mpp-navbar__link`);e instanceof HTMLElement&&e.focus({preventScroll:!0})}},s=(n=!0)=>{e.setAttribute(`data-nav`,`closed`),t.setAttribute(`aria-expanded`,`false`),t.setAttribute(`aria-label`,`Ouvrir le menu`),document.body.style.overflow=``,n&&t.focus({preventScroll:!0})};t.setAttribute(`aria-expanded`,String(a())),t.setAttribute(`aria-label`,a()?`Fermer le menu`:`Ouvrir le menu`),t.addEventListener(`click`,()=>a()?s():o()),n.addEventListener(`click`,()=>s()),document.addEventListener(`keydown`,e=>{e.key===`Escape`&&a()&&s()});let c=window.scrollY;window.addEventListener(`scroll`,()=>{let e=window.scrollY;e>c&&e>60&&a()&&!i()&&s(!1),c=e},{passive:!0}),r.addEventListener(`click`,e=>{let t=e.target;i()&&t instanceof Element&&t.closest(`.mpp-navbar__link`)&&s(!1)})})();</script><script type="module">(()=>{let e=document.querySelector(`[data-nav-dropdown="creches"]`),t=document.getElementById(`mpp-dropdown-creches`);if(!e||!t)return;let n=()=>t.classList.contains(`open`),r=()=>{let n=e.getBoundingClientRect(),r=t.offsetWidth||200,i=n.left+n.width/2-r/2;i=Math.max(8,Math.min(i,window.innerWidth-r-8)),t.style.left=`${i}px`},i=()=>{r(),t.classList.add(`open`),e.setAttribute(`aria-expanded`,`true`)},a=()=>{t.classList.remove(`open`),e.setAttribute(`aria-expanded`,`false`)};e.setAttribute(`aria-haspopup`,`true`),e.setAttribute(`aria-expanded`,`false`),e.setAttribute(`aria-controls`,`mpp-dropdown-creches`),e.addEventListener(`click`,e=>{e.preventDefault(),e.stopPropagation(),n()?a():i()}),document.addEventListener(`click`,n=>{n.target instanceof Node&&!e.contains(n.target)&&!t.contains(n.target)&&a()}),document.addEventListener(`keydown`,e=>{e.key===`Escape`&&a()}),window.addEventListener(`resize`,()=>{n()&&r()},{passive:!0})})();</script><script type="module" src="../_astro/Layout.astro_astro_type_script_index_5_lang.U6WShQWq.js"></script></body></html>
